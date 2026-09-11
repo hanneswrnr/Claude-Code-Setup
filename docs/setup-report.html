@@ -1,0 +1,633 @@
+<title>Origin Labs Claude-Setup</title>
+<meta name="description" content="Was im Claude-Code-Setup steckt, was die Gesamtprüfung gefunden hat und wie Claude aus Fehlern lernt.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ground: #f3f5f2; --surface: #ffffff; --ink: #16201b; --muted: #56625b; --rule: #d5dbd5;
+  --accent: #1e5a45; --accent-soft: #e2ede7; --copper: #a8612f; --copper-soft: #f5e9df;
+  --ok: #2f7d4f; --ok-soft: #e1efe6; --warn: #8a5d0d; --warn-soft: #f3ead6; --skip: #9b3b35; --skip-soft: #f6e4e2;
+  --seg1: #1e5a45; --seg2: #a8612f; --seg3: #5f8f7b; --seg4: #c9a27a; --seg5: #8fa89c; --seg6: #b9c4bd;
+  --code-bg: #eaeee9;
+  --display: "Familjen Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0e1411; --surface: #151d19; --ink: #e3e9e4; --muted: #97a59c; --rule: #26312b;
+    --accent: #74c2a0; --accent-soft: #1a2c24; --copper: #d9925e; --copper-soft: #2c2119;
+    --ok: #6cc08f; --ok-soft: #16271d; --warn: #d9ae55; --warn-soft: #2a2314; --skip: #e08a82; --skip-soft: #2d1b19;
+    --seg1: #74c2a0; --seg2: #d9925e; --seg3: #3f7a63; --seg4: #9c7650; --seg5: #5d7268; --seg6: #3a4741;
+    --code-bg: #1b2520;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0e1411; --surface: #151d19; --ink: #e3e9e4; --muted: #97a59c; --rule: #26312b;
+  --accent: #74c2a0; --accent-soft: #1a2c24; --copper: #d9925e; --copper-soft: #2c2119;
+  --ok: #6cc08f; --ok-soft: #16271d; --warn: #d9ae55; --warn-soft: #2a2314; --skip: #e08a82; --skip-soft: #2d1b19;
+  --seg1: #74c2a0; --seg2: #d9925e; --seg3: #3f7a63; --seg4: #9c7650; --seg5: #5d7268; --seg6: #3a4741;
+  --code-bg: #1b2520;
+}
+* { box-sizing: border-box; }
+body { background: var(--ground); color: var(--ink); font: 400 16px/1.6 var(--body); margin: 0; }
+main { max-width: 1040px; margin: 0 auto; padding: 48px 24px 80px; display: grid; gap: 64px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.05; }
+h2 { font-size: 1.75rem; font-weight: 700; line-height: 1.15; }
+h3 { font-size: 1.12rem; font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code, .cmd { font-family: var(--mono); font-size: 0.86em; }
+code { background: var(--code-bg); padding: 0.1em 0.35em; border-radius: 4px; overflow-wrap: anywhere; }
+.eyebrow { font: 500 0.78rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.lead { font-size: 1.15rem; color: var(--muted); max-width: 64ch; }
+header { display: grid; gap: 18px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+section { display: grid; gap: 22px; }
+.section-head { display: grid; gap: 8px; }
+.section-head p { color: var(--muted); max-width: 66ch; }
+.subhead { display: grid; gap: 6px; }
+.subhead p { color: var(--muted); max-width: 66ch; }
+
+.budget { display: grid; gap: 12px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 20px; }
+.budget-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; align-items: baseline; }
+.budget-total { font: 600 1.5rem/1 var(--display); font-variant-numeric: tabular-nums; }
+.bar { display: flex; height: 18px; border-radius: 4px; overflow: hidden; background: var(--rule); }
+.bar span { display: block; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0; padding: 0; list-style: none; font-size: 0.9rem; color: var(--muted); }
+.legend li { display: flex; align-items: center; gap: 8px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex: none; }
+.legend b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.verdict { display: grid; gap: 18px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 22px 24px; }
+.verdict-line { font: 600 1.5rem/1.2 var(--display); text-wrap: balance; }
+.facts { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px 28px; }
+.facts li { display: grid; gap: 2px; align-content: start; }
+.facts b { font: 600 1.02rem/1.3 var(--display); }
+.facts span { color: var(--muted); font-size: 0.92rem; }
+
+.measure { display: grid; border-top: 1px solid var(--rule); }
+.m-row { display: grid; grid-template-columns: minmax(150px, 210px) minmax(0, 1fr) 104px; gap: 6px 20px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.m-label { font-weight: 500; }
+.m-label small { display: block; color: var(--muted); font-size: 0.82rem; font-weight: 400; }
+.m-bars { display: grid; gap: 5px; }
+.m-bars span { display: block; height: 10px; border-radius: 2px; }
+.m-before { background: var(--seg6); }
+.m-after { background: var(--accent); }
+.m-values { font: 500 0.95rem/1.2 var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.m-values .was { color: var(--muted); }
+.m-legend { display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; font-size: 0.88rem; color: var(--muted); }
+.m-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.m-legend i { width: 18px; height: 8px; border-radius: 2px; display: inline-block; }
+
+.ledger { display: grid; border-top: 1px solid var(--rule); }
+.finding { display: grid; grid-template-columns: 72px minmax(0, 1fr) 104px; gap: 4px 20px; padding: 16px 0; border-bottom: 1px solid var(--rule); align-items: start; }
+.finding-body { display: grid; gap: 4px; max-width: 72ch; }
+.finding-body h3 { font-size: 1.02rem; }
+.finding-body p { color: var(--muted); }
+.finding-body .fix { color: var(--ink); }
+.finding .state { justify-self: end; }
+
+.chip { font: 500 0.75rem/1 var(--mono); padding: 6px 9px; border-radius: 999px; white-space: nowrap; background: var(--accent-soft); color: var(--accent); justify-self: start; }
+.chip.warn { background: var(--copper-soft); color: var(--copper); }
+.chip.skip { background: var(--skip-soft); color: var(--skip); }
+.chip.high { background: var(--skip-soft); color: var(--skip); }
+.chip.mid { background: var(--warn-soft); color: var(--warn); }
+.chip.low, .chip.explained { background: transparent; color: var(--muted); box-shadow: inset 0 0 0 1px var(--rule); }
+.chip.done { background: var(--ok-soft); color: var(--ok); }
+.chip.decided { background: var(--accent-soft); color: var(--accent); }
+.chip.open { background: var(--copper-soft); color: var(--copper); }
+
+.installed { display: grid; border-top: 1px solid var(--rule); }
+.row { display: grid; grid-template-columns: minmax(170px, 220px) 1fr auto; gap: 8px 24px; padding: 18px 0; border-bottom: 1px solid var(--rule); align-items: start; }
+.row p { color: var(--muted); }
+.row .where { grid-column: 2 / -1; font-size: 0.9rem; color: var(--muted); }
+
+.loop { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; counter-reset: step; border-left: 2px solid var(--accent); }
+.loop li { counter-increment: step; position: relative; padding: 0 0 22px 28px; display: grid; gap: 4px; max-width: 70ch; }
+.loop li:last-child { padding-bottom: 0; }
+.loop li::before { content: counter(step); position: absolute; left: -13px; top: 0; width: 24px; height: 24px; border-radius: 50%; background: var(--ground); border: 2px solid var(--accent); color: var(--accent); font: 600 0.75rem/20px var(--mono); text-align: center; }
+.loop p { color: var(--muted); }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 0.95rem; }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 500 0.75rem/1.2 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { color: var(--muted); }
+
+.recs { display: grid; gap: 14px; }
+.tier { display: grid; gap: 4px; }
+.tier h3 { display: flex; align-items: center; gap: 10px; }
+.rec { display: grid; grid-template-columns: minmax(160px, 230px) 1fr; gap: 6px 24px; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.rec:last-child { border-bottom: 0; }
+.rec strong { font-weight: 600; }
+.rec p { color: var(--muted); }
+.cmd { grid-column: 2; display: block; overflow-x: auto; white-space: nowrap; background: var(--code-bg); padding: 8px 12px; border-radius: 6px; color: var(--ink); }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px 40px; }
+.habits { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.habits li { display: grid; gap: 2px; padding-left: 16px; border-left: 2px solid var(--rule); }
+.habits span { color: var(--muted); }
+.note { font-size: 0.92rem; color: var(--muted); max-width: 70ch; }
+.sources { columns: 2 280px; gap: 32px; margin: 0; padding-left: 18px; color: var(--muted); font-size: 0.92rem; }
+.sources li { break-inside: avoid; margin-bottom: 6px; }
+@media (max-width: 700px) {
+  .row, .rec, .finding { grid-template-columns: 1fr; }
+  .row .where, .cmd { grid-column: 1; }
+  .finding .state { justify-self: start; }
+  .m-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .m-bars { grid-column: 1 / -1; grid-row: 2; }
+}
+</style>
+
+<main>
+  <header>
+    <span class="eyebrow">Stand 11. September 2026 · nach der Gesamtprüfung · Hannes / Origin Labs</span>
+    <h1>Dein Claude-Code-Setup</h1>
+    <p class="lead">Was eingebaut ist, was die Gesamtprüfung gefunden und repariert hat, wie Claude aus Fehlern lernt und in Schleifen arbeitet. Alles gilt global, also für laufende und neue Projekte.</p>
+    <div class="budget" role="group" aria-label="Kontext-Kosten pro Session">
+      <div class="budget-top">
+        <span class="eyebrow">Was dein eigenes Setup pro Session im Arbeitsgedächtnis belegt</span>
+        <span class="budget-total">ca. 32.100 Tokens · 3,2 % von 1 Mio.</span>
+      </div>
+      <div class="bar" aria-hidden="true">
+        <span style="width:55.5%; background:var(--seg1)"></span>
+        <span style="width:22.1%; background:var(--seg3)"></span>
+        <span style="width:14.0%; background:var(--seg2)"></span>
+        <span style="width:4.4%; background:var(--seg4)"></span>
+        <span style="width:2.2%; background:var(--seg5)"></span>
+        <span style="width:1.8%; background:var(--seg6)"></span>
+      </div>
+      <ul class="legend">
+        <li><i style="background:var(--seg1)"></i>Agent-Liste <b>17.800</b></li>
+        <li><i style="background:var(--seg3)"></i>5 Legal-Plugins <b>7.100</b></li>
+        <li><i style="background:var(--seg2)"></i>Empfohlene Plugins <b>4.500</b></li>
+        <li><i style="background:var(--seg4)"></i>Regeln (CLAUDE.md) <b>1.400</b></li>
+        <li><i style="background:var(--seg5)"></i>Lektionen <b>700</b></li>
+        <li><i style="background:var(--seg6)"></i>Eigene Skills <b>600</b></li>
+      </ul>
+      <p class="note">Expo (4.400) ist aus, bis ein App-Projekt startet. Dazu kommen die Plugins aus deinem claude.ai-Konto: In Code-Sessions laufen davon jetzt 6 statt 16.</p>
+    </div>
+  </header>
+
+  <section aria-labelledby="audit">
+    <div class="section-head">
+      <span class="eyebrow">Gesamtprüfung · 11. September</span>
+      <h2 id="audit">Geprüft, repariert, bereit zum Arbeiten</h2>
+      <p>Getrennte Prüfer haben das Setup auf Sicherheit, Code-Fehler und Vollständigkeit durchleuchtet. Gefundenes wurde repariert und nachgemessen, bei Geschmacksfragen hast du entschieden.</p>
+    </div>
+
+    <div class="verdict">
+      <p class="verdict-line">Du kannst jetzt damit arbeiten. Die Änderungen gelten ab der nächsten neuen Session.</p>
+      <ul class="facts">
+        <li><b>Aufgeräumt</b><span>10 Business-Plugins sind in Code-Sessions aus. 102 Skills und 42 Verbindungen weniger.</span></li>
+        <li><b>Abgesichert</b><span>179 Nachfrage-Regeln vor unumkehrbaren Schritten und direkten Zugriffen auf die Lernloop-Dateien, 3 riskante Agents gesperrt, der GitHub-Schlüssel wird nie angezeigt.</span></li>
+        <li><b>Lernloop gehärtet</b><span>Prüf-Gate nur noch mit festen Prüfbefehlen, riskante Lektionen warten auf deine Freigabe.</span></li>
+        <li><b>Claude im Terminal</b><span>Version 2.1.268 installiert und im PATH eingetragen.</span></li>
+      </ul>
+    </div>
+
+    <div class="subhead">
+      <h3>Was eine neue Session jetzt lädt</h3>
+      <p>Gemessen mit einer Test-Session ohne Modellaufruf, mit denselben Konto-Plugins wie in der Desktop-App. Weniger Skills und Verbindungen heißt: Die Coding-Skills (Vercel, Frontend Design, Supabase) bekommen in Claudes Startliste wieder Platz, und nicht angemeldete Dienste versuchen nicht mehr bei jedem Start, sich zu verbinden.</p>
+    </div>
+    <div class="m-legend" aria-hidden="true">
+      <span><i style="background:var(--seg6)"></i>vorher</span>
+      <span><i style="background:var(--accent)"></i>nachher</span>
+      <span>Jede Zeile hat ihren eigenen Maßstab: Der obere Balken ist der Stand vorher.</span>
+    </div>
+    <div class="measure" role="table" aria-label="Vorher und nachher">
+      <div class="m-row" role="row">
+        <div class="m-label" role="rowheader">Skills<small>Fähigkeiten, die Claude selbst aufruft</small></div>
+        <div class="m-bars" aria-hidden="true"><span class="m-before" style="width:100%"></span><span class="m-after" style="width:60.3%"></span></div>
+        <div class="m-values" role="cell"><span class="was">257</span> → 155</div>
+      </div>
+      <div class="m-row" role="row">
+        <div class="m-label" role="rowheader">Befehle<small>alles, was mit / startet</small></div>
+        <div class="m-bars" aria-hidden="true"><span class="m-before" style="width:100%"></span><span class="m-after" style="width:64.7%"></span></div>
+        <div class="m-values" role="cell"><span class="was">306</span> → 198</div>
+      </div>
+      <div class="m-row" role="row">
+        <div class="m-label" role="rowheader">Verbindungen<small>MCP-Server zu anderen Diensten</small></div>
+        <div class="m-bars" aria-hidden="true"><span class="m-before" style="width:100%"></span><span class="m-after" style="width:44%"></span></div>
+        <div class="m-values" role="cell"><span class="was">75</span> → 33</div>
+      </div>
+      <div class="m-row" role="row">
+        <div class="m-label" role="rowheader">Plugins<small>Konto und installierte</small></div>
+        <div class="m-bars" aria-hidden="true"><span class="m-before" style="width:100%"></span><span class="m-after" style="width:62.1%"></span></div>
+        <div class="m-values" role="cell"><span class="was">29</span> → 18</div>
+      </div>
+    </div>
+    <p class="note">Ein Business-Plugin wieder einschalten: Sag Claude zum Beispiel „schalte Sales wieder ein“. In der Datei <code>~/.claude/settings.json</code> steht dann <code>"sales@inline": true</code>.</p>
+
+    <div class="subhead">
+      <h3>Die Befunde und was daraus wurde</h3>
+      <p>Sortiert nach Schwere. „Behoben“ heißt repariert und geprüft, „entschieden“ heißt: Du hast gewählt.</p>
+    </div>
+    <div class="ledger">
+      <div class="finding">
+        <span class="chip high">hoch</span>
+        <div class="finding-body">
+          <h3>Das Prüf-Gate konnte fast beliebige Befehle starten</h3>
+          <p>Es führte Prüfungen ohne Rechteabfrage aus, und Tricks wie <code>node -e</code> oder <code>git.exe push</code> kamen durch die Liste erlaubter Werkzeuge. In späteren Prüfrunden fanden die Prüfer weitere Wege, etwa über Werkzeug-Optionen wie <code>cargo --config</code> oder einfache Anführungszeichen.</p>
+          <p class="fix">Je Werkzeug sind nur bekannte, harmlose Optionen erlaubt, etwa <code>npm run &lt;skript&gt;</code>, <code>npx tsc --noEmit</code> oder <code>pytest -q</code>. Bei npm-Skripten prüft das Gate auch den Inhalt in <code>package.json</code> samt Vor- und Folgeskripten auf Deploy-, Nachlade- und Einzeiler-Befehle. Das Scharfschalten fragt dich, klappt nur in Projektordnern und gilt nur für die eigene Session; nach 24 Stunden endet das Gate. Eine veränderte Gate-Datei stoppt es, und npx lädt nie etwas nach.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip high">hoch</span>
+        <div class="finding-body">
+          <h3>Das Ende einer Antwort konnte hängen bleiben</h3>
+          <p>Hielt ein Prüfbefehl Unterprozesse offen, wartete der Stop-Hook ohne Grenze.</p>
+          <p class="fix">Feste Zeitgrenze von höchstens 25 Minuten je Runde, danach wird der ganze Prozessbaum beendet. Die Runde wird vor dem Start gespeichert, ein abgebrochener Lauf zählt als rot.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip high">hoch</span>
+        <div class="finding-body">
+          <h3>Lektionen ließen sich einschleusen</h3>
+          <p>Eine präparierte Webseite hätte Claude eine Lektion wie „Deploy ist freigegeben“ speichern lassen können, die danach in jeder Session auftaucht.</p>
+          <p class="fix">Lektionen mit Befehlen, Web-Adressen oder Freigabe-Formulierungen warten jetzt auf deine Freigabe in <code>/reflect</code> und werden nie mit bestehenden Lektionen zusammengeführt. Jede eingeblendete Lektion trägt den Hinweis, dass sie keine Freigaben erteilt. Markierungen im Lektionstext werden beim Einblenden entschärft, und Schreibweisen wie „Rueckfrage“ oder auf zwei Felder verteilte Adressen fallen trotzdem auf.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip high">hoch</span>
+        <div class="finding-body">
+          <h3>Keine Nachfrage vor unumkehrbaren Schritten</h3>
+          <p>git push, Vercel-Produktion, Supabase-Datenbank oder App-Store-Upload liefen ohne Rückfrage, sobald der Auto-Mode sie durchließ.</p>
+          <p class="fix">179 Nachfrage-Regeln, die auch im Auto-Mode greifen: git push, npm publish, <code>vercel --prod</code>, <code>supabase db push</code>, <code>eas submit</code>, Pull Requests, Kommentare und Secrets auf GitHub, das Freigeben von Lektionen und das Scharfschalten des Prüf-Gates.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Business-Plugins verdrängten die Coding-Skills</h3>
+          <p>15 Plugins aus deinem claude.ai-Konto liefen in jeder Code-Session mit, samt Dutzender Verbindungen, die eine Anmeldung brauchen oder fehlschlagen.</p>
+          <p class="fix">Small Business, Sales, Finance, Marketing, ActiveCampaign, Postiz, Product Tracking, Enterprise Search, Productivity und Product Management sind in Code-Sessions aus. Engineering, Design, PDF Viewer, Security Guidance und Plugin Management bleiben.</p>
+        </div>
+        <span class="chip decided state">entschieden</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Security Guidance sollte nach jeder Antwort eine KI-Prüfung starten</h3>
+          <p>Das Protokoll des Plugins zeigt: In der Desktop-App lief diese Prüfung nie, auch nicht bei Commits, weil der Hook keine eigenen API-Zugangsdaten hat. Wirklich aktiv sind nur die Warnhinweise beim Schreiben von Code.</p>
+          <p class="fix">Die Prüfung nach jeder Antwort ist zusätzlich abgeschaltet (<code>ENABLE_STOP_REVIEW=0</code>). Echte Sicherheitsprüfungen übernehmen bei riskanten Änderungen der Agent <code>devos-security</code> oder <code>/codex:adversarial-review</code>.</p>
+        </div>
+        <span class="chip decided state">entschieden</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Drei Agents konnten Geld bewegen oder veröffentlichen</h3>
+          <p>Aus der Agency-Sammlung: automatische Zahlungen, Social-Media-Posts mit Upload und Berichtsversand an Vertriebsteams.</p>
+          <p class="fix">Gesperrt: <code>accounts-payable-agent</code>, <code>carousel-growth-engine</code>, <code>report-distribution-agent</code>. Die übrigen Agents bleiben verfügbar.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Aktionen in verbundenen Diensten ohne Rückfrage</h3>
+          <p>Über die claude.ai-Verbindungen hätte Claude Dateien teilen oder löschen, Termine anlegen oder beantworten und Einträge veröffentlichen können.</p>
+          <p class="fix">Diese Aktionen fragen jetzt nach, ebenso das Löschen von Sessions und das Anlegen geplanter Aufgaben.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Verschiedene Lektionen wurden zusammengeworfen</h3>
+          <p>Schon ein gemeinsames Werkzeug wie PowerShell reichte. Live passiert heute: Die neue Lektion zu langen Pfaden bei Python landete in der Lektion zu git clone.</p>
+          <p class="fix">Zusammengeführt wird nur noch bei fast gleichem Text oder gemeinsamem Stichwort oder Fehlertext. Zeichen wie <code>&amp;&amp;</code> zählen jetzt mit.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Genutzte Lektionen galten als ungenutzt</h3>
+          <p>Lektionen, die bei jedem Start mitgegeben werden, zählten nicht als Nutzung und wären nach rund 120 statt 90 Tagen archiviert worden.</p>
+          <p class="fix">Einblendungen beim Start zählen als gesehen, ein Statuswechsel setzt die Uhr nicht mehr zurück, und ruhende Lektionen werden wieder aktiv, sobald sie wieder helfen.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Falsche Lernsignale</h3>
+          <p>„Nein danke“ galt als Korrektur, „Klasse Idee, aber …“ als Lob, jeder spätere erfolgreiche Befehl zählte als gelöster Fehler, und heute erschien bei einem harmlosen Fehler die Sprach-Vorliebe als „bekannte Lösung“.</p>
+          <p class="fix">Höfliches Nein und Lob mit „aber“ zählen nicht mehr. Ein Fehler gilt nur als gelöst, wenn derselbe Befehl später klappt. Nach einem Fehler erscheinen nur noch echte Fehler-Lektionen.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip mid">mittel</span>
+        <div class="finding-body">
+          <h3>Schreibkonflikte unter Windows</h3>
+          <p>Schrieben zwei Hooks gleichzeitig, konnte eine Speicherung fehlschlagen. Einstellungsdateien mit Byte-Order-Mark wurden nicht gelesen.</p>
+          <p class="fix">Gespeichert wird über eindeutige Zwischendateien mit Wiederholung, Dateien mit Byte-Order-Mark werden gelesen, und Protokolle wachsen nicht mehr endlos.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip low">niedrig</span>
+        <div class="finding-body">
+          <h3>Das Vercel-Plugin sendete Nutzungsdaten</h3>
+          <p class="fix">Abgeschaltet mit <code>VERCEL_PLUGIN_TELEMETRY=off</code>.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip low">niedrig</span>
+        <div class="finding-body">
+          <h3>Expo lud ohne App-Projekt</h3>
+          <p class="fix">Aus, bis ein App-Projekt startet. Dann reicht ein Satz an Claude.</p>
+        </div>
+        <span class="chip decided state">entschieden</span>
+      </div>
+      <div class="finding">
+        <span class="chip low">niedrig</span>
+        <div class="finding-body">
+          <h3>Der Befehl claude fehlte im Terminal</h3>
+          <p class="fix">Offiziell installiert (Version 2.1.268, Gesundheitscheck ohne Befund) und im PATH deines Benutzers eingetragen. Neue Terminal-Fenster finden ihn, die Desktop-App nutzt weiter ihre eigene Version.</p>
+        </div>
+        <span class="chip done state">behoben</span>
+      </div>
+      <div class="finding">
+        <span class="chip low">niedrig</span>
+        <div class="finding-body">
+          <h3>„Unknown skill: learn“ in der Hartung-Session</h3>
+          <p class="fix">Kein Fehler im Setup: Die Session lief seit dem 10. September, der Skill entstand erst am 11. Neue Sessions kennen ihn. Für solche Fälle speichert der Rückblick jetzt auch ohne Skill.</p>
+        </div>
+        <span class="chip explained state">geklärt</span>
+      </div>
+    </div>
+
+    <div class="subhead">
+      <h3>Bewusst offen</h3>
+      <p>Diese Punkte sind bekannt und kein Hindernis für die Arbeit.</p>
+    </div>
+    <div class="ledger">
+      <div class="finding">
+        <span class="chip open">Hinweis</span>
+        <div class="finding-body">
+          <h3>Viele Konto-Verbindungen brauchen eine Anmeldung</h3>
+          <p>Zum Beispiel GitHub, Datadog und PagerDuty im Engineering-Plugin oder Google Drive, Ironclad und iManage bei den Legal-Plugins. Für GitHub reicht die angemeldete Kommandozeile. Verbinde nur, was du wirklich brauchst, in den claude.ai-Einstellungen.</p>
+        </div>
+        <span class="chip explained state">bei Bedarf</span>
+      </div>
+      <div class="finding">
+        <span class="chip open">Hinweis</span>
+        <div class="finding-body">
+          <h3>PDF Viewer holt seinen Server bei jedem Start frisch</h3>
+          <p>Das offizielle Plugin lädt ihn ohne feste Version über npx. Bleibt so, weil es von Anthropic kommt.</p>
+        </div>
+        <span class="chip explained state">im Blick</span>
+      </div>
+      <div class="finding">
+        <span class="chip open">Hinweis</span>
+        <div class="finding-body">
+          <h3>Der Lernloop ist eine Sicherung, keine Mauer</h3>
+          <p>Er warnt, sperrt und prüft, aber die harte Grenze sind die Nachfrage-Regeln von Claude Code und das Sicherheitsnetz cc-safety-net. Deshalb stehen die wichtigen Schritte dort. Ein scharfes Prüf-Gate startet nach jeder Antwort eure Projektskripte; was deren eigener Code tut, prüft es nicht, darum fragt das Scharfschalten nach.</p>
+        </div>
+        <span class="chip explained state">so gewollt</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Bestand</span>
+      <h2>Was eingebaut ist</h2>
+      <p>Geprüft mit dem offiziellen Validator, einer frischen Test-Session und der Messung oben.</p>
+    </div>
+    <div class="installed">
+      <div class="row">
+        <h3>Agency Agents</h3>
+        <p>279 Spezialisten für Frontend, Backend, Design, Marketing, Security, Tests und mehr. Namen wurden auf das Claude-Format gebracht, damit sie sicher laden. Drei riskante sind gesperrt.</p>
+        <span class="chip">276 nutzbar</span>
+        <p class="where">Aktualisieren: <code>python C:/Users/hanne/.claude/vendor/sync_agency_agents.py</code></p>
+      </div>
+      <div class="row">
+        <h3>DevOS aus Codex</h3>
+        <p>Deine Arbeitsweise aus Codex: Orchestrator, 8 Rollen-Agents, 9 Skills (Experience, Services, Mobile, Verify, Scroll-Craft, HyperFrames …) und deine globalen Regeln.</p>
+        <span class="chip">aktiv · abgeglichen</span>
+        <p class="where">Original mit Prüfsummen: <code>Dokumente\DevOS\devos-claude-port</code> · Regeln: <code>~/.claude/CLAUDE.md</code></p>
+      </div>
+      <div class="row">
+        <h3>Lernloop</h3>
+        <p>Eigenbau nach dem Vorbild von Hermes Agent: 7 automatische Auslöser, die Skills <code>learn</code>, <code>reflect</code>, <code>recall</code> und 14 Lektionen aus deiner Arbeit.</p>
+        <span class="chip">aktiv · 135 Tests ok</span>
+        <p class="where">Ordner: <code>~/.claude/learning</code> · läuft komplett lokal · Prüfstein: <code>python -m unittest discover -s C:/Users/hanne/.claude/learning/tests</code></p>
+      </div>
+      <div class="row">
+        <h3>Claude for Legal</h3>
+        <p>Alle 13 Anthropic-Plugins installiert. Aktiv sind die 5 für eine Agentur passenden: Verträge, Datenschutz, Produkt und Werbung, KI-Governance, Marken und Lizenzen.</p>
+        <span class="chip warn">5 von 13 aktiv</span>
+        <p class="where">Die anderen 8 (z. B. Arbeitsrecht, Prozesse) sind aus, um Kontext zu sparen. Sag einfach „aktiviere employment-legal“. Die Plugins sind stark auf US-Recht ausgerichtet und ersetzen keine Rechtsberatung.</p>
+      </div>
+      <div class="row">
+        <h3>Empfohlene Plugins</h3>
+        <p>Context7 (aktuelle Doku), Frontend Design, TypeScript LSP, Vercel, Supabase (nur Wissen, kein Datenbankzugriff), das Codex-Plugin von OpenAI und das Sicherheitsnetz cc-safety-net. Expo ist installiert, aber aus.</p>
+        <span class="chip">7 von 8 aktiv</span>
+        <p class="where">Die Codex-CLI 0.154 ist mit deinem ChatGPT-Konto verbunden. Das automatische Codex-Review am Antwortende bleibt aus, bis du es mit <code>/codex:setup --enable-review-gate</code> einschaltest.</p>
+      </div>
+      <div class="row">
+        <h3>Plugins aus deinem Konto</h3>
+        <p>Die Desktop-App bringt sie aus claude.ai mit. In Code-Sessions aktiv: Engineering, Design, PDF Viewer, Security Guidance, Plugin Management und deine claude.ai-Skills.</p>
+        <span class="chip warn">6 von 16 aktiv</span>
+        <p class="where">Abgeschaltet über <code>"&lt;name&gt;@inline": false</code> in <code>~/.claude/settings.json</code>. In Cowork und im Chat bleiben sie unverändert.</p>
+      </div>
+      <div class="row">
+        <h3>Schutzregeln</h3>
+        <p>Nachfragen vor Veröffentlichen, Deploy in Produktion, Datenbank-Änderungen, App-Store-Uploads, Merges, Lektionen-Freigaben und riskanten Aktionen in verbundenen Diensten. GitHub-Aktionen nach außen fragen nach, Befehle, die den GitHub-Schlüssel zeigen würden, sind gesperrt. Direkte Shell-Zugriffe auf die Lernloop-Dateien fragen ebenfalls nach. Dazu blockt cc-safety-net zerstörerische Befehle.</p>
+        <span class="chip">179 Regeln · 7 Sperren</span>
+        <p class="where">Sicherungen der Einstellungen: <code>~/.claude/settings.backup-2026-09-11-*.json</code></p>
+      </div>
+      <div class="row">
+        <h3>Web-Stack</h3>
+        <p>Alles Sichtbare in HTML und CSS, alles Funktionale in TypeScript. In neuen Projekten kein Tailwind und kein CSS-in-JS. Die Regel hat Vorrang vor Plugin-Skills wie shadcn/ui. Moderne CSS-Mittel zuerst, GSAP oder WebGL nur als Ergänzung.</p>
+        <span class="chip">Regel aktiv</span>
+        <p class="where">Steht in <code>~/.claude/CLAUDE.md</code>. Vor dem Installieren von Tailwind oder CSS-in-JS warnt der Lernloop. ONE OS nutzt bereits Tailwind CSS 4 und bleibt dabei, bis du eine Umstellung willst.</p>
+      </div>
+      <div class="row">
+        <h3>Claude-CLI</h3>
+        <p>Der Befehl <code>claude</code> funktioniert jetzt auch im normalen Terminal, damit Installer und Skripte ihn finden.</p>
+        <span class="chip">2.1.268</span>
+        <p class="where">Ort: <code>C:\Users\hanne\.local\bin\claude.exe</code> · alter PATH gesichert in <code>~/.claude/settings.backup-2026-09-11-user-path.txt</code></p>
+      </div>
+      <div class="row">
+        <h3>GitHub-Kommandozeile</h3>
+        <p>Angemeldet als <code>hanneswrnr</code>. Claude kann damit Pull Requests, Issues und CI-Ergebnisse abfragen und über HTTPS pushen. Alles, was nach außen wirkt, fragt vorher nach.</p>
+        <span class="chip">angemeldet</span>
+        <p class="where">Der Schlüssel liegt im Windows-Anmeldespeicher, Befehle zum Anzeigen sind gesperrt. Den GitHub-Connector im Engineering-Plugin brauchst du dafür nicht.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Das Herzstück</span>
+      <h2>So lernt Claude aus Fehlern</h2>
+      <p>Derselbe Fehler soll nicht zweimal passieren, und was gut geklappt hat, wird wiederverwendet. Das passiert automatisch in jeder Session:</p>
+    </div>
+    <ol class="loop">
+      <li><h3>Beim Start</h3><p>Die wichtigsten Lektionen werden mitgegeben, höchstens 2.500 Zeichen. Zum Beispiel: „Status in einfachem Deutsch erklären“. Lektionen sind Hinweise, sie erteilen nie eine Freigabe.</p></li>
+      <li><h3>Bei deiner Nachricht</h3><p>Passende Lektionen kommen dazu. Korrekturen („nein, falsch …“) und Lob merkt sich der Loop als Lernsignal.</p></li>
+      <li><h3>Vor einem Befehl</h3><p>Bekannte Fallen erscheinen als Warnung. Regeln, die du festpinnst, können gefährliche Befehle sogar blockieren.</p></li>
+      <li><h3>Wenn etwas schiefgeht</h3><p>Ist der Fehler schon bekannt, bekommt Claude sofort die Lösung, die beim letzten Mal funktioniert hat.</p></li>
+      <li><h3>Am Ende einer Aufgabe</h3><p>Gab es Korrekturen, gelöste Fehler, Lob oder viel Arbeit, speichert Claude kurz bis zu 3 Lektionen. Doppelte werden zusammengeführt, Verdächtiges landet in Quarantäne, und Lektionen mit Befehlen, Web-Adressen oder Freigabe-Formulierungen warten auf dein Okay.</p></li>
+      <li><h3>Einmal pro Woche</h3><p>Mit <code>/reflect</code> räumt ihr gemeinsam auf: Wartendes freigeben, Unklares umformulieren, Veraltetes archivieren. Ungenutztes ruht nach 30 Tagen und wird nach 90 archiviert, nichts wird endgültig gelöscht.</p></li>
+    </ol>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Hermes Agent</th><th>Dein Claude-Setup</th></tr></thead>
+        <tbody>
+          <tr><td>Merkzettel wird bei jedem Start mitgegeben</td><td>Lektionen beim Start, nach Wichtigkeit sortiert</td></tr>
+          <tr><td>Anstoß alle 10 Nachrichten</td><td>Rückblick nach 10 Nachrichten, Korrekturen, gelösten Fehlern oder großen Aufgaben</td></tr>
+          <tr><td>Hintergrund-Review legt Skills an und verbessert sie</td><td>Skill <code>learn</code>: Lektionen speichern und eigene Skills gezielt ergänzen</td></tr>
+          <tr><td>Curator räumt nach 30 und 90 Tagen auf</td><td><code>/reflect</code> mit gleichen Fristen, Sicherung vor jeder Änderung</td></tr>
+          <tr><td>Session-Suche mit SQLite</td><td>Skill <code>recall</code> durchsucht alle früheren Claude-Sessions</td></tr>
+          <tr><td>Skills Guard prüft auf Schadcode</td><td>Quarantäne für Links, Befehls-Tricks, Schlüssel und versteckte Zeichen; riskante Lektionen warten auf Freigabe</td></tr>
+          <tr><td>nicht vorhanden</td><td>Warnung direkt vor riskanten Befehlen und harte Sperren</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Überblick jederzeit mit <code>python C:/Users/hanne/.claude/learning/ll.py stats</code>. Notbremse: <code>"disableAllHooks": true</code> in <code>~/.claude/settings.json</code>.</p>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Loop Engineering</span>
+      <h2>Claude arbeitet in Schleifen statt auf Zuruf</h2>
+      <p>Die Profis prompten nicht mehr jeden Schritt. Sie bauen Loops aus einem messbaren Ziel, einer Prüfung, die grün oder rot sagt, und einem Budget. Claude arbeitet dann, bis die Prüfung grün ist. So beschreiben es Boris Cherny, der Leiter von Claude Code, Addy Osmani und die offizielle Anthropic-Anleitung vom 30. Juni 2026.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Loop-Art</th><th>Startet die nächste Runde</th><th>Werkzeug in Claude Code</th></tr></thead>
+        <tbody>
+          <tr><td>Runde für Runde</td><td>deine Nachricht; Skills mit festen Prüfungen verkürzen den Weg</td><td>Skills, z. B. <code>devos-verify</code></td></tr>
+          <tr><td>Ziel</td><td>automatisch nach jeder Runde, bis ein zweites Modell „erreicht“ sagt</td><td><code>/goal</code></td></tr>
+          <tr><td>Zeit</td><td>ein fester Takt</td><td><code>/loop</code>, Desktop-Routinen, <code>/schedule</code> in der Cloud</td></tr>
+          <tr><td>Proaktiv</td><td>Zeitplan oder Ereignis, ganz ohne dich</td><td>Routine plus <code>/goal</code>, Skills, Workflows und Auto-Mode</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="installed">
+      <div class="row">
+        <h3>Prüf-Gate</h3>
+        <p>Nicht das Modell entscheidet über „fertig“, sondern deine Prüfskripte. Solange ein Gate scharf ist, führt der Stop-Hook die Prüfungen nach jeder Antwort selbst aus. Ist etwas rot, arbeitet Claude mit der echten Fehlerausgabe weiter. Standardmäßig nach 8 Runden bricht das Gate sauber ab und Claude berichtet; ändert Claude zwei Runden lang nichts, endet es ebenfalls. Werden unterwegs Tests oder Prüfdateien verändert, verlangt es eine Begründung. Erlaubt sind nur feste Prüfformen mit bekannten Optionen, bei npm-Skripten wird der Inhalt auf Deploy-, Nachlade- und Einzeiler-Befehle geprüft, das Scharfschalten fragt dich und klappt nur in Projektordnern, und das Gate gilt nur für die Session, die es gestartet hat.</p>
+        <span class="chip">gehärtet · getestet</span>
+        <p class="where">Probelauf am Hartung-Projekt: <code>npm run typecheck</code> grün in 1 Sekunde.</p>
+      </div>
+      <div class="row">
+        <h3>Skill loop-engineering</h3>
+        <p>Plant jeden Loop mit sechs Bausteinen: Ziel, Prüfstein, Antrieb, Gedächtnis auf der Platte, Budget und getrennte Prüfung. Er enthält Vorlagen für Hartung, ONE OS, Expo-Apps und KI-Chatbots.</p>
+        <span class="chip">aktiv</span>
+        <p class="where">Regeln dazu stehen in <code>~/.claude/CLAUDE.md</code> unter „Loop Engineering“.</p>
+      </div>
+      <div class="row">
+        <h3>Zusammenspiel mit dem Lernloop</h3>
+        <p>Läuft ein <code>/goal</code>, pausieren die Lern-Rückblicke. Wird ein Gate erst nach mehreren roten Runden grün, hält Claude fest, was die Fehler verursacht hat. Genau das empfiehlt Anthropic: Korrekturen ins System übernehmen.</p>
+        <span class="chip">getestet</span>
+      </div>
+    </div>
+    <div class="recs">
+      <div class="tier">
+        <h3><span class="chip">Vorlagen zum Kopieren</span></h3>
+        <div class="rec"><strong>Hartung: Code und Build</strong><p>Claude bleibt dran, bis Typecheck und Build grün sind. Im Projektordner starten.</p><code class="cmd">python C:/Users/hanne/.claude/learning/ll.py gate arm --check "npm run check" --max-rounds 8</code></div>
+        <div class="rec"><strong>ONE OS: vor dem Merge</strong><p>Dein eigenes Gesamt-Tor als Ziel, mit Obergrenze.</p><code class="cmd">/goal npm run gate:vor-dem-merge endet mit Exit 0, höchstens 20 Runden</code></div>
+        <div class="rec"><strong>Performance</strong><p>Messbares Ziel statt „mach schneller“.</p><code class="cmd">/goal Lighthouse-Score der Startseite mindestens 90, gemessen und im Gespräch gezeigt, höchstens 5 Versuche</code></div>
+        <div class="rec"><strong>Deploy beobachten</strong><p>Wiederholt im Takt, solange die Session offen ist.</p><code class="cmd">/loop 10m prüfe den Vercel-Deploy und behebe Build-Fehler, stoppe wenn er grün ist</code></div>
+      </div>
+      <div class="tier">
+        <h3><span class="chip skip">Bewusst nicht</span></h3>
+        <div class="rec"><strong>Ralph-Loop-Plugin</strong><p>Braucht das Werkzeug jq, das unter Windows fehlt. <code>/goal</code> und das Prüf-Gate erledigen dasselbe zuverlässiger.</p></div>
+        <div class="rec"><strong>Loops ohne Budget oder mit Deploy</strong><p>Jeder Loop hat eine Rundengrenze. Deploys, Veröffentlichungen und Löschungen brauchen deine Freigabe, auch technisch über die Nachfrage-Regeln.</p></div>
+      </div>
+    </div>
+    <p class="note">Addy Osmani warnt zu Recht: Ein Loop, der unbeaufsichtigt läuft, macht auch unbeaufsichtigt Fehler. Ergebnisse weiter lesen, Tokens im Blick behalten (<code>/usage</code>) und kleine Dinge ruhig direkt prompten.</p>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Empfehlung</span>
+      <h2>Was sonst noch lohnt</h2>
+      <p>Auswahl aus rund 80 geprüften Repos und Plugins, abgeglichen mit deinen Projekten: Websites auf Vercel, ONE OS mit Next.js und Supabase, dazu Mobile Apps und KI-Chatbots. Die wichtigsten sind schon installiert. Hier steht, was optional bleibt und was bewusst draußen bleibt.</p>
+    </div>
+    <div class="recs">
+      <div class="tier">
+        <h3><span class="chip warn">Noch optional</span></h3>
+        <div class="rec"><strong>Chrome DevTools MCP</strong><p>Performance, Konsole und Netzwerk im echten Browser prüfen. Ergänzt das Browserfenster der App.</p><code class="cmd">claude mcp add chrome-devtools --scope user -- npx chrome-devtools-mcp@latest --no-usage-statistics</code></div>
+        <div class="rec"><strong>React Doctor</strong><p>Findet typische KI-Fehler in React-Code (15.000 Sterne). Einfach im Projekt ausführen.</p><code class="cmd">npx react-doctor</code></div>
+        <div class="rec"><strong>DESIGN.md-Vorlagen</strong><p>Über 2.000 echte Design-Systeme als Datei, damit UIs Charakter bekommen (awesome-design-md, 115.000 Sterne).</p><code class="cmd">github.com/VoltAgent/awesome-design-md</code></div>
+        <div class="rec"><strong>Agent-Liste verschlanken</strong><p>Die Agent-Liste ist der größte Posten im Arbeitsgedächtnis. Bereiche, die du nie brauchst (etwa chinesische Plattformen oder Geodaten), lassen sich ausblenden. Erst mit Vorschau ansehen.</p><code class="cmd">python C:/Users/hanne/.claude/vendor/sync_agency_agents.py --dry-run --exclude &lt;bereich&gt;</code></div>
+      </div>
+      <div class="tier">
+        <h3><span class="chip skip">Bewusst weglassen</span></h3>
+        <div class="rec"><strong>Superpowers, gstack, BMAD, Everything Claude Code</strong><p>Beliebt, konkurrieren aber mit deinem DevOS-Orchestrator: doppelte Abläufe und mehr Kontext.</p></div>
+        <div class="rec"><strong>Weitere Agent-Sammlungen</strong><p>wshobson oder VoltAgent überschneiden sich mit den 279 Agency Agents und verwirren die Auswahl.</p></div>
+        <div class="rec"><strong>claude-mem und ähnliche</strong><p>Dein eigener Lernloop übernimmt das, lokal und ohne Cloud.</p></div>
+        <div class="rec"><strong>„Claude Code gratis“ von X</strong><p>Leiten Anfragen über fremde Anbieter um: Verstoß gegen Nutzungsbedingungen und Sicherheitsrisiko.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Arbeitsweise</span>
+      <h2>Gewohnheiten, die den Unterschied machen</h2>
+    </div>
+    <div class="cols">
+      <ul class="habits">
+        <li><strong>Neue Session nach Setup-Änderungen</strong><span>Einstellungen, Plugins und Skills lädt Claude beim Start. Eine laufende Session kennt Neues oft noch nicht.</span></li>
+        <li><strong>Auto-Mode nutzen</strong><span>Tipp Nr. 1 von Boris Cherny, dem Erfinder von Claude Code. Die Nachfrage-Regeln greifen trotzdem.</span></li>
+        <li><strong>Immer etwas zum Prüfen geben</strong><span>Tests, Build oder Screenshots. Das bringt laut Boris zwei- bis dreifache Qualität.</span></li>
+        <li><strong>Erst planen, dann bauen</strong><span>Bei größeren Features. Kleine Änderungen direkt umsetzen.</span></li>
+      </ul>
+      <ul class="habits">
+        <li><strong>Frisch starten</strong><span><code>/clear</code> zwischen Aufgaben, neu beginnen nach zwei gescheiterten Korrekturen.</span></li>
+        <li><strong>Parallel, aber maßvoll</strong><span>Mehrere Sessions in eigenen Worktrees. Mehr als 3 bis 5 lassen sich kaum sauber prüfen.</span></li>
+        <li><strong>Sicherheit beim Vibe-Coding</strong><span>Supabase-RLS immer an, KI- und Admin-Schlüssel nur auf dem Server, Limits für Chatbots, neue Pakete auf Echtheit prüfen.</span></li>
+        <li><strong>Kosten im Blick</strong><span><code>/usage</code> zeigt, was Tokens frisst. Für Routine reicht Effort „high“, „xhigh“ ist deutlich teurer.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <span class="eyebrow">Quellen</span>
+      <h2>Worauf das beruht</h2>
+    </div>
+    <ul class="sources">
+      <li>X-Suche im eigenen Account: @bcherny, @ClaudeDevs, Threads zu Setup-Plugin, Hooks, DESIGN.md, Hermes</li>
+      <li><a href="https://github.com/msitarzewski/agency-agents">msitarzewski/agency-agents</a></li>
+      <li><a href="https://github.com/anthropics/claude-for-legal">anthropics/claude-for-legal</a></li>
+      <li><a href="https://hermes-agent.nousresearch.com/docs/user-guide/features/memory">Hermes Agent Doku</a> und <a href="https://github.com/NousResearch/hermes-agent">Quellcode</a></li>
+      <li><a href="https://code.claude.com/docs/en/hooks">Claude Code Doku: Hooks</a>, <a href="https://code.claude.com/docs/en/skills">Skills</a>, <a href="https://code.claude.com/docs/en/memory">Memory</a></li>
+      <li><a href="https://github.com/openai/codex-plugin-cc">openai/codex-plugin-cc</a></li>
+      <li><a href="https://github.com/kenryu42/cc-safety-net">kenryu42/cc-safety-net</a></li>
+      <li><a href="https://github.com/upstash/context7">upstash/context7</a></li>
+      <li><a href="https://github.com/shanraisshan/claude-code-best-practice">shanraisshan/claude-code-best-practice</a></li>
+      <li><a href="https://github.com/multica-ai/andrej-karpathy-skills">andrej-karpathy-skills</a> (Grundregeln in CLAUDE.md)</li>
+      <li><a href="https://github.com/VoltAgent/awesome-design-md">VoltAgent/awesome-design-md</a></li>
+      <li><a href="https://github.com/millionco/react-doctor">millionco/react-doctor</a></li>
+      <li><a href="https://code.claude.com/docs/en/best-practices">Anthropic: Claude Code Best Practices</a></li>
+      <li><a href="https://claude.com/blog/getting-started-with-loops">Anthropic: Loop engineering, getting started with loops</a> (30.06.2026)</li>
+      <li><a href="https://code.claude.com/docs/en/goal">Claude Code Doku: /goal</a> und <a href="https://code.claude.com/docs/en/desktop-scheduled-tasks">Desktop-Routinen</a></li>
+      <li><a href="https://x.com/addyosmani/article/2064127981161959567">Addy Osmani: Loop Engineering</a> (X-Artikel, 09.06.2026)</li>
+      <li><a href="https://newsletter.pragmaticengineer.com/p/what-is-loop-engineering">Gergely Orosz: What is loop engineering?</a></li>
+      <li><a href="https://ghuntley.com/ralph/">Geoffrey Huntley: Ralph</a> (Ursprung der Technik, 14.07.2025)</li>
+      <li><a href="https://www.anthropic.com/engineering/harness-design-long-running-apps">Anthropic: Harness design for long-running apps</a> (24.03.2026)</li>
+      <li><a href="https://metr.org/blog/2025-06-05-recent-reward-hacking/">METR: Modelle, die Tests manipulieren</a> (05.06.2025)</li>
+      <li><a href="https://lucumr.pocoo.org/2026/6/23/the-coming-loop/">Armin Ronacher: The coming loop</a> (Kritik, 23.06.2026)</li>
+      <li>Gesamtprüfung: Quellcode von Security Guidance (Schalter <code>ENABLE_STOP_REVIEW</code>) und Vercel-Plugin (<code>VERCEL_PLUGIN_TELEMETRY</code>), Plugin-Kennungen <code>name@inline</code> aus Claude Code 2.1.266, eigene Messung per Test-Session</li>
+    </ul>
+  </section>
+</main>

@@ -1,0 +1,253 @@
+{
+  "version": 1,
+  "ported_at": "2026-09-11",
+  "source": {
+    "codex_home": "C:\\Users\\hanne\\.codex",
+    "devos_state": "C:\\Users\\hanne\\.codex\\.devos\\state.json",
+    "devos_transaction": "e2485dd31024457283d6e68f6ba3ec24",
+    "source_bundle": "C:\\Users\\hanne\\Documents\\Codex\\2026-09-10\\https-github-com-donvito-codex-astra-2\\outputs\\codex-development-os"
+  },
+  "external_dependencies": [
+    "C:\\Users\\hanne\\.codex\\.devos\\hyperframes.json",
+    "C:\\Users\\hanne\\.codex\\.devos\\scroll-craft.json",
+    "C:\\Users\\hanne\\.codex\\toolkits\\hyperframes-student-kit",
+    "C:\\Users\\hanne\\.codex\\toolkits\\scroll-craft",
+    "C:\\Users\\hanne\\Documents\\Codex\\2026-09-10\\https-github-com-donvito-codex-astra-2\\outputs\\codex-development-os\\web-kit"
+  ],
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "target": "~/.claude/CLAUDE.md (marked DEVOS block; merge if the file already exists)",
+      "source": "AGENTS.md",
+      "source_sha256": "1cd80a7de48261bd17062f0ec0222376332e1db2f9b2a9679500cdaf25e2822a",
+      "source_matches_codex_state": true,
+      "sha256": "10bcecccad6f60ff93e938980ca28397d2efd20996d667809570eebcbec24fcc",
+      "change": "adapted"
+    },
+    {
+      "path": "devos-review.settings.json",
+      "target": "not installed; optional launch profile: claude --settings (bundle)/devos-review.settings.json",
+      "source": "devos-review.config.toml",
+      "source_sha256": "51a631ef2fcb3067cbbf9f6aeab61e43091e6134db963e3a58616a2995ed2859",
+      "source_matches_codex_state": true,
+      "sha256": "fe164f356b8dac0e7399719d7b65ad7b2696acc40f9e61710e6606a3ab20d383",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-designer.md",
+      "target": "~/.claude/agents/devos-designer.md",
+      "source": "agents/devos-designer.toml",
+      "source_sha256": "4e021d57d71b4a19e3b16b9528751178c0410fa6f3e931bc3b2cb51133d40f14",
+      "source_matches_codex_state": true,
+      "sha256": "b8159c213368cd89868352507efc2650f66ee320e71197f4f809e0cf9e540df4",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-explorer.md",
+      "target": "~/.claude/agents/devos-explorer.md",
+      "source": "agents/devos-explorer.toml",
+      "source_sha256": "855375e60999ced65599f214a24f577194e50c4083e38d38ddf89133cc44a56e",
+      "source_matches_codex_state": true,
+      "sha256": "1aef2d2af8dd79363f1d50da9a4b1439af84099370df5536b0b3393273a9c3f1",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-platform.md",
+      "target": "~/.claude/agents/devos-platform.md",
+      "source": "agents/devos-platform.toml",
+      "source_sha256": "7257dea42a5ad786bd1d2582feb3c35742f67a100914b065cd7ab699e98d725b",
+      "source_matches_codex_state": true,
+      "sha256": "91c6bc5401187d87dc83e5ef92a6789a964e0bbd0a2ab8d5a70251efa69ca5ae",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-researcher.md",
+      "target": "~/.claude/agents/devos-researcher.md",
+      "source": "agents/devos-researcher.toml",
+      "source_sha256": "14f7e8cea5005bd2b06821f42257b7579cabe6e3e3d8ad0a49a8e43e74bc63c1",
+      "source_matches_codex_state": true,
+      "sha256": "351cd55aff5f56c8817662c04c31a34c1fa52d4449ef4eefc32073a372a5299f",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-reviewer.md",
+      "target": "~/.claude/agents/devos-reviewer.md",
+      "source": "agents/devos-reviewer.toml",
+      "source_sha256": "3290bf50fd7819f27a54b4fbe2c8bc9b84d83e9ecb9993d5d42f8aa914b8aa83",
+      "source_matches_codex_state": true,
+      "sha256": "f178b9a888babd3bb181569cbbcf2230b888a9c22e0a2fa3bce555a3c2cbab21",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-security.md",
+      "target": "~/.claude/agents/devos-security.md",
+      "source": "agents/devos-security.toml",
+      "source_sha256": "f0433e18a480c13f996656065dce6c321bb83646cc3edf41f78ffd30dbb7d4c1",
+      "source_matches_codex_state": true,
+      "sha256": "10c940e4c7ac2e5916e8f4577d992df9c6abaa76b35489892c0c466256061c5a",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-verifier.md",
+      "target": "~/.claude/agents/devos-verifier.md",
+      "source": "agents/devos-verifier.toml",
+      "source_sha256": "f122887acabdce943f8559c39868c07d7898191335b9f50bdac2b059f7601d93",
+      "source_matches_codex_state": true,
+      "sha256": "ba514d66f758b0c65433865fd01aaee7abaa1eb6239d7d141af8e20e8157159a",
+      "change": "adapted"
+    },
+    {
+      "path": "agents/devos-worker.md",
+      "target": "~/.claude/agents/devos-worker.md",
+      "source": "agents/devos-worker.toml",
+      "source_sha256": "330f4faa7ad0d431bfa4beea66524468e24ec69555ca982faaa3a33da90ce763",
+      "source_matches_codex_state": true,
+      "sha256": "b994d523ef380805a8249dba02a2d0279da1d9c92568e0ae5a363b6aefbf240f",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-bootstrap/references/web-quality.md",
+      "target": "~/.claude/skills/devos-bootstrap/references/web-quality.md",
+      "source": "skills/devos-bootstrap/references/web-quality.md",
+      "source_sha256": "26bbd920bdacf1643eb298ca00c64df8b8c37713131c69409578fa2e62f75c56",
+      "source_matches_codex_state": true,
+      "sha256": "dddda8994bd199a31b9bf764742f760c942bd820216b1e904bff10c7878c307e",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-bootstrap/SKILL.md",
+      "target": "~/.claude/skills/devos-bootstrap/SKILL.md",
+      "source": "skills/devos-bootstrap/SKILL.md",
+      "source_sha256": "64c837a16d9c1b969210ab996c388fea74c29193a18b9d5c2769493603a9d949",
+      "source_matches_codex_state": true,
+      "sha256": "f8bcf03fe403f9b003289d9b2fb01619fe0af297749fff79db935b9e43e7a41d",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-experience/references/motion-3d.md",
+      "target": "~/.claude/skills/devos-experience/references/motion-3d.md",
+      "source": "skills/devos-experience/references/motion-3d.md",
+      "source_sha256": "620c46a39a72c22794e3f545b640535344d92ef194c670f3a41b86bd89b07827",
+      "source_matches_codex_state": true,
+      "sha256": "620c46a39a72c22794e3f545b640535344d92ef194c670f3a41b86bd89b07827",
+      "change": "unchanged"
+    },
+    {
+      "path": "skills/devos-experience/SKILL.md",
+      "target": "~/.claude/skills/devos-experience/SKILL.md",
+      "source": "skills/devos-experience/SKILL.md",
+      "source_sha256": "84a19383da6d445f3badae2f50b8943f411eddb7e37c051239f375f6f24bb82e",
+      "source_matches_codex_state": true,
+      "sha256": "d92b6da67b54adf59bbbe589127fc80bf7780d9254b5a9b65226f6eab1772285",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-hyperframes/references/integration.md",
+      "target": "~/.claude/skills/devos-hyperframes/references/integration.md",
+      "source": "skills/devos-hyperframes/references/integration.md",
+      "source_sha256": "2579e769b7458279ef8ab472e756f79c3ac366a8194ef304f330e65f56861b09",
+      "source_matches_codex_state": true,
+      "sha256": "f160dc7b240d8e12b4d5572c9b67a020302cd51143cd00754285be17d60d0707",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-hyperframes/SKILL.md",
+      "target": "~/.claude/skills/devos-hyperframes/SKILL.md",
+      "source": "skills/devos-hyperframes/SKILL.md",
+      "source_sha256": "beccc8aec202a5e60e3fb4d1b71d3ddd6c0428132fca2478aef3cd9129463f39",
+      "source_matches_codex_state": true,
+      "sha256": "fe38f58fd27aaf8289f55d8a005bbe16c0189000127a01efd01658cba81b72df",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-maintain/SKILL.md",
+      "target": "~/.claude/skills/devos-maintain/SKILL.md",
+      "source": "skills/devos-maintain/SKILL.md",
+      "source_sha256": "aed49a60d65ab5315761439e818c89229f63c99cf7aac22e2a99229edae7e99f",
+      "source_matches_codex_state": true,
+      "sha256": "ba2ff858d2fbd65602a5ce739fc56f89f6ac819ff63c2f52753a60542fb740d7",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-mobile/SKILL.md",
+      "target": "~/.claude/skills/devos-mobile/SKILL.md",
+      "source": "skills/devos-mobile/SKILL.md",
+      "source_sha256": "792e3b5498712364332717a87acfd2958dabf6dbe26f840a115c13f2e592d10e",
+      "source_matches_codex_state": true,
+      "sha256": "25f0a4bc7ba2aa68dc1a7653445e8d2601733b0fc5920d094c387d056749df30",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-orchestrate/SKILL.md",
+      "target": "~/.claude/skills/devos-orchestrate/SKILL.md",
+      "source": "skills/devos-orchestrate/SKILL.md",
+      "source_sha256": "3588bc1de08f3a75029769c669451f189735f0a03e6d8bdb622cf150409837e6",
+      "source_matches_codex_state": true,
+      "sha256": "92a872e28413c4f0da93446fde844c81bb81099a193cdef0b6a6b66868814154",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-scroll-craft/references/integration.md",
+      "target": "~/.claude/skills/devos-scroll-craft/references/integration.md",
+      "source": "skills/devos-scroll-craft/references/integration.md",
+      "source_sha256": "feb46533c559530b325a1800874f4a5f89200d9d217bcb963a3de2c2f9796df4",
+      "source_matches_codex_state": true,
+      "sha256": "119cefbf523598f6cdda317917bc3bba34dacf26fb0f76912a9e068994fc24b3",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-scroll-craft/SKILL.md",
+      "target": "~/.claude/skills/devos-scroll-craft/SKILL.md",
+      "source": "skills/devos-scroll-craft/SKILL.md",
+      "source_sha256": "d46b07b99cb9ccec6499343c69bc26dffd6804463cb3b274f504cd11d6c7d4f2",
+      "source_matches_codex_state": true,
+      "sha256": "d80c54cb1a36decead868663488c50338a7b8ee58fe6b106134aa4cf297e2d0d",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-services/references/ai.md",
+      "target": "~/.claude/skills/devos-services/references/ai.md",
+      "source": "skills/devos-services/references/ai.md",
+      "source_sha256": "104dfa9c64499672ef489bc398f5ae3347ad44ef6149a6e70ddecbcf95eddd61",
+      "source_matches_codex_state": true,
+      "sha256": "5c74f3f6662444b735a8c3a414be292654522ebd8a144c4eca5703282ea32e64",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-services/references/api-security.md",
+      "target": "~/.claude/skills/devos-services/references/api-security.md",
+      "source": "skills/devos-services/references/api-security.md",
+      "source_sha256": "d55fb0e5c70a12d9c099233cf1ab38dbdc22961a6b529ae2495c8b4693370a8f",
+      "source_matches_codex_state": true,
+      "sha256": "d55fb0e5c70a12d9c099233cf1ab38dbdc22961a6b529ae2495c8b4693370a8f",
+      "change": "unchanged"
+    },
+    {
+      "path": "skills/devos-services/references/data.md",
+      "target": "~/.claude/skills/devos-services/references/data.md",
+      "source": "skills/devos-services/references/data.md",
+      "source_sha256": "aa39c4d5a5c0c40bfd6a09290a3a0e3ebdabef1da27b94662b8f853a50194c73",
+      "source_matches_codex_state": true,
+      "sha256": "aa39c4d5a5c0c40bfd6a09290a3a0e3ebdabef1da27b94662b8f853a50194c73",
+      "change": "unchanged"
+    },
+    {
+      "path": "skills/devos-services/SKILL.md",
+      "target": "~/.claude/skills/devos-services/SKILL.md",
+      "source": "skills/devos-services/SKILL.md",
+      "source_sha256": "1d09ea14c2c25d9f483b217a64b490130056f522353953846f0b7083bffdf63c",
+      "source_matches_codex_state": true,
+      "sha256": "2a1493ef01a932707cd47c9df7bcdab2387e22c9ea045f6d9ced481afc685dc8",
+      "change": "adapted"
+    },
+    {
+      "path": "skills/devos-verify/SKILL.md",
+      "target": "~/.claude/skills/devos-verify/SKILL.md",
+      "source": "skills/devos-verify/SKILL.md",
+      "source_sha256": "9bb387ee729f7d8566fba2d2a3a54bdf1f85b339773694dd8ebd99a7db6bc024",
+      "source_matches_codex_state": true,
+      "sha256": "ee7e24904e89a17f2cff5a97615654d9dfd5b6376572023176b99c30f4923495",
+      "change": "adapted"
+    }
+  ]
+}

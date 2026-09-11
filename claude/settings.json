@@ -1,0 +1,360 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py add *)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py list)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py list *)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py search *)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py show *)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py stats)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py doctor)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py quarantine)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py curate)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py gate status)",
+      "Bash(python C:/Users/hanne/.claude/learning/ll.py gate off)"
+    ],
+    "ask": [
+      "Edit(~/.claude/learning/**)",
+      "Write(~/.claude/learning/**)",
+      "Edit(~/.claude/settings.json)",
+      "Write(~/.claude/settings.json)",
+      "Bash(git push*)",
+      "Bash(git -C * push*)",
+      "Bash(git -c * push*)",
+      "PowerShell(git push*)",
+      "PowerShell(git -C * push*)",
+      "PowerShell(git -c * push*)",
+      "Bash(npm publish*)",
+      "Bash(pnpm publish*)",
+      "Bash(yarn publish*)",
+      "Bash(yarn npm publish*)",
+      "PowerShell(npm publish*)",
+      "PowerShell(pnpm publish*)",
+      "PowerShell(yarn publish*)",
+      "PowerShell(yarn npm publish*)",
+      "Bash(*vercel*--prod*)",
+      "Bash(*vercel promote*)",
+      "Bash(*vercel rollback*)",
+      "Bash(*vercel remove*)",
+      "Bash(*vercel rm *)",
+      "Bash(*vercel env add*)",
+      "Bash(*vercel env rm*)",
+      "PowerShell(*vercel*--prod*)",
+      "PowerShell(*vercel promote*)",
+      "PowerShell(*vercel rollback*)",
+      "PowerShell(*vercel remove*)",
+      "PowerShell(*vercel rm *)",
+      "PowerShell(*vercel env add*)",
+      "PowerShell(*vercel env rm*)",
+      "Bash(*supabase db push*)",
+      "Bash(*supabase db reset*)",
+      "Bash(*supabase functions deploy*)",
+      "Bash(*supabase secrets set*)",
+      "PowerShell(*supabase db push*)",
+      "PowerShell(*supabase db reset*)",
+      "PowerShell(*supabase functions deploy*)",
+      "PowerShell(*supabase secrets set*)",
+      "Bash(*eas build*)",
+      "Bash(*eas submit*)",
+      "Bash(*eas update*)",
+      "PowerShell(*eas build*)",
+      "PowerShell(*eas submit*)",
+      "PowerShell(*eas update*)",
+      "Bash(*gh pr merge*)",
+      "Bash(*gh release create*)",
+      "Bash(*gh repo delete*)",
+      "PowerShell(*gh pr merge*)",
+      "PowerShell(*gh release create*)",
+      "PowerShell(*gh repo delete*)",
+      "Bash(*gh pr create*)",
+      "Bash(*gh pr comment*)",
+      "Bash(*gh pr review*)",
+      "Bash(*gh pr close*)",
+      "Bash(*gh pr edit*)",
+      "Bash(*gh issue create*)",
+      "Bash(*gh issue comment*)",
+      "Bash(*gh issue close*)",
+      "Bash(*gh issue edit*)",
+      "Bash(*gh issue delete*)",
+      "Bash(*gh repo create*)",
+      "Bash(*gh repo edit*)",
+      "Bash(*gh repo rename*)",
+      "Bash(*gh repo archive*)",
+      "Bash(*gh release delete*)",
+      "Bash(*gh release edit*)",
+      "Bash(*gh release upload*)",
+      "Bash(*gh secret set*)",
+      "Bash(*gh secret delete*)",
+      "Bash(*gh variable set*)",
+      "Bash(*gh variable delete*)",
+      "Bash(*gh workflow run*)",
+      "Bash(*gh workflow enable*)",
+      "Bash(*gh workflow disable*)",
+      "Bash(*gh run rerun*)",
+      "Bash(*gh gist create*)",
+      "Bash(*gh gist edit*)",
+      "Bash(*gh gist delete*)",
+      "Bash(*gh api*-X *)",
+      "Bash(*gh api*--method*)",
+      "Bash(*gh api*-f *)",
+      "Bash(*gh api*-F *)",
+      "Bash(*gh api*--field*)",
+      "Bash(*gh api*--raw-field*)",
+      "Bash(*gh api*--input*)",
+      "Bash(*gh ssh-key add*)",
+      "Bash(*gh gpg-key add*)",
+      "Bash(*gh auth refresh*)",
+      "PowerShell(*gh pr create*)",
+      "PowerShell(*gh pr comment*)",
+      "PowerShell(*gh pr review*)",
+      "PowerShell(*gh pr close*)",
+      "PowerShell(*gh pr edit*)",
+      "PowerShell(*gh issue create*)",
+      "PowerShell(*gh issue comment*)",
+      "PowerShell(*gh issue close*)",
+      "PowerShell(*gh issue edit*)",
+      "PowerShell(*gh issue delete*)",
+      "PowerShell(*gh repo create*)",
+      "PowerShell(*gh repo edit*)",
+      "PowerShell(*gh repo rename*)",
+      "PowerShell(*gh repo archive*)",
+      "PowerShell(*gh release delete*)",
+      "PowerShell(*gh release edit*)",
+      "PowerShell(*gh release upload*)",
+      "PowerShell(*gh secret set*)",
+      "PowerShell(*gh secret delete*)",
+      "PowerShell(*gh variable set*)",
+      "PowerShell(*gh variable delete*)",
+      "PowerShell(*gh workflow run*)",
+      "PowerShell(*gh workflow enable*)",
+      "PowerShell(*gh workflow disable*)",
+      "PowerShell(*gh run rerun*)",
+      "PowerShell(*gh gist create*)",
+      "PowerShell(*gh gist edit*)",
+      "PowerShell(*gh gist delete*)",
+      "PowerShell(*gh api*-X *)",
+      "PowerShell(*gh api*--method*)",
+      "PowerShell(*gh api*-f *)",
+      "PowerShell(*gh api*-F *)",
+      "PowerShell(*gh api*--field*)",
+      "PowerShell(*gh api*--raw-field*)",
+      "PowerShell(*gh api*--input*)",
+      "PowerShell(*gh ssh-key add*)",
+      "PowerShell(*gh gpg-key add*)",
+      "PowerShell(*gh auth refresh*)",
+      "Bash(*postiz posts*)",
+      "PowerShell(*postiz posts*)",
+      "Bash(*ll.py gate arm*)",
+      "Bash(*ll.py approve*)",
+      "Bash(*ll.py restore*)",
+      "Bash(*ll.py pin*)",
+      "Bash(*ll.py unpin*)",
+      "Bash(*ll.py archive*)",
+      "Bash(*ll.py edit*)",
+      "Bash(*ll.py quarantine release*)",
+      "Bash(*ll.py quarantine drop*)",
+      "Bash(*ll.py curate --apply*)",
+      "PowerShell(*ll.py gate arm*)",
+      "PowerShell(*ll.py approve*)",
+      "PowerShell(*ll.py restore*)",
+      "PowerShell(*ll.py pin*)",
+      "PowerShell(*ll.py unpin*)",
+      "PowerShell(*ll.py archive*)",
+      "PowerShell(*ll.py edit*)",
+      "PowerShell(*ll.py quarantine release*)",
+      "PowerShell(*ll.py quarantine drop*)",
+      "PowerShell(*ll.py curate --apply*)",
+      "mcp__955dd8a6-070c-4e23-ab77-15bb3d0b7bef__share_file",
+      "mcp__955dd8a6-070c-4e23-ab77-15bb3d0b7bef__trash_file",
+      "mcp__955dd8a6-070c-4e23-ab77-15bb3d0b7bef__update_file",
+      "mcp__f3a19ff1-8cdb-4693-91c1-a9a2c332e7d9__create_event",
+      "mcp__f3a19ff1-8cdb-4693-91c1-a9a2c332e7d9__update_event",
+      "mcp__f3a19ff1-8cdb-4693-91c1-a9a2c332e7d9__delete_event",
+      "mcp__f3a19ff1-8cdb-4693-91c1-a9a2c332e7d9__respond_to_event",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__delete_component",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__delete_template",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__delete_theme",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__remove_component_from_catalog",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__submit_component",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__resubmit_component",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__withdraw_component",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__edit_profile",
+      "mcp__3c64b350-1a93-4e3f-80dd-1c64285e4305__upload_profile_media",
+      "mcp__ccd_session_mgmt__delete_session",
+      "mcp__scheduled-tasks__create_scheduled_task",
+      "mcp__scheduled-tasks__update_scheduled_task",
+      "Bash(*lessons.jsonl*)",
+      "PowerShell(*lessons.jsonl*)",
+      "Bash(*ledger.jsonl*)",
+      "PowerShell(*ledger.jsonl*)",
+      "Bash(*quarantine.jsonl*)",
+      "PowerShell(*quarantine.jsonl*)",
+      "Bash(*learning*gates*)",
+      "PowerShell(*learning*gates*)",
+      "Bash(*learning*config.json*)",
+      "PowerShell(*learning*config.json*)"
+    ],
+    "deny": [
+      "Agent(accounts-payable-agent)",
+      "Agent(carousel-growth-engine)",
+      "Agent(report-distribution-agent)",
+      "Bash(*gh auth token*)",
+      "PowerShell(*gh auth token*)",
+      "Bash(*--show-token*)",
+      "PowerShell(*--show-token*)"
+    ]
+  },
+  "env": {
+    "VERCEL_PLUGIN_TELEMETRY": "off",
+    "ENABLE_STOP_REVIEW": "0"
+  },
+  "model": "opus[1m]",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py hook SessionStart",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py index",
+            "timeout": 120,
+            "async": true
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py hook UserPromptSubmit",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py hook PreToolUse",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py hook PostToolUseFailure",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py hook Stop",
+            "timeout": 1800,
+            "statusMessage": "Lernloop und Prüf-Gate"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py hook PreCompact",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Users/hanne/.claude/learning/ll.py hook SessionEnd",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "commercial-legal@claude-for-legal": true,
+    "privacy-legal@claude-for-legal": true,
+    "product-legal@claude-for-legal": true,
+    "corporate-legal@claude-for-legal": false,
+    "employment-legal@claude-for-legal": false,
+    "regulatory-legal@claude-for-legal": false,
+    "ai-governance-legal@claude-for-legal": true,
+    "litigation-legal@claude-for-legal": false,
+    "law-student@claude-for-legal": false,
+    "legal-clinic@claude-for-legal": false,
+    "legal-builder-hub@claude-for-legal": false,
+    "ip-legal@claude-for-legal": true,
+    "cocounsel-legal@claude-for-legal": false,
+    "context7@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "vercel@claude-plugins-official": true,
+    "supabase@claude-plugins-official": true,
+    "expo@claude-plugins-official": false,
+    "codex@openai-codex": true,
+    "cc-safety-net@cc-marketplace": true,
+    "small-business@inline": false,
+    "sales@inline": false,
+    "finance@inline": false,
+    "marketing@inline": false,
+    "activecampaign@inline": false,
+    "postiz@inline": false,
+    "product-tracking-skills@inline": false,
+    "enterprise-search@inline": false,
+    "productivity@inline": false,
+    "product-management@inline": false
+  },
+  "extraKnownMarketplaces": {
+    "claude-for-legal": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-for-legal"
+      }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "cc-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "kenryu42/cc-marketplace"
+      }
+    }
+  },
+  "effortLevel": "xhigh",
+  "agentPushNotifEnabled": true
+}

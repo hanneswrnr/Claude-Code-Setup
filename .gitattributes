@@ -1,0 +1,2 @@
+# Dateien byte-genau speichern: restore.py prüft SHA-256-Prüfsummen, eine Zeilenende-Umwandlung würde sie brechen.
+* -text
