@@ -67,7 +67,7 @@ Das Scharfschalten fragt den Nutzer nach Bestätigung und zeigt ihm die Prüfung
 
 - Tests, Prüfungen oder Schwellenwerte abschwächen, überspringen oder löschen, um grün zu werden, ist verboten.
 - Flackernde Prüfungen zuerst stabilisieren, sonst dreht der Loop leer.
-- Nach zwei Runden ohne Fortschritt stoppen und berichten statt weiterzuprobieren.
+- Nach zwei Runden ohne Fortschritt nicht dasselbe wiederholen, sondern einen noch nicht versuchten Weg nehmen, solange das Budget reicht; sonst stoppen und berichten.
 - Screenshot-Vergleiche nur gegen Referenzbilder vom selben Betriebssystem: Windows rendert anders als Linux in der CI.
 - Kein Loop ohne Budget. Verbrauch mit `/usage` und `/goal` (ohne Argument) im Blick behalten.
 - Innerhalb eines Loops nie deployen, veröffentlichen, bezahlen, löschen oder Nachrichten senden ohne Freigabe des Nutzers.

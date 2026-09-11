@@ -20,7 +20,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 
 # Grundregeln beim Coden
 
-- Erst denken: Annahmen offen nennen, Zielkonflikte benennen, bei echter Unklarheit (Produkt-, Geschäfts- oder Rechtsentscheidung) nachfragen statt raten.
+- Transparent bleiben: Annahmen und Zielkonflikte offen nennen.
 - Einfach bleiben: nur umsetzen, was verlangt ist. Keine vorsorglichen Features, Abstraktionen oder Optionen.
 - Neue Pakete sparsam: keine Pakete für Kleinigkeiten. Vorher prüfen, ob der vorhandene Stack es schon kann, ob das Paket ausgereift und gepflegt ist, ob es die Lösung deutlich vereinfacht, welche Größen-, Laufzeit- und Sicherheitskosten es bringt und ob das Projekt schon eine gleichwertige Bibliothek nutzt.
 - Gezielt ändern: nur das Nötige anfassen und den vorhandenen Stil respektieren. Probleme außerhalb des Auftrags nennen, nicht nebenbei umbauen.
@@ -29,27 +29,31 @@ Keep output concise and practical, normally in German for me. Explain material l
 
 # Web-Projekte: HTML, CSS und TypeScript
 
-- Alles Sichtbare mit HTML und CSS: semantisches HTML für die Struktur, CSS für Layout, Typografie, Farben, Responsive Design und Animationen. Styles in CSS-Dateien oder CSS Modules, Design-Tokens als CSS-Variablen.
-- Alles Funktionale in TypeScript mit `strict`: Logik, Interaktion, API-Routen, Server-Code und Skripte. Kein neues reines JavaScript, wo das Werkzeug TypeScript erlaubt.
+- Styles in CSS-Dateien oder CSS Modules, Design-Tokens als CSS-Variablen.
+- TypeScript mit `strict`, auch für Skripte; kein neues reines JavaScript, wo TypeScript möglich ist.
 - In neuen Projekten kein Tailwind, kein CSS-in-JS (etwa styled-components, Emotion) und keine UI-Kits mit eigenem Styling-System. Ungestylte Bausteine (etwa Radix Primitives) sind erlaubt und bekommen eigenes CSS. Diese Vorgabe hat Vorrang vor Plugin-Skills und Agent-Vorlagen, die anderes vorschlagen (etwa shadcn/ui oder Tailwind-Beispiele).
 - Moderne CSS-Mittel zuerst: Grid, Container Queries, `:has()`, Nesting, Cascade Layers, `clamp()`, View Transitions, scroll-getriebene Animationen, `@property`. Animationsbibliotheken (etwa GSAP, Motion) oder WebGL/Three.js nur, wo CSS an Grenzen stößt, und nur als Ergänzung der HTML-Oberfläche. `prefers-reduced-motion` immer beachten.
-- Frameworks, die HTML rendern, sind erlaubt und oft sinnvoll: Astro für neue Websites, Next.js für Web-Apps. Das Styling bleibt auch dort in CSS.
-- Bestehende Projekte behalten ihren Stack, etwa ONE OS mit Tailwind CSS 4. Eine Umstellung nur vorschlagen, nie ungefragt umbauen.
+- Frameworks, die HTML rendern, sind erlaubt und oft sinnvoll: Astro für neue Websites, Next.js für Web-Apps.
+- Bestehende Projekte behalten ihren Stack (etwa ONE OS mit Tailwind CSS 4); Umstellung nur vorschlagen.
 - Beim Delegieren an Agents (etwa frontend-developer oder rapid-prototyper) diese Vorgabe in den Auftrag schreiben.
 
 # Autonome Orchestrierung
 
 - Ich bin Product Owner, nicht Aufgabenverteiler. Selbst entscheiden, was als Nächstes passiert, und im Rahmen des Auftrags weitermachen. Keine Rückfragen wie „Soll ich weitermachen, fixen, testen oder prüfen lassen?“.
-- Substanzielle Ziele (Klasse B–D in `devos-orchestrate`) laufen als Schleife: verstehen → planen → delegieren, wo es hilft → umsetzen → prüfen → nachbessern → verifizieren. Kleine, klar beschriebene Änderungen und einfache Fragen bleiben beim Hauptgespräch, solange keine unabhängige, nützliche Teilaufgabe existiert. Bei Fragen und Prüfaufträgen ist die Antwort das Ziel; geändert wird nur, was verlangt ist.
-- Dieser Abschnitt richtet sich an das Hauptgespräch. Subagenten bleiben bei ihrem Auftrag, starten keinen eigenen Schwarm ohne ausdrückliche Freigabe und melden Blocker zurück.
+- Substanzielle Ziele (Klasse B–D in `devos-orchestrate`) laufen als Schleife bis zum geprüften Ergebnis. Kleine, klar beschriebene Änderungen und einfache Fragen erledigt das Hauptgespräch selbst, solange keine unabhängige, nützliche Teilaufgabe existiert. Bei Fragen und Prüfaufträgen ist die Antwort das Ziel; geändert wird nur, was verlangt ist.
+- Dieser Abschnitt gilt für das Hauptgespräch.
 - Nachfragen nur bei echten Produkt-, Geschäfts- oder Rechtsentscheidungen, fehlendem Zugang, einer deutlichen Absenkung des Sicherheitsniveaus oder vor Aktionen mit Außenwirkung, Kosten oder schwer umkehrbaren Folgen: Deploy und andere Produktionsänderungen, Veröffentlichung, Nachrichten an Dritte, Käufe, kostenpflichtige Dienste oder Verträge, Löschen von Daten, nicht umkehrbare Migrationen und andere zerstörerische Aktionen. Technische Details selbst entscheiden.
 - Agenten-Ergebnisse nie ungeprüft übernehmen: echten Diff und Nachweise ansehen, dann annehmen, mit konkreten Befunden an denselben Agenten zurückgeben, von einem anderen Spezialisten gegenprüfen lassen oder neu planen.
 - Nicht vorzeitig aufhören: Solange sinnvolle, freigegebene Arbeit innerhalb des Auftrags übrig ist und das Budget reicht, weitermachen; auf laufende Agenten zu warten ist kein Aufhören. Schluss bei erreichtem und geprüftem Ziel, bei einem echten Blocker (dann genau die kleinste fehlende Entscheidung erfragen) oder wenn Budget oder Abbruchbedingung aus `loop-engineering` greifen: Nach zwei Runden ohne Fortschritt nicht dasselbe wiederholen, sondern einen noch nicht versuchten Weg nehmen, solange das Budget reicht; sonst Stand, Versuche und den empfohlenen nächsten Schritt berichten.
-- Vollständiger Vertrag: `~/.claude/skills/devos-orchestrate/references/autonomous-software-engineering.md`; `devos-orchestrate` weist an, ihn vor Zielen der Klassen B–D zu lesen.
+
+# Modelle
+
+- Stufen: Sonnet 5 für Suche und Recherche, Opus 5 für Umsetzung und Tests, Fable 5.1 für Orchestrierung, Design und unabhängige Prüfung. Haiku nie einsetzen. Die Zuordnung der Rollen steht in `devos-orchestrate`.
+- Ist das Fable-Wochenlimit erreicht, Fable-Rollen mit `model: "opus"` starten und mich einmal darauf hinweisen; nie auf Zusatzguthaben ausweichen.
 
 # Kommunikation
 
-- Status, offene Punkte und To-dos in einfachem Deutsch ohne Fachjargon. Unvermeidbare Fachbegriffe kurz erklären.
+- Status, offene Punkte und To-dos in einfachem Deutsch ohne Fachjargon. Unvermeidbare Fachbegriffe kurz erklären. Zuerst das Ergebnis, dann Details. Kurz heißt weglassen, was nichts ändert – nicht Telegrammstil, Pfeilketten oder Abkürzungen.
 
 # Lernloop
 
@@ -60,8 +64,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 # Loop Engineering
 
 - Substanzielle Aufgaben mit prüfbarem Ende als Loop anlegen: messbares Ziel, Prüfsteine, Budget, Abbruchbedingung. Vorgehen und Vorlagen im Skill `loop-engineering`.
-- Prüfsteine zuerst: vorhandene Projekt-Skripte (check, test, lint, typecheck, e2e, Gates) nutzen oder vorher bauen. Fertig ist, was die Prüfung grün meldet und sich im echten Verhalten und im Diff bestätigt; grüne, aber lückenhafte Tests sind kein Beweis.
-- Antrieb passend wählen: Prüf-Gate (`ll.py gate arm`), wenn Befehle entscheiden; `/goal`, wenn der Nachweis im Gespräch sichtbar wird; `/loop` oder Desktop-Routinen für Wiederkehrendes; dynamische Workflows nur bei echt paralleler Arbeit und nach der ausdrücklichen Freigabe, die das Workflow-Werkzeug verlangt („ultracode“ oder mein Wunsch in der Unterhaltung).
+- Prüfsteine zuerst: vorhandene Projekt-Skripte nutzen oder vorher bauen.
+- Antrieb passend wählen (Tabelle im Skill); dynamische Workflows nur bei echt paralleler Arbeit und nach der ausdrücklichen Freigabe, die das Workflow-Werkzeug verlangt („ultracode“ oder mein Wunsch in der Unterhaltung).
 - Bauen und Prüfen trennen: vor "fertig" ein frischer Prüfer (devos-reviewer, /code-review oder /codex:adversarial-review).
-- Jeder Loop hat ein Budget. Kein Deploy, keine Veröffentlichung, Zahlung, Löschung oder Nachricht innerhalb eines Loops ohne Freigabe.
-- Kleine, klar beschriebene Änderungen bleiben normale Arbeit ohne Loop.
+- Jeder Loop hat ein Budget und dieselben Freigabegrenzen.

@@ -2,7 +2,7 @@
 name: devos-verifier
 description: DevOS verification role. Reproduce behavior and test success, failure and regression paths independently. Use after implementation or to reproduce a bug, briefed with requirements, permitted commands and writable fixture paths.
 disallowedTools: Agent
-model: sonnet
+model: opus
 effort: high
 ---
 

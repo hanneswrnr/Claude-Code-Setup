@@ -1,4 +1,10 @@
 {
+  "env": {
+    "VERCEL_PLUGIN_TELEMETRY": "off",
+    "ENABLE_STOP_REVIEW": "0",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "opus",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5"
+  },
   "permissions": {
     "allow": [
       "Bash(python C:/Users/hanne/.claude/learning/ll.py add *)",
@@ -12,6 +18,15 @@
       "Bash(python C:/Users/hanne/.claude/learning/ll.py curate)",
       "Bash(python C:/Users/hanne/.claude/learning/ll.py gate status)",
       "Bash(python C:/Users/hanne/.claude/learning/ll.py gate off)"
+    ],
+    "deny": [
+      "Agent(accounts-payable-agent)",
+      "Agent(carousel-growth-engine)",
+      "Agent(report-distribution-agent)",
+      "Bash(*gh auth token*)",
+      "PowerShell(*gh auth token*)",
+      "Bash(*--show-token*)",
+      "PowerShell(*--show-token*)"
     ],
     "ask": [
       "Edit(~/.claude/learning/**)",
@@ -193,22 +208,9 @@
       "PowerShell(*learning*gates*)",
       "Bash(*learning*config.json*)",
       "PowerShell(*learning*config.json*)"
-    ],
-    "deny": [
-      "Agent(accounts-payable-agent)",
-      "Agent(carousel-growth-engine)",
-      "Agent(report-distribution-agent)",
-      "Bash(*gh auth token*)",
-      "PowerShell(*gh auth token*)",
-      "Bash(*--show-token*)",
-      "PowerShell(*--show-token*)"
     ]
   },
-  "env": {
-    "VERCEL_PLUGIN_TELEMETRY": "off",
-    "ENABLE_STOP_REVIEW": "0"
-  },
-  "model": "opus[1m]",
+  "model": "fable",
   "hooks": {
     "SessionStart": [
       {
@@ -355,6 +357,16 @@
       }
     }
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-sonnet-5": {
+      "maxEffortLevel": "high"
+    }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "python C:/Users/hanne/.claude/statusline.py"
+  },
+  "theme": "dark",
   "agentPushNotifEnabled": true
 }

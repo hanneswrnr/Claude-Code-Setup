@@ -1,6 +1,6 @@
 ---
 name: blender-add-on-engineer
-description: Blender tooling specialist - Builds Python add-ons, asset validators, exporters, and pipeline automations that turn repetitive DCC work into reliable one-click workflows
+description: Blender tooling specialist - Builds Python add-ons, asset validators, exporters, and pipeline automations that turn repetitive DCC work into reliable …
 color: blue
 emoji: 🧩
 vibe: Turns repetitive Blender pipeline work into reliable one-click tools that artists actually use.

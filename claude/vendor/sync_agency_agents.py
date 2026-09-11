@@ -9,10 +9,12 @@
   python sync_agency_agents.py --all            clear a saved selection
   python sync_agency_agents.py --force          also overwrite/remove managed agents you edited locally
   python sync_agency_agents.py --uninstall      remove every agent this script installed
+  python sync_agency_agents.py --max-description 0   keep upstream descriptions in full (default: cap at 160 characters)
 
 Claude Code compatibility transforms (everything else is copied verbatim):
   name   slugified exactly like upstream scripts/lib.sh ("AI Engineer" -> "ai-engineer")
   color  mapped to a Claude Code color (red/blue/green/yellow/purple/orange/pink/cyan), dropped if unmappable
+  description  shortened to --max-description characters (multi-line descriptions are joined first)
 Only files recorded in the manifest are ever overwritten or deleted.
 """
 import argparse
@@ -81,17 +83,48 @@ def frontmatter_field(text, key):
     return found.group(1).strip("\"'") if found else None
 
 
-def transform(text):
+def shorten(value, cap):
+    """Cut an over-long description at a sentence or word boundary (the agent body is not touched)."""
+    quote = value[:1] if value[:1] in ("\"", "'") and len(value) > 1 and value.endswith(value[:1]) else ""
+    inner = value[1:-1] if quote else value
+    if cap <= 0 or len(inner) <= cap:
+        return value
+    end = max(inner.rfind(mark, 0, cap + 1) for mark in (". ", "! ", "? "))
+    if end >= cap * 2 // 3:  # a sentence end late enough to keep most of the budget
+        short = inner[:end + 1]
+    else:  # word boundary; reserve room for " …" so the result stays within cap
+        window = inner[:max(0, cap - 1)]
+        cut = window.rfind(" ")
+        short = (window[:cut] if cut > 0 else inner[:max(0, cap - 2)]).rstrip(" ,;:") + " …"
+    return quote + short.strip() + quote
+
+
+def transform(text, cap=0):
     """Return (new_text, slug), or (None, None) when the file is not an agent definition."""
     m = FRONTMATTER.match(text)
     if not m:
         return None, None
     slug, out = None, []
-    for line in m.group(1).splitlines(keepends=True):
+    lines = m.group(1).splitlines(keepends=True)
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        i += 1
         content = line.rstrip("\r\n")
         eol = line[len(content):] or "\n"
         key, _, value = content.partition(":")
-        if key == "name":
+        if key == "description":
+            block = [line]
+            while i < len(lines) and lines[i][:1] in (" ", "\t"):  # multi-line (folded) description
+                block.append(lines[i])
+                i += 1
+            if value.strip()[:1] in ("|", ">"):  # block scalar: keep verbatim
+                out.extend(block)
+                continue
+            full = " ".join([value.strip()] + [b.strip() for b in block[1:]]).strip()
+            short = shorten(full, cap)
+            out.extend(block if short == full else ["description: " + short + eol])
+        elif key == "name":
             slug = slugify(value.strip().strip("\"'"))
             out.append("name: " + slug + eol)
         elif key == "color":
@@ -131,6 +164,8 @@ def main():
     sel.add_argument("--all", action="store_true", help="clear a saved --only/--exclude selection")
     ap.add_argument("--force", action="store_true", help="overwrite/remove managed agents edited locally")
     ap.add_argument("--uninstall", action="store_true", help="remove every agent this script installed")
+    ap.add_argument("--max-description", type=int, default=160, metavar="N",
+                    help="cap agent descriptions at N characters, 0 = verbatim; the agent body is copied unchanged")
     args = ap.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -191,6 +226,7 @@ def main():
             if name:
                 foreign[slugify(name)] = p.name
 
+    cap = max(0, args.max_description)
     planned, skipped, seen = {}, [], {}
     for div in chosen:
         for src in sorted((REPO / div).rglob("*.md")):
@@ -198,7 +234,7 @@ def main():
             if not raw.startswith(b"---"):
                 continue
             rel = src.relative_to(REPO).as_posix()
-            text, slug = transform(raw.decode("utf-8", errors="replace"))
+            text, slug = transform(raw.decode("utf-8", errors="replace"), cap)
             if not slug:
                 skipped.append((rel, "no name in frontmatter"))
             elif slug in RESERVED:

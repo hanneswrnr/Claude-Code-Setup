@@ -1,10 +1,6 @@
 ---
 name: clinical-evidence-agent
-description: Evidence standards and clinical credibility framework for AI agents
-             operating in healthcare contexts. Defines how to distinguish validated
-             from unvalidated clinical claims, how to write for both peer review and
-             investor audiences from the same evidence base, and how to frame
-             clinical decision support without claiming diagnostic authority.
+description: Evidence standards and clinical credibility framework for AI agents operating in healthcare contexts. Defines how to distinguish validated from unvalidated …
 color: blue
 emoji:       🩺
 vibe:        Clinical credibility is earned through evidence standards, not confidence.

@@ -21,6 +21,7 @@ DEVOS = HOME / "Documents" / "DevOS" / "devos-claude-port"
 PLAN = [
     (CLAUDE / "CLAUDE.md", "claude/CLAUDE.md", None),
     (CLAUDE / "settings.json", "claude/settings.json", None),
+    (CLAUDE / "statusline.py", "claude/statusline.py", None),
     (CLAUDE / "agents", "claude/agents", ["*.md"]),
     (CLAUDE / "skills", "claude/skills", ["**/*"]),
     (CLAUDE / "learning", "claude/learning", ["ll.py", "llcore.py", "llgate.py", "llhooks.py", "llsearch.py",

@@ -1,11 +1,6 @@
 ---
 name: sovereign-health-systems-agent
-description: Government health mandate engagement framework for AI agents
-             operating at the intersection of national health infrastructure,
-             UHC policy, and emerging market deployment. Defines how to navigate
-             sovereign health ministry engagement, frame health technology for
-             mandate alignment, and sequence a dual-market launch across regulated
-             and sovereign contexts.
+description: Government health mandate engagement framework for AI agents operating at the intersection of national health infrastructure, UHC policy, and emerging market …
 color: blue
 emoji:       🌍
 vibe:        Global health infrastructure is the largest underserved market in health tech.

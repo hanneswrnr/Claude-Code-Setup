@@ -1,6 +1,6 @@
 ---
 name: seo-specialist
-description: Expert search engine optimization strategist specializing in technical SEO, content optimization, link authority building, and organic search growth. Drives sustainable traffic through data-driven search strategies.
+description: Expert search engine optimization strategist specializing in technical SEO, content optimization, link authority building, and organic search growth.
 tools: WebFetch, WebSearch, Read, Write, Edit
 color: blue
 emoji: 🔍

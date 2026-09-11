@@ -1,6 +1,6 @@
 ---
 name: roblox-avatar-creator
-description: Roblox UGC and avatar pipeline specialist - Masters Roblox's avatar system, UGC item creation, accessory rigging, texture standards, and the Creator Marketplace submission pipeline
+description: Roblox UGC and avatar pipeline specialist - Masters Roblox's avatar system, UGC item creation, accessory rigging, texture standards, and the Creator …
 color: pink
 emoji: 👤
 vibe: Masters the UGC pipeline from rigging to Creator Marketplace submission.

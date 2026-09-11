@@ -1,6 +1,6 @@
 ---
 name: discovery-coach
-description: Coaches sales teams on elite discovery methodology — question design, current-state mapping, gap quantification, and call structure that surfaces real buying motivation.
+description: Coaches sales teams on elite discovery methodology — question design, current-state mapping, gap quantification, and call structure that surfaces real buying …
 color: blue
 emoji: 🔍
 vibe: Asks one more question than everyone else — and that's the one that closes the deal.

@@ -32,3 +32,30 @@ Notes:
 ## Rollback
 
 Copy the files from the backup folder back to `~/.claude/` and delete `skills/devos-orchestrate/references/autonomous-software-engineering.md`. For `CLAUDE.md`: the backup `CLAUDE.md` is the state before the integration and does not contain the later Web section; `CLAUDE.md.vor-runde2-mit-web-abschnitt` contains the Web section but also round one of this change. To undo the integration and keep the Web section, restore `CLAUDE.md` and re-insert the section „# Web-Projekte: HTML, CSS und TypeScript" from the other file. A new Claude Code session is needed for any change to take effect.
+
+## 2026-09-11 (evening) — Claude 5 model tiers and prompt audit
+
+The user asked for a token-efficient setup at maximum quality with a Codex-style tier system, researched on X and in Anthropic's documentation (current model generation only, no Haiku), and chose Fable 5.1 at high effort as the main model. The installed files below were changed afterwards; `port-manifest.json` and the bundle copies stay untouched.
+
+- Model tiers: `devos-explorer` and `devos-researcher` sonnet/high; `devos-worker`, `devos-verifier` and `devos-platform` opus/high; `devos-designer` fable/high; `devos-reviewer` and `devos-security` fable/xhigh. The section "Model routing" in `devos-orchestrate` describes the tiers, generic specialists on opus, and the fallback to `model: "opus"` for the Fable roles when the weekly Fable limit is used up. The reviewer escalation through `devos-review.settings.json` is obsolete.
+- `/claude-api prompt-audit`, approved findings applied: duplicated German rules and step lists removed from `CLAUDE.md` (the DEVOS block is byte-identical) and a short section „Modelle“ added; self-check rituals removed from worker and platform; reviewer and security report every issue with a confidence level; the full contract is read by relevant section instead of completely for every B–D objective; the "two rounds without progress" rule now matches `CLAUDE.md` everywhere (take an untried route while the budget allows).
+- Backup before the change: `%USERPROFILE%\Documents\DevOS\backups\2026-09-11-modellstufen\`. Its `skills\devos-orchestrate\SKILL.md` is the hash-verified state `20c0f2f7…` from the table above.
+- Copies after the change: `local-changes/2026-09-11-modellstufen/` next to this note.
+- Changed in the same step outside the port: `settings.json` (model, effortLevel, env `CLAUDE_CODE_SUBAGENT_MODEL` and `ANTHROPIC_DEFAULT_HAIKU_MODEL`, `modelSettings`, `statusLine`), `statusline.py`, `skills/loop-engineering/SKILL.md` and the agency description cap in `vendor/sync_agency_agents.py`.
+
+| Installed file (`~/.claude/…`) | Change | SHA-256 after the change |
+|---|---|---|
+| `CLAUDE.md` | Prompt audit of the German sections; new section „Modelle“; after the independent review the rule that small, clearly described changes stay with the main conversation was restored | `012ab2d997551bf0120e45730ed62379bf753f40164c21f6caf8d7e79858bd70` |
+| `skills/devos-orchestrate/SKILL.md` | Model routing with Claude 5 tiers and Fable-limit fallback; prompt audit (contract read by section, stop rule, brief points, completion sentence); after the review: cache claim limited to Fable 5.1, fallback wording, cheap Sonnet work only through the effort-pinned roles | `ea721fdd2674d2293b6fb30a545ffd7ddd6e99b5b19e3472693e351bc8eeba03` |
+| `skills/devos-experience/SKILL.md` | Web stack by reference to CLAUDE.md; merged AI-look list; shorter SEO checklist | `f48a50037a942e216b24eeee3d08a4ed2533bd6ff799ded69f475e3b1910f451` |
+| `skills/devos-verify/SKILL.md` | Step-sequence sentence removed | `979df9e70e186cd07390184c66b58ce63efe984570631c9978cf5d4a4afe4eb0` |
+| `agents/devos-worker.md` | opus/high; self-check ritual removed | `af2cdff772125e68ba40ea00b6f5ffdfe63003c75897ba66c7964acb9efe5136` |
+| `agents/devos-platform.md` | opus/high; self-check ritual removed | `1df3a75132da72ebddc76542abf08e3d356c07ff71c0c9c16510d8ac498169b5` |
+| `agents/devos-verifier.md` | opus/high | `feab4d54d0d905db2c54c54a6b412194fd8d028d124c1e4840d33568c75358a5` |
+| `agents/devos-designer.md` | fable/high; duplicates of the preloaded devos-experience rules removed | `71f71f4885dd82423e2f40e76c04a75ca3d400db53f5879aa8df3af17a5ba8ce` |
+| `agents/devos-reviewer.md` | fable/xhigh; one dimension list; report every issue with confidence | `917941f8e522d9cdf44c6bbf7c5d425f7b00ec925e149d291519a750f1a0caed` |
+| `agents/devos-security.md` | fable/xhigh; report every suspected issue with confidence | `8eb0bb5a46f75607a05373c71c5e5349e56713c87d4b2a91f82cf70f58f4ad92` |
+| `agents/devos-explorer.md` | sonnet/high; shorter read-only rule including shell commands | `8c92a9653d6bddb4c787cfc8c341066a6c70432695a2af423101ecb5d72c7537` |
+| `agents/devos-researcher.md` | sonnet/high; redundant read-only sentence removed | `91008ae91fb7ab0dcc40b0c066dff799771ec09cc3a7a723b178fb56800303c4` |
+
+Rollback: copy `CLAUDE.md`, the agent files, the four skill files, `settings.json` and `statusline.py` from the backup folder back to `~/.claude/`, and restore the agency agent files and `sync_agency_agents.py.before` from `%USERPROFILE%\Documents\DevOS\backups\2026-09-11-agent-descriptions\`. A new Claude Code session is needed for the change to take effect.

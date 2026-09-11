@@ -133,42 +133,52 @@ td:first-child { color: var(--muted); }
 .note { font-size: 0.92rem; color: var(--muted); max-width: 70ch; }
 .sources { columns: 2 280px; gap: 32px; margin: 0; padding-left: 18px; color: var(--muted); font-size: 0.92rem; }
 .sources li { break-inside: avoid; margin-bottom: 6px; }
+
+.ladder { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: 120px auto; column-gap: 24px; }
+.step { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 16px; }
+.t-sonnet { --tier: var(--seg5); }
+.t-opus { --tier: var(--seg3); }
+.t-fable { --tier: var(--seg1); }
+.step-bar { display: flex; align-items: flex-end; border-bottom: 1px solid var(--rule); }
+.step-bar span { display: block; width: 100%; height: calc(var(--h) * 1%); background: var(--tier); border-radius: 4px 4px 0 0; }
+.step-body { display: grid; gap: 10px; align-content: start; }
+.step-body h3 { font-size: 1.4rem; }
+.price { font: 500 0.86rem/1.3 var(--mono); font-variant-numeric: tabular-nums; color: var(--muted); }
+.roles { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 0.95rem; }
+.roles li { display: grid; gap: 1px; }
+.roles small { color: var(--muted); font-size: 0.84rem; }
 @media (max-width: 700px) {
   .row, .rec, .finding { grid-template-columns: 1fr; }
   .row .where, .cmd { grid-column: 1; }
   .finding .state { justify-self: start; }
   .m-row { grid-template-columns: minmax(0, 1fr) auto; }
   .m-bars { grid-column: 1 / -1; grid-row: 2; }
+  .ladder { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 32px; }
+  .step { grid-row: auto; grid-template-rows: auto auto; row-gap: 12px; }
+  .step-bar { border-bottom: 0; }
+  .step-bar span { width: calc(var(--h) * 1%); height: 8px; border-radius: 2px; }
 }
 </style>
 
 <main>
   <header>
-    <span class="eyebrow">Stand 11. September 2026 · nach der Gesamtprüfung · Hannes / Origin Labs</span>
+    <span class="eyebrow">Stand 11. September 2026 · nach Gesamtprüfung und Modellstufen · Hannes / Origin Labs</span>
     <h1>Dein Claude-Code-Setup</h1>
-    <p class="lead">Was eingebaut ist, was die Gesamtprüfung gefunden und repariert hat, wie Claude aus Fehlern lernt und in Schleifen arbeitet. Alles gilt global, also für laufende und neue Projekte.</p>
-    <div class="budget" role="group" aria-label="Kontext-Kosten pro Session">
+    <p class="lead">Was eingebaut ist, was die Gesamtprüfung gefunden und repariert hat, welches Modell wofür arbeitet, wie Claude aus Fehlern lernt und in Schleifen arbeitet. Alles gilt global, also für laufende und neue Projekte.</p>
+    <div class="budget" role="group" aria-label="Kontext-Kosten einer neuen Session">
       <div class="budget-top">
-        <span class="eyebrow">Was dein eigenes Setup pro Session im Arbeitsgedächtnis belegt</span>
-        <span class="budget-total">ca. 32.100 Tokens · 3,2 % von 1 Mio.</span>
+        <span class="eyebrow">Was eine neue Session auf Fable 5.1 im Arbeitsgedächtnis belegt</span>
+        <span class="budget-total">82.541 Tokens · 8,3 % von 1 Mio.</span>
       </div>
       <div class="bar" aria-hidden="true">
-        <span style="width:55.5%; background:var(--seg1)"></span>
-        <span style="width:22.1%; background:var(--seg3)"></span>
-        <span style="width:14.0%; background:var(--seg2)"></span>
-        <span style="width:4.4%; background:var(--seg4)"></span>
-        <span style="width:2.2%; background:var(--seg5)"></span>
-        <span style="width:1.8%; background:var(--seg6)"></span>
+        <span style="width:37.7%; background:var(--seg3)"></span>
+        <span style="width:62.3%; background:var(--seg1)"></span>
       </div>
       <ul class="legend">
-        <li><i style="background:var(--seg1)"></i>Agent-Liste <b>17.800</b></li>
-        <li><i style="background:var(--seg3)"></i>5 Legal-Plugins <b>7.100</b></li>
-        <li><i style="background:var(--seg2)"></i>Empfohlene Plugins <b>4.500</b></li>
-        <li><i style="background:var(--seg4)"></i>Regeln (CLAUDE.md) <b>1.400</b></li>
-        <li><i style="background:var(--seg5)"></i>Lektionen <b>700</b></li>
-        <li><i style="background:var(--seg6)"></i>Eigene Skills <b>600</b></li>
+        <li><i style="background:var(--seg3)"></i>schon im Zwischenspeicher <b>31.146</b></li>
+        <li><i style="background:var(--seg1)"></i>neu in den Zwischenspeicher geschrieben <b>51.393</b></li>
       </ul>
-      <p class="note">Expo (4.400) ist aus, bis ein App-Projekt startet. Dazu kommen die Plugins aus deinem claude.ai-Konto: In Code-Sessions laufen davon jetzt 6 statt 16.</p>
+      <p class="note">Gemessen am 11. September mit einer Test-Session nach allen Kürzungen. Enthalten sind die Grundanweisungen und Werkzeuge von Claude Code, die Agent-Liste, Plugins, CLAUDE.md und Lektionen. Heute gekürzt: Agent-Beschreibungen um 34 %, CLAUDE.md um 6 %. Die Aufteilung nach Posten aus der Gesamtprüfung ist ersetzt, weil sie teils geschätzt und mit einem anderen Modell gemessen war.</p>
     </div>
   </header>
 
@@ -401,6 +411,181 @@ td:first-child { color: var(--muted); }
     </div>
   </section>
 
+  <section aria-labelledby="modelle">
+    <div class="section-head">
+      <span class="eyebrow">Modellstufen · 11. September · Recherche auf X und in der Anthropic-Doku</span>
+      <h2 id="modelle">Das stärkste Modell führt, die Helfer arbeiten auf fester Stufe</h2>
+      <p>Wie die Stufen Luna, Sol und Astra in Codex, nur eine Stufe höher, weil Haiku 4.5 auf deinen Wunsch draußen bleibt. Du hast Fable 5.1 auf Effort high als Hauptmodell gewählt. Die Helfer bekommen feste Modelle, damit sie nicht still das teure Hauptmodell übernehmen: Das war in Praxisberichten der größte Verbraucher des Wochenlimits.</p>
+    </div>
+
+    <div class="ladder" role="list" aria-label="Modellstufen mit ihren Rollen">
+      <div class="step t-sonnet" role="listitem">
+        <div class="step-bar" aria-hidden="true"><span style="--h:20"></span></div>
+        <div class="step-body">
+          <span class="eyebrow">Stufe 1 · suchen und nachschlagen</span>
+          <h3>Sonnet 5</h3>
+          <p class="price">2 $ rein · 10 $ raus je Mio. Tokens</p>
+          <ul class="roles">
+            <li><code>devos-explorer</code><small>Code-Pfade kartieren</small></li>
+            <li><code>devos-researcher</code><small>aktuelle Doku prüfen</small></li>
+            <li><code>claude-code-guide</code><small>eingebauter Helfer, sonst Haiku</small></li>
+          </ul>
+          <span class="chip">Effort high · gedeckelt</span>
+        </div>
+      </div>
+      <div class="step t-opus" role="listitem">
+        <div class="step-bar" aria-hidden="true"><span style="--h:50"></span></div>
+        <div class="step-body">
+          <span class="eyebrow">Stufe 2 · bauen und testen</span>
+          <h3>Opus 5</h3>
+          <p class="price">5 $ rein · 25 $ raus je Mio. Tokens</p>
+          <ul class="roles">
+            <li><code>devos-worker</code>, <code>devos-verifier</code>, <code>devos-platform</code><small>Umsetzung, Gegentests, App- und Desktop-Technik</small></li>
+            <li>Agenten ohne eigene Vorgabe<small>die Agency-Spezialisten und general-purpose</small></li>
+            <li>Explore<small>folgt dem Hauptmodell, höchstens Opus 5</small></li>
+          </ul>
+          <span class="chip">Effort high</span>
+        </div>
+      </div>
+      <div class="step t-fable" role="listitem">
+        <div class="step-bar" aria-hidden="true"><span style="--h:100"></span></div>
+        <div class="step-body">
+          <span class="eyebrow">Stufe 3 · führen, gestalten, prüfen</span>
+          <h3>Fable 5.1</h3>
+          <p class="price">10 $ rein · 50 $ raus · Cache-Lesen 0,25 $</p>
+          <ul class="roles">
+            <li>Hauptgespräch<small>Orchestrator auf high, in schweren Phasen xhigh</small></li>
+            <li><code>devos-designer</code><small>Art Direction und Webdesign auf high</small></li>
+            <li><code>devos-reviewer</code>, <code>devos-security</code><small>unabhängige Prüfung auf xhigh</small></li>
+          </ul>
+          <span class="chip">Effort high · Prüfer xhigh</span>
+        </div>
+      </div>
+    </div>
+    <p class="note">Balkenhöhe: Listenpreis je Million Ausgabe-Tokens. Im Max-20x-Abo zahlst du nicht pro Token, der Verbrauch zählt gegen dein Limit. Fable 5.1 darf dabei höchstens die Hälfte des Wochenlimits nutzen.</p>
+
+    <div class="subhead">
+      <h3>Wenn das Fable-Fenster voll ist</h3>
+      <p>Fable 5.1 hat ein eigenes Wochenlimit, das zusätzlich im normalen Wochenbalken zählt. Ist es aufgebraucht, hält Claude Code an und bietet an, mit einem anderen Modell weiterzuarbeiten: dem Standardmodell deines Abos, voraussichtlich Opus 5. Automatisch wechselt es nicht. Weil Zusatzguthaben laut deinen Kontoeinstellungen aus ist, kostet dabei nichts extra.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Rolle</th><th>Normal</th><th>Fable-Limit erreicht</th></tr></thead>
+        <tbody>
+          <tr><td>Hauptgespräch</td><td>Fable 5.1 · high</td><td>Opus 5 · high: den Hinweis „Switch to … and continue“ bestätigen, wenn dort Opus 5 steht, sonst <code>/model opus</code></td></tr>
+          <tr><td><code>devos-reviewer</code>, <code>devos-security</code></td><td>Fable 5.1 · xhigh</td><td>Opus 5 · xhigh, der Orchestrator gibt Opus im Aufruf mit</td></tr>
+          <tr><td><code>devos-designer</code></td><td>Fable 5.1 · high</td><td>Opus 5 · high, ebenso</td></tr>
+          <tr><td>alle anderen Rollen</td><td>Opus 5 oder Sonnet 5</td><td>unverändert</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Nach dem wöchentlichen Zurücksetzen (bei dir derzeit freitags um 9 Uhr) starten neue Sessions wieder mit Fable 5.1; eine laufende Session holst du mit <code>/model fable</code> zurück. Den Fable-Stand zeigt nur die Nutzungsseite der App: Claude Code gibt ihn nicht an die Statusleiste weiter.</p>
+
+    <div class="subhead">
+      <h3>Was die Recherche ergeben hat</h3>
+      <p>Nur Quellen zu Fable 5.1, Opus 5 und Sonnet 5. Tipps aus der Opus-4.8-Zeit wie „immer xhigh“ gelten für die neuen Modelle nicht mehr.</p>
+    </div>
+    <div class="cols">
+      <ul class="habits">
+        <li><strong>Fable 5.1 ist das stärkste Modell</strong><span>Seit 1. September. Boris Cherny, Leiter von Claude Code, nutzt es nach eigener Aussage für alles.</span></li>
+        <li><strong>Mit high starten</strong><span>Die offizielle Empfehlung für die Claude-5-Modelle. Lydia Hallie von Anthropic arbeitet mit Fable 5.1 sogar standardmäßig auf medium.</span></li>
+        <li><strong>Effort wechseln ohne Neuaufbau</strong><span>Bei Fable 5.1 bleibt der Zwischenspeicher in Claude Code erhalten, wenn du den Effort mitten im Gespräch änderst.</span></li>
+      </ul>
+      <ul class="habits">
+        <li><strong>Helfer erben sonst das Hauptmodell</strong><span>Wer Fable als Chef nutzt und die Helfer nicht festlegt, verbraucht laut Praxisberichten sein Kontingent in kurzer Zeit.</span></li>
+        <li><strong>Anweisungen entrümpeln</strong><span>Anthropics Prüfwerkzeug <code>/claude-api prompt-audit</code> entfernt Sätze wie „prüfe alles doppelt“. In Anthropics Test: rund 15 % weniger Kosten und 5 % bessere Ergebnisse.</span></li>
+        <li><strong>Berater-Modus bleibt aus</strong><span><code>/advisor</code> lässt ein Hauptmodell ein mindestens gleich starkes fragen. Über Fable 5.1 gibt es kein stärkeres Modell.</span></li>
+      </ul>
+    </div>
+
+    <div class="subhead">
+      <h3>Was xhigh gegenüber high zusätzlich verbraucht</h3>
+      <p>Richtwerte aus der Modelltabelle von Claude Code 2.1.268. Deshalb bleibt xhigh den Prüfern und schweren Phasen vorbehalten, und Sonnet 5 läuft nie über high.</p>
+    </div>
+    <div class="measure" role="table" aria-label="Mehrverbrauch von xhigh gegenüber high">
+      <div class="m-row" role="row">
+        <div class="m-label" role="rowheader">Fable 5.1<small>auf max: +74 %</small></div>
+        <div class="m-bars" aria-hidden="true"><span class="m-after" style="width:27%"></span></div>
+        <div class="m-values" role="cell">+38 %</div>
+      </div>
+      <div class="m-row" role="row">
+        <div class="m-label" role="rowheader">Opus 5<small>auf max: +70 %</small></div>
+        <div class="m-bars" aria-hidden="true"><span class="m-after" style="width:42.6%"></span></div>
+        <div class="m-values" role="cell">+60 %</div>
+      </div>
+      <div class="m-row" role="row">
+        <div class="m-label" role="rowheader">Sonnet 5<small>auf max: +459 %</small></div>
+        <div class="m-bars" aria-hidden="true"><span class="m-after" style="width:100%"></span></div>
+        <div class="m-values" role="cell">+141 %</div>
+      </div>
+    </div>
+
+    <div class="subhead">
+      <h3>Was dafür eingestellt ist</h3>
+      <p>Alles gilt global und greift ab der nächsten neuen Session.</p>
+    </div>
+    <div class="installed">
+      <div class="row">
+        <h3>Hauptmodell</h3>
+        <p>Neue Sessions starten mit Fable 5.1 auf Effort high. Für besonders schwere Architektur- oder Sicherheitsphasen den Effort auf xhigh stellen, mit <code>/effort xhigh</code> oder in der Effort-Auswahl der App.</p>
+        <span class="chip">Fable 5.1 · high</span>
+        <p class="where"><code>"model": "fable"</code> und <code>"effortLevel": "high"</code> in <code>~/.claude/settings.json</code></p>
+      </div>
+      <div class="row">
+        <h3>Helfer ohne eigene Vorgabe</h3>
+        <p>Agency-Agenten und general-purpose laufen auf Opus 5, statt still Fable 5.1 zu übernehmen. Braucht eine Aufgabe mehr, gibt der Orchestrator Fable im Aufruf ausdrücklich mit.</p>
+        <span class="chip">Opus 5</span>
+        <p class="where"><code>CLAUDE_CODE_SUBAGENT_MODEL=opus</code></p>
+      </div>
+      <div class="row">
+        <h3>Kein Haiku mehr</h3>
+        <p>Wo Claude Code intern noch „haiku“ anfordert, etwa beim eingebauten Helfer claude-code-guide oder bei kleinen Hintergrundabfragen, läuft Sonnet 5. Diese Abfragen zählen dadurch etwas stärker gegen das Limit.</p>
+        <span class="chip">Sonnet 5</span>
+        <p class="where"><code>ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-5</code></p>
+      </div>
+      <div class="row">
+        <h3>Obergrenze für Sonnet 5</h3>
+        <p>Laut Programmcode kürzt Claude Code den Effort von Sonnet 5 auf high, auch wenn das Hauptgespräch höher steht. Die Sonnet-Rollen haben high zusätzlich fest eingetragen. Höhere Stufen kosten dort ein Vielfaches ohne belegten Qualitätsgewinn.</p>
+        <span class="chip">höchstens high</span>
+        <p class="where"><code>"modelSettings": {"claude-sonnet-5": {"maxEffortLevel": "high"}}</code></p>
+      </div>
+      <div class="row">
+        <h3>DevOS-Rollen und Orchestrator</h3>
+        <p>Die acht Rollen haben feste Modelle und Effort-Stufen. Der Skill <code>devos-orchestrate</code> kennt die Stufen, schickt nie etwas an Haiku und startet die Fable-Rollen bei vollem Fable-Limit mit Opus 5 bei gleichem Effort. Getestet: Ein Prüfer mit Opus-Vorgabe lief auf Opus 5 und behielt xhigh.</p>
+        <span class="chip">8 Rollen</span>
+        <p class="where">Dokumentiert in <code>Dokumente\DevOS\devos-claude-port\LOCAL-CHANGES.md</code></p>
+      </div>
+      <div class="row">
+        <h3>Anweisungen entrümpelt</h3>
+        <p>Mit Anthropics Prüfwerkzeug <code>/claude-api prompt-audit</code> sind doppelte Regeln, feste Schrittfolgen und Prüf-Rituale aus CLAUDE.md, den Rollen und Skills entfernt. Prüfer melden jetzt jeden Befund mit Sicherheitsgrad. Deine Vorgaben sind alle erhalten, das hat ein unabhängiger Prüfer bestätigt.</p>
+        <span class="chip">CLAUDE.md −6 %</span>
+        <p class="where">11.416 → 10.706 Zeichen · Sicherung in <code>Dokumente\DevOS\backups\2026-09-11-modellstufen</code></p>
+      </div>
+      <div class="row">
+        <h3>Kürzere Agent-Beschreibungen</h3>
+        <p>Jede Session listet alle Agenten samt Beschreibung. Die 279 Agency-Beschreibungen sind auf höchstens 160 Zeichen gekürzt, der eigentliche Agententext bleibt unverändert.</p>
+        <span class="chip">−34 % Text</span>
+        <p class="where">rund 62.400 → 41.200 Zeichen · Schalter <code>--max-description</code> im Sync-Skript, <code>0</code> schaltet die Kürzung ab</p>
+      </div>
+      <div class="row">
+        <h3>Statusleiste</h3>
+        <p>Zeigt im Terminal Modell, Effort, Kontext-Auslastung, Cache-Trefferquote sowie 5-Stunden- und Wochenlimit, zum Beispiel <code>Fable 5.1 · Effort high · Kontext 23% von 1M · Cache 91% · 5h 38% · Woche 12%</code>.</p>
+        <span class="chip">getestet</span>
+        <p class="where"><code>~/.claude/statusline.py</code> · Ob die Desktop-App die Leiste anzeigt, ist nicht geprüft.</p>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <p class="verdict-line">Getestet: In einer Test-Session liefen nur Sonnet 5 und Opus 5, kein Haiku.</p>
+      <ul class="facts">
+        <li><b>Helfer ohne Vorgabe</b><span>general-purpose lief auf Opus 5.</span></li>
+        <li><b>Haiku umgeleitet</b><span>claude-code-guide und devos-explorer liefen auf Sonnet 5, intern kam kein Haiku vor.</span></li>
+        <li><b>Fable 5.1 als Helfer</b><span>Ein Test-Helfer meldete <code>claude-fable-5-1</code>.</span></li>
+        <li><b>Nichts kaputt</b><span>Einstellungen gültig, Lernloop ohne Befund, alle 302 Agenten laden.</span></li>
+      </ul>
+    </div>
+  </section>
+
   <section>
     <div class="section-head">
       <span class="eyebrow">Bestand</span>
@@ -410,19 +595,19 @@ td:first-child { color: var(--muted); }
     <div class="installed">
       <div class="row">
         <h3>Agency Agents</h3>
-        <p>279 Spezialisten für Frontend, Backend, Design, Marketing, Security, Tests und mehr. Namen wurden auf das Claude-Format gebracht, damit sie sicher laden. Drei riskante sind gesperrt.</p>
+        <p>279 Spezialisten für Frontend, Backend, Design, Marketing, Security, Tests und mehr. Namen wurden auf das Claude-Format gebracht, damit sie sicher laden. Drei riskante sind gesperrt. Ihre Kurzbeschreibungen sind auf 160 Zeichen gekürzt, weil jede Session die ganze Liste lädt; sie laufen auf Opus 5.</p>
         <span class="chip">276 nutzbar</span>
-        <p class="where">Aktualisieren: <code>python C:/Users/hanne/.claude/vendor/sync_agency_agents.py</code></p>
+        <p class="where">Aktualisieren: <code>python C:/Users/hanne/.claude/vendor/sync_agency_agents.py</code> · ohne Kürzung: <code>--max-description 0</code></p>
       </div>
       <div class="row">
         <h3>DevOS aus Codex</h3>
-        <p>Deine Arbeitsweise aus Codex: Orchestrator, 8 Rollen-Agents, 9 Skills (Experience, Services, Mobile, Verify, Scroll-Craft, HyperFrames …) und deine globalen Regeln.</p>
-        <span class="chip">aktiv · abgeglichen</span>
-        <p class="where">Original mit Prüfsummen: <code>Dokumente\DevOS\devos-claude-port</code> · Regeln: <code>~/.claude/CLAUDE.md</code></p>
+        <p>Deine Arbeitsweise aus Codex: Orchestrator, 8 Rollen-Agents mit festen Modellstufen, 9 Skills (Experience, Services, Mobile, Verify, Scroll-Craft, HyperFrames …) und deine globalen Regeln.</p>
+        <span class="chip">aktiv · lokal angepasst</span>
+        <p class="where">Original mit Prüfsummen: <code>Dokumente\DevOS\devos-claude-port</code> · jede Anpassung steht in <code>LOCAL-CHANGES.md</code> · Regeln: <code>~/.claude/CLAUDE.md</code></p>
       </div>
       <div class="row">
         <h3>Lernloop</h3>
-        <p>Eigenbau nach dem Vorbild von Hermes Agent: 7 automatische Auslöser, die Skills <code>learn</code>, <code>reflect</code>, <code>recall</code> und 14 Lektionen aus deiner Arbeit.</p>
+        <p>Eigenbau nach dem Vorbild von Hermes Agent: 7 automatische Auslöser, die Skills <code>learn</code>, <code>reflect</code>, <code>recall</code> und 36 Lektionen aus deiner Arbeit.</p>
         <span class="chip">aktiv · 135 Tests ok</span>
         <p class="where">Ordner: <code>~/.claude/learning</code> · läuft komplett lokal · Prüfstein: <code>python -m unittest discover -s C:/Users/hanne/.claude/learning/tests</code></p>
       </div>
@@ -567,7 +752,7 @@ td:first-child { color: var(--muted); }
         <div class="rec"><strong>Chrome DevTools MCP</strong><p>Performance, Konsole und Netzwerk im echten Browser prüfen. Ergänzt das Browserfenster der App.</p><code class="cmd">claude mcp add chrome-devtools --scope user -- npx chrome-devtools-mcp@latest --no-usage-statistics</code></div>
         <div class="rec"><strong>React Doctor</strong><p>Findet typische KI-Fehler in React-Code (15.000 Sterne). Einfach im Projekt ausführen.</p><code class="cmd">npx react-doctor</code></div>
         <div class="rec"><strong>DESIGN.md-Vorlagen</strong><p>Über 2.000 echte Design-Systeme als Datei, damit UIs Charakter bekommen (awesome-design-md, 115.000 Sterne).</p><code class="cmd">github.com/VoltAgent/awesome-design-md</code></div>
-        <div class="rec"><strong>Agent-Liste verschlanken</strong><p>Die Agent-Liste ist der größte Posten im Arbeitsgedächtnis. Bereiche, die du nie brauchst (etwa chinesische Plattformen oder Geodaten), lassen sich ausblenden. Erst mit Vorschau ansehen.</p><code class="cmd">python C:/Users/hanne/.claude/vendor/sync_agency_agents.py --dry-run --exclude &lt;bereich&gt;</code></div>
+        <div class="rec"><strong>Agent-Liste weiter verschlanken</strong><p>Die Beschreibungen sind schon gekürzt. Bereiche, die du nie brauchst (etwa chinesische Plattformen oder Geodaten), lassen sich zusätzlich ausblenden. Erst mit Vorschau ansehen.</p><code class="cmd">python C:/Users/hanne/.claude/vendor/sync_agency_agents.py --dry-run --no-pull --exclude &lt;bereich&gt;</code></div>
       </div>
       <div class="tier">
         <h3><span class="chip skip">Bewusst weglassen</span></h3>
@@ -575,6 +760,7 @@ td:first-child { color: var(--muted); }
         <div class="rec"><strong>Weitere Agent-Sammlungen</strong><p>wshobson oder VoltAgent überschneiden sich mit den 279 Agency Agents und verwirren die Auswahl.</p></div>
         <div class="rec"><strong>claude-mem und ähnliche</strong><p>Dein eigener Lernloop übernimmt das, lokal und ohne Cloud.</p></div>
         <div class="rec"><strong>„Claude Code gratis“ von X</strong><p>Leiten Anfragen über fremde Anbieter um: Verstoß gegen Nutzungsbedingungen und Sicherheitsrisiko.</p></div>
+        <div class="rec"><strong>Fable mit fremden Helfer-Modellen strecken</strong><p>Plugins wie fable-advisor lassen Fable planen und GPT-Modelle umsetzen. Das spart Fable-Kontingent, bringt aber einen zweiten Anbieter, fremden Plugin-Code und eine zweite Orchestrierung ins Setup. Für eine zweite Meinung reicht das installierte <code>/codex:adversarial-review</code>.</p></div>
       </div>
     </div>
   </section>
@@ -595,7 +781,7 @@ td:first-child { color: var(--muted); }
         <li><strong>Frisch starten</strong><span><code>/clear</code> zwischen Aufgaben, neu beginnen nach zwei gescheiterten Korrekturen.</span></li>
         <li><strong>Parallel, aber maßvoll</strong><span>Mehrere Sessions in eigenen Worktrees. Mehr als 3 bis 5 lassen sich kaum sauber prüfen.</span></li>
         <li><strong>Sicherheit beim Vibe-Coding</strong><span>Supabase-RLS immer an, KI- und Admin-Schlüssel nur auf dem Server, Limits für Chatbots, neue Pakete auf Echtheit prüfen.</span></li>
-        <li><strong>Kosten im Blick</strong><span><code>/usage</code> zeigt, was Tokens frisst. Für Routine reicht Effort „high“, „xhigh“ ist deutlich teurer.</span></li>
+        <li><strong>Kosten im Blick</strong><span>Die Statusleiste zeigt Kontext, Cache und Limits, <code>/usage</code> zeigt, was Tokens frisst. Effort bleibt auf high, xhigh nur für schwere Phasen. Den Fable-Stand zeigt nur die Nutzungsseite der App.</span></li>
       </ul>
     </div>
   </section>
@@ -628,6 +814,15 @@ td:first-child { color: var(--muted); }
       <li><a href="https://metr.org/blog/2025-06-05-recent-reward-hacking/">METR: Modelle, die Tests manipulieren</a> (05.06.2025)</li>
       <li><a href="https://lucumr.pocoo.org/2026/6/23/the-coming-loop/">Armin Ronacher: The coming loop</a> (Kritik, 23.06.2026)</li>
       <li>Gesamtprüfung: Quellcode von Security Guidance (Schalter <code>ENABLE_STOP_REVIEW</code>) und Vercel-Plugin (<code>VERCEL_PLUGIN_TELEMETRY</code>), Plugin-Kennungen <code>name@inline</code> aus Claude Code 2.1.266, eigene Messung per Test-Session</li>
+      <li>Modellstufen: <a href="https://platform.claude.com/docs/en/about-claude/models/choosing-a-model">Anthropic: Choosing a model</a> und die Modellseiten zu Fable 5.1, Opus 5 und Sonnet 5 (abgerufen 11.09.2026)</li>
+      <li><a href="https://support.claude.com/en/articles/15424964-claude-fable-models-on-your-plan">Claude Help Center: Fable-Modelle im Abo</a></li>
+      <li><a href="https://code.claude.com/docs/en/model-config">Claude Code Doku: Model configuration</a>, <a href="https://code.claude.com/docs/en/sub-agents">Subagents</a>, <a href="https://code.claude.com/docs/en/costs">Costs</a> und <a href="https://code.claude.com/docs/en/statusline">Statusline</a></li>
+      <li><a href="https://x.com/ClaudeDevs/status/2097369738968195513">ClaudeDevs: Reducing cost and improving performance with Claude Platform</a> (X-Artikel, 08.09.2026)</li>
+      <li><a href="https://x.com/RLanceMartin/status/2094854835854295296">Lance Martin: Tipps zu Fable 5.1</a> (01.09.2026) und <a href="https://x.com/RLanceMartin/status/2095170001175199771">zu prompt-audit</a> (02.09.2026)</li>
+      <li><a href="https://x.com/lydiahallie/status/2096024729496994303">Lydia Hallie: Fable 5.1 auf medium</a> (04.09.2026)</li>
+      <li><a href="https://x.com/bcherny/status/2094864060609376748">Boris Cherny: Fable 5.1</a> (01.09.2026)</li>
+      <li>Praxisberichte zu Kontingent und Helfern: <a href="https://x.com/isamisushi_y/status/2095791493168628021">@isamisushi_y</a> (04.09.2026) und <a href="https://x.com/mohitt_garg/status/2098280063150297154">@mohitt_garg</a> (11.09.2026)</li>
+      <li>Claude Code 2.1.268: Modelltabelle mit Preisen und Effort-Richtwerten, Fable-Limit-Dialog mit Ausweichmodell, Test-Session mit Verbrauch je Modell</li>
     </ul>
   </section>
 </main>

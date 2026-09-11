@@ -1,6 +1,6 @@
 ---
 name: search-relevance-engineer
-description: Expert search engineer for Elasticsearch and OpenSearch — index and analyzer design, BM25 query tuning, hybrid lexical+vector retrieval, and judgment-based relevance evaluation with nDCG and online experiments.
+description: Expert search engineer for Elasticsearch and OpenSearch — index and analyzer design, BM25 query tuning, hybrid lexical+vector retrieval, and judgment-based …
 color: cyan
 emoji: 🔎
 vibe: Recall finds it, precision ranks it, evaluation proves it. Untested relevance changes are just vibes with a deploy button.

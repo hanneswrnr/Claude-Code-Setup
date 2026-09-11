@@ -7,8 +7,9 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | Ordner oder Datei | Inhalt |
 |---|---|
 | `claude/CLAUDE.md` | Globale Regeln: DevOS, Grundregeln, Web-Projekte mit HTML/CSS und TypeScript, autonome Orchestrierung, Lernloop, Loop Engineering |
-| `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modell |
-| `claude/agents/` | 279 Agency Agents und 8 DevOS-Rollen |
+| `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modellstufen (Fable 5.1 als Hauptmodell, Opus 5 für Helfer ohne Vorgabe, Sonnet 5 statt Haiku, Obergrenze für Sonnet 5), Statusleiste |
+| `claude/statusline.py` | Statusleiste im Terminal: Modell, Effort, Kontext, Cache-Trefferquote und Abo-Limits |
+| `claude/agents/` | 279 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt) und 8 DevOS-Rollen mit festen Modellstufen |
 | `claude/skills/` | DevOS-Skills sowie `learn`, `reflect`, `recall`, `loop-engineering` |
 | `claude/learning/` | Lernloop mit Prüf-Gate, Tests und den gelernten Lektionen (`lessons.jsonl`) |
 | `claude/vendor/` | Sync-Skript und Manifest der Agency Agents mit deren Lizenz |
@@ -72,7 +73,8 @@ Auf einem anderen Gerät danach `git pull` und `python restore.py`.
 
 ## Gut zu wissen
 
-- **Python-Befehl:** Die Hooks rufen `python` auf. Auf macOS und Linux heißt das Programm oft `python3`; dann in `~/.claude/settings.json` anpassen.
+- **Python-Befehl:** Die Hooks und die Statusleiste rufen `python` auf. Auf macOS und Linux heißt das Programm oft `python3`; dann in `~/.claude/settings.json` anpassen.
+- **Modelle:** Das Setup nutzt Fable 5.1 (Hauptgespräch, Design, Prüfer), Opus 5 und Sonnet 5, nie Haiku. Fable ist nur im Max-Abo und bei Premium-Plätzen im Abo enthalten. Auf anderen Konten `"model"` in `~/.claude/settings.json` auf `"opus"` setzen und die Fable-Rollen in `~/.claude/agents/devos-*.md` auf `opus` stellen.
 - **Abgeschaltete Business-Plugins:** Die Einträge `…@inline: false` betreffen Plugins aus dem claude.ai-Konto, die die Desktop-App mitbringt.
 - **Connector-Regeln:** Einige Nachfrage-Regeln nennen claude.ai-Connectors über ihre Kennung (`mcp__<kennung>__…`). Sie gelten für dieses Konto; bei anderen Konten greifen sie einfach nicht.
 - **Werkzeug-Kits:** Die Kits für `devos-hyperframes` und `devos-scroll-craft` sind nicht enthalten.
