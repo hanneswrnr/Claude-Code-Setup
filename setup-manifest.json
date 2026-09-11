@@ -1,6 +1,6 @@
 {
  "source_home": "C:/Users/hanne",
- "exported_at": "2026-09-11T20:41:57+02:00",
+ "exported_at": "2026-09-11T20:44:49+02:00",
  "files": {
   "claude/CLAUDE.md": "1fa94536ce8355cd09fa61661fff2c906bddf8958069104bec8b4d8337f46b78",
   "claude/agents/academic-anthropologist.md": "8934f047cc45dc2c3ce7e80c5517777a1319f238f2ee0eb44d17728f197680a0",
@@ -290,7 +290,7 @@
   "claude/agents/xr-immersive-developer.md": "44e12145e6a151509a311e7bafa857efaf5fd04d23ffe781b1a7b1320830e43d",
   "claude/agents/xr-interface-architect.md": "c37d861d5f2ea98b9dd7de610ba718d801ad5a95c2a20ffd8cef82c3455ae3e2",
   "claude/agents/zk-steward.md": "b2bea3b38e5beaf53e7708c92a1bb801a8754236bffa283e873cca76b735dc53",
-  "claude/learning/lessons.jsonl": "4ce2c566edf4a06ff08081f12e1a35d6b47c7b7750931e5611bf89ec9d96c339",
+  "claude/learning/lessons.jsonl": "fce52286e009474fac487536e7272fb7a30fa481974e4416aeccd0ee65e6ba93",
   "claude/learning/ll.py": "b614851e9412013bbd7874c3c5fce3393a263c2f92867cb4a95eeb708fa63592",
   "claude/learning/llcore.py": "a20dc1ead2779410b876a0261b4673025bce07ca2d2b4f7f786dae91b2e318da",
   "claude/learning/llgate.py": "6c2d42b925138f484a5847f235d670d724d8a5ec26da7272ad036df9f9054e73",
