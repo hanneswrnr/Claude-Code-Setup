@@ -298,6 +298,10 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "python C:/Users/hanne/.claude/statusline.py"
+  },
   "enabledPlugins": {
     "commercial-legal@claude-for-legal": true,
     "privacy-legal@claude-for-legal": true,
@@ -363,10 +367,7 @@
       "maxEffortLevel": "high"
     }
   },
-  "statusLine": {
-    "type": "command",
-    "command": "python C:/Users/hanne/.claude/statusline.py"
-  },
   "theme": "dark",
-  "agentPushNotifEnabled": true
+  "agentPushNotifEnabled": true,
+  "tui": "fullscreen"
 }

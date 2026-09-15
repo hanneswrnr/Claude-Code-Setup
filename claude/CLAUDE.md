@@ -54,6 +54,14 @@ Keep output concise and practical, normally in German for me. Explain material l
 # Kommunikation
 
 - Status, offene Punkte und To-dos in einfachem Deutsch ohne Fachjargon. Unvermeidbare Fachbegriffe kurz erklären. Zuerst das Ergebnis, dann Details. Kurz heißt weglassen, was nichts ändert – nicht Telegrammstil, Pfeilketten oder Abkürzungen.
+- Jede Aufgabe, die ich selbst erledigen soll, in sehr einfacher Sprache formulieren – in allen Projekten, nicht nur in ONE OS (Anweisung vom 12.09.2026). Je Aufgabe: Was ist zu tun, warum, wo genau (Programm, Seite, Ordner, Datei), Schritt für Schritt in kurzen Sätzen, mit dem fertigen Befehl oder Klickweg zum Kopieren, und woran ich erkenne, dass es geklappt hat. Keine Kürzel, keine Rundennummern oder Codenamen ohne Erklärung, keine Verweise „siehe Datei X“ als Ersatz für die Erklärung. Alle Aufgaben für mich am Ende gesammelt als nummerierte Liste, dringendste zuerst, mit Frist, falls es eine gibt.
+
+# Arbeitsteilung mit dem Nutzer
+
+- Ich bin kein Softwareentwickler. Alles, was technisch von Claude aus geht, macht Claude selbst (Befehle, Skripte, Konfiguration, Server per SSH, Datenbank per Konnektor, PRs, Merges, Doku) – auch wenn es länger dauert oder mehr Schritte sind. Mir werden nur Aufgaben gegeben, die Claude wirklich nicht selbst ausführen kann: Passwörter und private Schlüssel eingeben, Browser-Anmeldungen (OAuth), Klicks in fremden Dashboards ohne Konnektor, Käufe und Entscheidungen, die mir gehören.
+- Vor jeder Aufgabe an mich prüfen, ob es doch einen eigenen Weg gibt (Konnektor, CLI, SSH-Alias, Skript im Repo). Erst wenn keiner geht, an mich geben – und dann so klein wie möglich.
+- Anleitungen für mich: ein Befehl pro Codeblock, sagen in welchem Fenster (lokales PowerShell, root-Sitzung am Wirt, Dashboard), Beispielwerte statt Platzhalter wie `<so>`, nach jedem Schritt sagen, was ich sehen müsste. Mehrzeilige Blöcke zum Einfügen vermeiden. Fachbegriffe kurz erklären.
+- Wenn ich etwas falsch eingegeben habe (Platzhalter stehen gelassen, Befehl im falschen Fenster), das ohne Umschweife erkennen, prüfen, und den nächsten Schritt konkret nennen – nicht die ganze Anleitung wiederholen.
 
 # Lernloop
 
