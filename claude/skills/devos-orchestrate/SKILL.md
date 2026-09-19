@@ -68,13 +68,13 @@ Select the installed role through the Agent tool's `subagent_type` (`devos-explo
 
 The Codex tiers (Luna, Sol, Astra) map to the Claude 5 family one step up, because the user excludes Haiku (decision and research of 2026-09-11): `sonnet` (Sonnet 5), `opus` (Opus 5), `fable` (Fable 5.1). Never route work to `haiku`. Aliases resolve to the provider's current models; re-check `/model` before changing defaults and do not silently substitute an unavailable model.
 
-- Root: the user's session choice, by default Fable 5.1 at high effort. Keep architecture and risky integration here. For hard architecture, integration or security phases, suggest that the user raises the session effort to xhigh; on Fable 5.1 this does not invalidate the prompt cache.
+- Root: the user's session choice, by default Opus 5 at xhigh effort. Keep architecture and risky integration here.
 - `devos-explorer`, `devos-researcher`: sonnet/high for bounded evidence gathering. Escalate ambiguous cross-system analysis to root.
-- `devos-worker`, `devos-verifier`, `devos-platform`: opus/high for implementation contracts, adversarial tests and platform work.
+- `devos-worker`, `devos-platform`: opus/high for implementation contracts and platform work; `devos-verifier`: opus/xhigh for adversarial tests and reproduction.
 - `devos-designer`: fable/high for visual direction and scoped HTML/CSS work.
-- `devos-reviewer`, `devos-security`: fable/xhigh as independent correctness and security gates.
-- Generic specialists and `general-purpose` define no model and run on opus (`CLAUDE_CODE_SUBAGENT_MODEL`). Pass `model: "fable"` in the Agent call when an item needs top-tier judgment. Route cheap read-only work to `devos-explorer` or `devos-researcher`, whose effort is pinned, rather than passing `model: "sonnet"` to agents that inherit the session effort. Built-in Explore inherits the root model, capped at Opus.
-- Fable limit: Fable 5.1 has a separate weekly limit. When it is used up (the session reports the Fable limit, or a Fable spawn fails with a limit or usage-credit error), spawn `devos-designer`, `devos-reviewer` and `devos-security` with `model: "opus"`; their role effort stays. Tell the user once that the main session should continue on Opus 5 until the weekly reset (confirm Claude Code's switch dialog if it offers Opus 5, otherwise run `/model opus`). Never switch to usage credits.
+- `devos-reviewer`, `devos-security`: opus/xhigh as independent correctness and security gates.
+- Generic specialists and `general-purpose` define no model and run on opus (`CLAUDE_CODE_SUBAGENT_MODEL`). Pass `model: "fable"` only for a design assignment that is not handled by `devos-designer`. Route cheap read-only work to `devos-explorer` or `devos-researcher`, whose effort is pinned, rather than passing `model: "sonnet"` to agents that inherit the session effort. Built-in Explore inherits the root model, capped at Opus.
+- Fable limit: Fable 5.1 has a separate weekly limit and is used only for design. When it is used up (the session reports the Fable limit, or a Fable spawn fails with a limit or usage-credit error), spawn the design role with `model: "opus"` and `effort: "high"`; tell the user once. Never switch to usage credits.
 
 Subagents without an `effort` setting inherit the session effort; settings cap Sonnet 5 at high, because its higher levels multiply tokens without a measured quality gain. Role-file settings apply unless a spawn overrides the model; an effort level the model does not support falls back to the highest supported level below it. Tool allowlists remove edit tools from read-only roles, but Bash/PowerShell can still write; state read-only ownership in the task as well.
 

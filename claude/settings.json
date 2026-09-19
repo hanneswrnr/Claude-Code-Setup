@@ -210,7 +210,7 @@
       "PowerShell(*learning*config.json*)"
     ]
   },
-  "model": "fable",
+  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -361,7 +361,7 @@
       }
     }
   },
-  "effortLevel": "high",
+  "effortLevel": "xhigh",
   "modelSettings": {
     "claude-sonnet-5": {
       "maxEffortLevel": "high"

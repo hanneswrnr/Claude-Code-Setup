@@ -59,3 +59,16 @@ The user asked for a token-efficient setup at maximum quality with a Codex-style
 | `agents/devos-researcher.md` | sonnet/high; redundant read-only sentence removed | `91008ae91fb7ab0dcc40b0c066dff799771ec09cc3a7a723b178fb56800303c4` |
 
 Rollback: copy `CLAUDE.md`, the agent files, the four skill files, `settings.json` and `statusline.py` from the backup folder back to `~/.claude/`, and restore the agency agent files and `sync_agency_agents.py.before` from `%USERPROFILE%\Documents\DevOS\backups\2026-09-11-agent-descriptions\`. A new Claude Code session is needed for the change to take effect.
+
+## 2026-09-19 — Orchestrierung und Prüfung auf Opus xhigh
+
+Auf Wunsch wurden Hauptgespräch/Orchestrierung und die Prüfpfade auf Opus 5 mit der höchsten im Setup verwendeten Thinking-Stufe `xhigh` gestellt. Fable 5.1 auf `high` bleibt ausschließlich für Design (`devos-designer`) vorgesehen; Reviewer und Security laufen ebenfalls auf Opus `xhigh`, damit Fable nicht außerhalb des Designs eingesetzt wird. Eine neue Claude-Code-Sitzung ist nötig, damit die Einstellungen geladen werden.
+
+| Datei | Änderung |
+|---|---|
+| `settings.json` | Hauptmodell `opus`, `effortLevel` `xhigh` |
+| `agents/devos-verifier.md` | `opus` / `xhigh` |
+| `agents/devos-reviewer.md` | `opus` / `xhigh` |
+| `agents/devos-security.md` | `opus` / `xhigh` |
+| `skills/devos-orchestrate/SKILL.md` | Routing-Dokumentation auf Opus-orchestriert, Design-only-Fable aktualisiert |
+| `CLAUDE.md` | Modellregeln und Fable-Fallback aktualisiert |

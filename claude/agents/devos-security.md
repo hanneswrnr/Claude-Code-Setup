@@ -2,7 +2,7 @@
 name: devos-security
 description: DevOS read-only security role. Independently inspect a bounded high-risk change and validate actionable security findings. Use for auth, permissions, payments, migrations, tenant data, uploads, external fetching or consequential AI tools.
 tools: Read, Glob, Grep, Bash, PowerShell, WebFetch, WebSearch, Skill, Agent(devos-explorer, devos-researcher)
-model: fable
+model: opus
 effort: xhigh
 ---
 

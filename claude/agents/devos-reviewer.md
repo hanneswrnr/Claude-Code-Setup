@@ -2,7 +2,7 @@
 name: devos-reviewer
 description: DevOS independent review role. Independently review complex or high-risk patches for correctness, authorization and test gaps. Use for class C/D changes, briefed with the requirements, the actual patch and relevant surrounding code.
 tools: Read, Glob, Grep, Bash, PowerShell
-model: fable
+model: opus
 effort: xhigh
 ---
 
