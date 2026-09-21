@@ -9,8 +9,8 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | `claude/CLAUDE.md` | Globale Regeln: DevOS, Grundregeln, Web-Projekte mit HTML/CSS und TypeScript, autonome Orchestrierung, Lernloop, Loop Engineering |
 | `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modellstufen (Opus 5 auf xhigh als Haupt-/Orchestrationsmodell, Fable 5.1 auf high ausschließlich für Design, Sonnet 5 statt Haiku), Statusleiste |
 | `claude/statusline.py` | Statusleiste im Terminal: Modell, Effort, Kontext, Cache-Trefferquote und Abo-Limits |
-| `claude/agents/` | 279 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt) und 8 DevOS-Rollen mit festen Modellstufen |
-| `claude/skills/` | DevOS-Skills sowie `learn`, `reflect`, `recall`, `loop-engineering` |
+| `claude/agents/` | 320 Agents: 279 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt), 8 DevOS-Rollen mit festen Modellstufen und 33 GSD-Agents |
+| `claude/skills/` | 80 Skills: DevOS-Skills, `learn`, `reflect`, `recall`, `loop-engineering` und 67 GSD-Skills (deren Motor kommt aus npm, siehe Schritt 6) |
 | `claude/learning/` | Lernloop mit Prüf-Gate, Tests und den gelernten Lektionen (`lessons.jsonl`) |
 | `claude/vendor/` | Sync-Skript und Manifest der Agency Agents mit deren Lizenz |
 | `extras/devos-claude-port/` | DevOS-Paket mit Prüfsummen, der Ursprung der Portierung aus Codex |
@@ -31,7 +31,12 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 
 ## Auf einem neuen Gerät einrichten
 
-1. Installieren: Claude-Desktop-App oder Claude Code, Python 3.11 oder neuer, Git. Empfohlen: Node.js und die GitHub-Kommandozeile `gh`.
+1. Installieren: Claude-Desktop-App, Node.js, Python 3.11 oder neuer, Git und die GitHub-Kommandozeile `gh`. Unter Windows zusätzlich zwei Dinge, ohne die Schritt 5 und 6 scheitern:
+   ```
+   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+   npm i -g @anthropic-ai/claude-code
+   ```
+   Die Desktop-App allein legt den Befehl `claude` nicht in den Suchpfad, und ein frisches Windows blockiert die `.ps1`-Startdateien von `npm`, `claude`, `vercel` und `codex`.
 2. Repo holen und in den Ordner wechseln:
    ```
    git clone https://github.com/hanneswrnr/Claude-Code-Setup.git
@@ -46,17 +51,22 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
    ```
    Vorhandene Dateien werden vorher nach `~/.claude/restore-backup-<Datum>` gesichert. Pfade wie `C:/Users/hanne` werden an den Benutzerordner des neuen Geräts angepasst.
 5. Die angezeigten Befehle ausführen: Marktplätze hinzufügen und Plugins installieren.
-6. Anmelden, wo es gebraucht wird:
+6. GSD nachinstallieren. Die 67 GSD-Skills und 33 GSD-Agents aus dieser Sicherung sind nur die Oberfläche; ihr Motor liegt in `~/.claude/get-shit-done` und kommt aus npm:
+   ```
+   npm i -g get-shit-done-cc
+   ```
+   Ohne diesen Schritt erscheinen die `/gsd:`-Befehle, greifen beim Aufruf aber ins Leere. Das Paket heißt `get-shit-done-cc`; `get-shit-done` ohne Zusatz ist ein fremdes Paket.
+7. Anmelden, wo es gebraucht wird:
    - Claude-Konto
    - `codex login` für das Codex-Plugin
    - `gh auth login` für GitHub
    - claude.ai-Connectors nur bei Bedarf
-7. Prüfen:
+8. Prüfen:
    ```
    python ~/.claude/learning/ll.py doctor
    python -m unittest discover -s ~/.claude/learning/tests
    ```
-8. Eine neue Claude-Code-Session starten.
+9. Eine neue Claude-Code-Session starten.
 
 ## Änderungen sichern
 
