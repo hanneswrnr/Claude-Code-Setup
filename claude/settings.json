@@ -367,7 +367,7 @@
       "maxEffortLevel": "high"
     }
   },
+  "tui": "fullscreen",
   "theme": "dark",
-  "agentPushNotifEnabled": true,
-  "tui": "fullscreen"
+  "agentPushNotifEnabled": true
 }
