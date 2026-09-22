@@ -48,8 +48,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 
 # Modelle
 
-- Stufen: Sonnet 5 für Suche und Recherche, Opus 5 auf `xhigh` für Orchestrierung, Umsetzung, Tests und unabhängige Prüfung; ausschließlich Design nutzt Fable 5.1 auf `high`. Haiku nie einsetzen. Die Zuordnung der Rollen steht in `devos-orchestrate`.
-- Ist das Fable-Wochenlimit erreicht, die Design-Rolle mit `model: "opus"` und `effort: "high"` starten und mich einmal darauf hinweisen; nie auf Zusatzguthaben ausweichen.
+- Stufen: Sonnet 5 für Suche und Recherche, sonst immer Opus 5.5 (Kurzname `opus`). Orchestrierung, unabhängige Prüfung und Sicherheit auf `xhigh`; Umsetzung, Tests, Plattform und Design auf `high` über die `devos-*`-Rollen, denn allgemeine Spezialisten übernehmen die Stufe der Sitzung. Haiku und Fable nie einsetzen, `max` vermeiden. Die Zuordnung der Rollen steht in `devos-orchestrate`.
 
 # Kommunikation
 

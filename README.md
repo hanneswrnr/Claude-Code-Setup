@@ -7,14 +7,13 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | Ordner oder Datei | Inhalt |
 |---|---|
 | `claude/CLAUDE.md` | Globale Regeln: DevOS, Grundregeln, Web-Projekte mit HTML/CSS und TypeScript, autonome Orchestrierung, Lernloop, Loop Engineering |
-| `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modellstufen (Opus 5 auf xhigh als Haupt-/Orchestrationsmodell, Fable 5.1 auf high ausschließlich für Design, Sonnet 5 statt Haiku), Statusleiste |
+| `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modellstufen (Opus 5.5 für alles außer Suche, Sonnet 5 für Suche und Recherche, nie Haiku oder Fable), Statusleiste |
 | `claude/statusline.py` | Statusleiste im Terminal: Modell, Effort, Kontext, Cache-Trefferquote und Abo-Limits |
 | `claude/agents/` | 320 Agents: 279 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt), 8 DevOS-Rollen mit festen Modellstufen und 33 GSD-Agents |
 | `claude/skills/` | 80 Skills: DevOS-Skills, `learn`, `reflect`, `recall`, `loop-engineering` und 67 GSD-Skills (deren Motor kommt aus npm, siehe Schritt 6) |
 | `claude/learning/` | Lernloop mit Prüf-Gate, Tests und den gelernten Lektionen (`lessons.jsonl`) |
 | `claude/vendor/` | Sync-Skript und Manifest der Agency Agents mit deren Lizenz |
 | `extras/devos-claude-port/` | DevOS-Paket mit Prüfsummen, der Ursprung der Portierung aus Codex |
-| `docs/setup-report.html` | Bericht zur Gesamtprüfung vom 11. September 2026 |
 | `export.py`, `restore.py` | Setup sichern und wiederherstellen |
 | `setup-manifest.json` | Liste aller Dateien mit Prüfsumme, geschrieben von `export.py` |
 
@@ -84,7 +83,7 @@ Auf einem anderen Gerät danach `git pull` und `python restore.py`.
 ## Gut zu wissen
 
 - **Python-Befehl:** Die Hooks und die Statusleiste rufen `python` auf. Auf macOS und Linux heißt das Programm oft `python3`; dann in `~/.claude/settings.json` anpassen.
-- **Modelle:** Das Setup nutzt Opus 5 auf xhigh für Hauptgespräch, Orchestrierung, Umsetzung, Tests und unabhängige Prüfung; Fable 5.1 auf high ausschließlich für Design; Sonnet 5 für Suche und Recherche; nie Haiku. Fable ist nur im Max-Abo und bei Premium-Plätzen im Abo enthalten. Auf anderen Konten kann `"model"` in `~/.claude/settings.json` auf `"opus"` gesetzt werden; die Design-Rolle lässt sich bei Bedarf auf Opus zurückstellen.
+- **Modelle:** Das Setup nutzt Opus 5.5 (Kurzname `opus`) für Hauptgespräch, Orchestrierung, Umsetzung, Tests, Design und unabhängige Prüfung. Hauptgespräch, `devos-reviewer` und `devos-security` laufen auf xhigh, die übrigen `devos-*`-Rollen auf high; allgemeine Agents übernehmen die Stufe der Sitzung. Sonnet 5 übernimmt Suche und Recherche. Haiku und Fable werden nie eingesetzt. Der Kurzname `opus` zeigt auf das aktuelle Opus-Modell des Anbieters (derzeit Opus 5.5). In der Desktop-App zählt die Auswahl im Eingabefeld: dort Opus 5.5 mit „Extra hoch“ wählen.
 - **Abgeschaltete Business-Plugins:** Die Einträge `…@inline: false` betreffen Plugins aus dem claude.ai-Konto, die die Desktop-App mitbringt.
 - **Connector-Regeln:** Einige Nachfrage-Regeln nennen claude.ai-Connectors über ihre Kennung (`mcp__<kennung>__…`). Sie gelten für dieses Konto; bei anderen Konten greifen sie einfach nicht.
 - **Werkzeug-Kits:** Die Kits für `devos-hyperframes` und `devos-scroll-craft` sind nicht enthalten.
