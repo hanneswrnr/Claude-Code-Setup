@@ -17,7 +17,6 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | `claude/vendor/` | Sync-Skript und Manifest der Agency Agents mit deren Lizenz |
 | `gsd/defaults.json` | Modell-Einstellung für GSD: Die GSD-Agents laufen damit auf Opus 5.5 statt auf eigenen Modellstufen |
 | `extras/devos-claude-port/` | DevOS-Paket mit Prüfsummen, der Ursprung der Portierung aus Codex |
-| `docs/setup-report.html` | Bericht zur Gesamtprüfung vom 11. September 2026 |
 | `export.py`, `restore.py` | Setup sichern und wiederherstellen |
 | `setup-manifest.json` | Liste aller Dateien mit Prüfsumme, geschrieben von `export.py` |
 
