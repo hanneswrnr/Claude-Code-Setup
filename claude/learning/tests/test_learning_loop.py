@@ -1854,5 +1854,188 @@ class SearchTests(unittest.TestCase):
             shutil.rmtree(db_dir, ignore_errors=True)
 
 
+# ---------------------------------------------------------------------------
+# Projektkennung: git-Worktrees teilen die Lektionen des Hauptprojekts
+# ---------------------------------------------------------------------------
+
+def old_style_key(root):
+    """Die Kennung, wie project_key sie für einen Wurzelordner schon immer gebildet hat."""
+    import hashlib
+    root = Path(root)
+    slug = re.sub(r"[^a-z0-9]+", "-", root.name.lower()).strip("-")[:40] or "root"
+    return "project:%s-%s" % (slug, hashlib.sha1(str(root).lower().encode("utf-8")).hexdigest()[:6])
+
+
+class WorktreeProjectKeyTests(LLTestCase):
+    def setUp(self):
+        super().setUp()
+        reload_core_for(self.home)  # llgate.GATES zeigt dann auf das Test-LL_HOME
+        self.main = self.tmp / "HauptProjekt"
+        (self.main / ".git" / "worktrees").mkdir(parents=True)
+        (self.main / "src").mkdir()
+
+    def make_worktree(self, name, gitdir_text, backlink=True):
+        """Wie git worktree add: .git-Datei im Worktree plus Rückverweis <haupt>/.git/worktrees/<name>/gitdir."""
+        folder = self.main / ".claude" / "worktrees" / name
+        (folder / "src" / "deep").mkdir(parents=True)
+        admin = self.main / ".git" / "worktrees" / name
+        admin.mkdir(parents=True, exist_ok=True)
+        (folder / ".git").write_text(gitdir_text, encoding="utf-8")
+        if backlink:
+            (admin / "gitdir").write_bytes(((folder / ".git").as_posix() + "\n").encode("utf-8"))
+        return folder
+
+    def test_worktree_with_absolute_gitdir_gets_main_project_key(self):
+        target = (self.main / ".git" / "worktrees" / "wt-abs").as_posix()  # git schreibt C:/... mit Schrägstrichen
+        folder = self.make_worktree("wt-abs", "gitdir: %s\n" % target)
+        expected = llcore.project_key(str(self.main))
+        self.assertEqual(expected, (old_style_key(self.main), str(self.main)))
+        self.assertEqual(llcore.project_key(str(folder)), expected)
+        self.assertEqual(llcore.project_key(str(folder / "src" / "deep")), expected)
+
+    def test_worktree_with_relative_gitdir_gets_main_project_key(self):
+        folder = self.make_worktree("wt-rel", "gitdir: ../../../.git/worktrees/wt-rel\n")
+        expected = llcore.project_key(str(self.main))
+        self.assertEqual(llcore.project_key(str(folder)), expected)
+        self.assertEqual(llcore.project_key(str(folder / "src" / "deep")), expected)
+
+    def test_normal_repo_key_is_unchanged(self):
+        self.assertEqual(llcore.project_key(str(self.main / "src")), (old_style_key(self.main), str(self.main)))
+        plain = self.tmp / "ohne-git" / "unter"
+        plain.mkdir(parents=True)
+        self.assertEqual(llcore.project_key(str(plain)), (old_style_key(plain), str(plain)))
+
+    def test_schadenmelden24_key_stays_the_same(self):
+        path = r"C:\Users\hanne\Desktop\SchadenMelden24"
+        self.assertEqual(old_style_key(path), "project:schadenmelden24-7c053f")
+        if Path(path, ".git").is_dir():
+            self.assertEqual(llcore.project_key(path), ("project:schadenmelden24-7c053f", path))
+
+    def test_submodule_gitdir_keeps_old_logic(self):
+        (self.main / ".git" / "modules" / "lib").mkdir(parents=True)
+        sub = self.main / "lib"
+        sub.mkdir()
+        (sub / ".git").write_text("gitdir: ../.git/modules/lib\n", encoding="utf-8")
+        self.assertEqual(llcore.project_key(str(sub)), (old_style_key(sub), str(sub)))
+
+    def test_git_file_with_bom_and_crlf_gets_main_project_key(self):
+        folder = self.make_worktree("wt-bom", "")
+        target = (self.main / ".git" / "worktrees" / "wt-bom").as_posix()
+        (folder / ".git").write_bytes(b"\xef\xbb\xbf" + ("gitdir: %s\r\n" % target).encode("utf-8"))
+        admin = self.main / ".git" / "worktrees" / "wt-bom" / "gitdir"
+        back = str(folder / ".git").upper() if os.name == "nt" else str(folder / ".git")  # Windows: Schreibweise egal
+        admin.write_bytes(b"\xef\xbb\xbf" + (back + "\r\n").encode("utf-8"))
+        self.assertEqual(llcore.project_key(str(folder / "src")), llcore.project_key(str(self.main)))
+
+    def test_forged_git_file_without_matching_backlink_keeps_old_logic(self):
+        real = self.make_worktree("echt", "gitdir: ../../../.git/worktrees/echt\n")
+        self.assertEqual(llcore.project_key(str(real)), llcore.project_key(str(self.main)))
+        # zeigt auf den Verwaltungsordner eines anderen Worktrees, dessen Rückverweis nicht hierher führt
+        forged = self.make_worktree("falsch", "gitdir: ../../../.git/worktrees/echt\n", backlink=False)
+        self.assertEqual(llcore.project_key(str(forged)), (old_style_key(forged), str(forged)))
+        # eigener Verwaltungsordner ohne Rückverweis-Datei
+        missing = self.make_worktree("ohne-rueckverweis", "gitdir: ../../../.git/worktrees/ohne-rueckverweis\n",
+                                     backlink=False)
+        self.assertEqual(llcore.project_key(str(missing)), (old_style_key(missing), str(missing)))
+        # Rückverweis auf einen ganz anderen Ordner
+        other = self.make_worktree("anderswo", "gitdir: ../../../.git/worktrees/anderswo\n", backlink=False)
+        (self.main / ".git" / "worktrees" / "anderswo" / "gitdir").write_bytes(
+            ((self.tmp / "fremd" / ".git").as_posix() + "\n").encode("utf-8"))
+        self.assertEqual(llcore.project_key(str(other)), (old_style_key(other), str(other)))
+
+    def test_broken_or_unusual_git_file_falls_back_to_its_folder(self):
+        cases = {
+            "leer": "",
+            "kaputt": "das ist keine git-datei\n",
+            "ohne-ziel": "gitdir:   \n",
+            "fremdes-ziel": "gitdir: ../../../.git/anderes/wt\n",
+            "hauptprojekt-fehlt": "gitdir: %s\n" % (self.tmp / "weg" / ".git" / "worktrees" / "x").as_posix(),
+        }
+        for name, text in cases.items():
+            with self.subTest(name):
+                folder = self.make_worktree(name, text)
+                self.assertEqual(llcore.project_key(str(folder)), (old_style_key(folder), str(folder)))
+        binary = self.make_worktree("binaer", "")
+        (binary / ".git").write_bytes(b"gitdir: \xff\xfe\x00kaputt")
+        self.assertEqual(llcore.project_key(str(binary)), (old_style_key(binary), str(binary)))
+
+    def test_session_start_in_worktree_shows_main_project_lesson(self):
+        add = run_ll(["add", "--kind", "preference", "--scope", "project", "--cwd", str(self.main),
+                      "--rule", "Im Hauptprojekt immer die deutsche Fachsprache der Versicherer verwenden"], self.home)
+        self.assertEqual(add.returncode, 0, add.stdout + add.stderr)
+        folder = self.make_worktree("wt-hook", "gitdir: ../../../.git/worktrees/wt-hook\n")
+        proc, data = run_hook("SessionStart", {"session_id": "sess-wt-1", "cwd": str(folder / "src")}, self.home)
+        self.assertEqual(proc.returncode, 0)
+        self.assertIsNotNone(data)
+        self.assertIn("Fachsprache der Versicherer", data["hookSpecificOutput"]["additionalContext"])
+        self.assert_no_errors_logged()
+
+    # Prüf-Gates bleiben je Arbeitskopie getrennt, auch wenn Worktrees die Lektionen teilen.
+
+    def gate_worktree(self, name):
+        folder = self.make_worktree(name, "gitdir: ../../../.git/worktrees/%s\n" % name)
+        (folder / "check.py").write_text(CHECK_SCRIPT, encoding="utf-8")
+        return folder
+
+    def gate_cli(self, args, cwd, session=None):
+        proc = run_ll(["gate"] + args, self.home, cwd=str(cwd), session=session)
+        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+        return proc.stdout
+
+    def gate_paths(self):
+        folder = self.home / "gates"
+        return sorted(folder.glob("*.json")) if folder.exists() else []
+
+    def test_two_worktrees_of_one_project_have_separate_gates(self):
+        wt_a, wt_b = self.gate_worktree("wt-a"), self.gate_worktree("wt-b")
+        self.assertEqual(llcore.project_key(str(wt_a)), llcore.project_key(str(wt_b)))  # Lektionen: gemeinsam
+        self.gate_cli(["arm", "--check", "python check.py"], wt_a, session="sess-a")
+        self.assertIn("Kein Prüf-Gate aktiv.", self.gate_cli(["status", "--cwd", str(wt_b)], wt_b))
+        self.gate_cli(["arm", "--check", "python check.py"], wt_b, session="sess-b")
+        paths = self.gate_paths()
+        self.assertEqual(paths, sorted([llgate.path_for(old_style_key(wt_a)), llgate.path_for(old_style_key(wt_b))]))
+        state_a = json.loads(self.gate_cli(["status", "--cwd", str(wt_a / "src")], wt_a))
+        self.assertEqual((state_a["cwd"], state_a["session"]), (str(wt_a), "sess-a"))
+        self.gate_cli(["off", "--cwd", str(wt_b)], wt_b)
+        state_a_after = json.loads(self.gate_cli(["status", "--cwd", str(wt_a)], wt_a))
+        self.assertEqual(state_a_after, state_a)
+        self.assertIn("Kein Prüf-Gate aktiv.", self.gate_cli(["status", "--cwd", str(wt_b)], wt_b))
+
+    def test_stop_in_other_worktree_does_not_run_foreign_gate(self):
+        wt_a, wt_b = self.gate_worktree("wt-a"), self.gate_worktree("wt-b")
+        self.gate_cli(["arm", "--check", "python check.py"], wt_a, session="sess-a")
+        transcript = self.tmp / "t.jsonl"
+        transcript.write_text("", encoding="utf-8")
+        proc, data = run_hook("Stop", {"session_id": "sess-b", "cwd": str(wt_b), "transcript_path": str(transcript),
+                                       "stop_hook_active": False, "last_assistant_message": "..."}, self.home)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertNotIn("Prüf-Gate", json.dumps(data or {}, ensure_ascii=False))
+        self.assertEqual(json.loads(self.gate_cli(["status", "--cwd", str(wt_a)], wt_a))["round"], 0)
+
+    def test_stop_in_same_worktree_runs_its_gate(self):
+        wt_a, wt_b = self.gate_worktree("wt-a"), self.gate_worktree("wt-b")
+        self.gate_cli(["arm", "--check", "python check.py"], wt_a, session="sess-a")
+        self.gate_cli(["arm", "--check", "python check.py"], wt_b, session="sess-b")
+        transcript = self.tmp / "t.jsonl"
+        append_transcript(transcript, [tool_use_row("t1", "Edit", str(wt_a / "app.py"))])
+        proc, data = run_hook("Stop", {"session_id": "sess-a", "cwd": str(wt_a / "src"), "transcript_path": str(transcript),
+                                       "stop_hook_active": False, "last_assistant_message": "..."}, self.home)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIsNotNone(data)
+        self.assertEqual(data.get("decision"), "block")
+        self.assertIn("Runde 1", data["reason"])
+        self.assertEqual(json.loads(self.gate_cli(["status", "--cwd", str(wt_a)], wt_a))["round"], 1)
+        self.assertEqual(json.loads(self.gate_cli(["status", "--cwd", str(wt_b)], wt_b))["round"], 0)
+
+    def test_normal_repo_gate_file_path_is_unchanged(self):
+        (self.main / "check.py").write_text(CHECK_SCRIPT, encoding="utf-8")
+        self.gate_cli(["arm", "--check", "python check.py"], self.main, session="sess-main")
+        self.assertEqual(self.gate_paths(), [llgate.path_for(old_style_key(self.main))])
+        state = json.loads(self.gate_cli(["status", "--cwd", str(self.main / "src")], self.main))
+        self.assertEqual((state["project"], state["root"]), (old_style_key(self.main), str(self.main)))
+        self.assertIn("Prüf-Gate beendet.", self.gate_cli(["off", "--cwd", str(self.main)], self.main))
+        self.assertEqual(self.gate_paths(), [])
+
+
 if __name__ == "__main__":
     unittest.main()

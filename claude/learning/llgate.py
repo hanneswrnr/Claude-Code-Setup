@@ -504,7 +504,7 @@ def _same(a, b):
 def scope_problem(cwd):
     """Gates only live in a project folder: inside a git repo or next to a project file, never home or a drive root."""
     folder = Path(cwd)
-    root = Path(core.project_key(cwd)[1])
+    root = Path(core.checkout_key(cwd)[1])
     for candidate in (folder, root):
         if candidate.parent == candidate or _same(candidate, Path.home()):
             return "nicht im Benutzerordner oder direkt auf einem Laufwerk: im Projektordner ausführen"
@@ -522,7 +522,7 @@ def arm(checks, max_rounds=8, timeout=900, note=""):
     bad = [(check, why) for check, why in bad if why]
     if bad or not checks:
         return None, bad or [("", "leere Prüfung")]
-    project, root = core.project_key(cwd)
+    project, root = core.checkout_key(cwd)  # per checkout: each git worktree has its own gate
     armed = time.time()
     state = {"project": project, "root": root, "cwd": cwd, "checks": [c.strip() for c in checks],
              "session": os.environ.get("CLAUDE_CODE_SESSION_ID", "")[:80], "armed_at": core.now(), "armed_ts": armed,
@@ -571,7 +571,7 @@ def state_problem(state):
         inside = os.path.commonpath([os.path.normcase(cwd), os.path.normcase(root)]) == os.path.normcase(root)
     except ValueError:
         inside = False
-    if not inside or core.project_key(cwd)[0] != project:
+    if not inside or core.checkout_key(cwd)[0] != project:
         return "Prüfordner liegt nicht im Projekt"
     return ""
 
@@ -579,12 +579,12 @@ def state_problem(state):
 def find(cwd=None, session_id=None, bind=True):
     """Gate for the git root of cwd, or for the nearest folder with a project file. session_id None = any session."""
     start = Path(os.path.abspath(cwd or os.getcwd()))
-    project, root = core.project_key(start)
+    project, root = core.checkout_key(start)
     keys = [project]
     if not (Path(root) / ".git").exists():
         for folder in [start, *start.parents]:
             if has_marker(folder):
-                key = core.project_key(folder)[0]
+                key = core.checkout_key(folder)[0]
                 if key not in keys:
                     keys.append(key)
                 break

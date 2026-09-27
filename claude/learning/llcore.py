@@ -358,15 +358,76 @@ def block_regex_problem(pattern):
     return ""
 
 
-def project_key(cwd=None):
+def _read_small(path):
+    try:
+        with open(path, encoding="utf-8-sig") as fh:
+            return fh.read(4096)
+    except (OSError, UnicodeDecodeError):
+        return None
+
+
+def _same_path(a, b):
+    return os.path.normcase(os.path.normpath(os.path.abspath(str(a)))) == \
+        os.path.normcase(os.path.normpath(os.path.abspath(str(b))))
+
+
+def _worktree_main(folder):
+    """Main checkout for a linked git worktree: folder/.git is a file "gitdir: <main>/.git/worktrees/<name>"
+    and <main>/.git/worktrees/<name>/gitdir points back to folder/.git. Only reads these two small files
+    (no git process, hooks must stay fast). Anything else, such as a submodule (gitdir under .git/modules),
+    an unreadable, broken or forged file or a missing main .git folder, gives None."""
+    folder = Path(folder)
+    text = _read_small(folder / ".git")
+    if text is None:
+        return None
+    line = next((l for l in text.splitlines() if l.startswith("gitdir:")), "")
+    value = line[len("gitdir:"):].strip()
+    if not value:
+        return None
+    target = Path(value)
+    if not target.is_absolute():
+        target = folder / target
+    target = Path(os.path.normpath(str(target)))
+    if not target.name or target.parent.name != "worktrees" or target.parent.parent.name != ".git":
+        return None
+    main = target.parent.parent.parent
+    try:
+        if not (main / ".git").is_dir():
+            return None
+    except OSError:
+        return None
+    back = next(iter((_read_small(target / "gitdir") or "").strip().splitlines()), "").strip()  # <worktree>/.git
+    if not back:
+        return None
+    back_path = Path(back) if Path(back).is_absolute() else target / back
+    return main if _same_path(back_path, folder / ".git") else None
+
+
+def _checkout_root(cwd):
+    """Nearest folder with a .git entry (a linked worktree counts on its own), else cwd itself."""
     path = Path(cwd or os.getcwd())
-    root = path
     for cand in [path, *path.parents]:
         if (cand / ".git").exists():
-            root = cand
-            break
+            return cand
+    return path
+
+
+def _key_for(root):
     slug = re.sub(r"[^a-z0-9]+", "-", root.name.lower()).strip("-")[:40] or "root"
     return "project:%s-%s" % (slug, hashlib.sha1(str(root).lower().encode("utf-8")).hexdigest()[:6]), str(root)
+
+
+def checkout_key(cwd=None):
+    """Key of the physical checkout, for per-checkout state such as check gates: each worktree has its own."""
+    return _key_for(_checkout_root(cwd))
+
+
+def project_key(cwd=None):
+    """Key for lessons: linked worktrees share the main project's key."""
+    root = _checkout_root(cwd)
+    if (root / ".git").is_file():
+        root = _worktree_main(root) or root
+    return _key_for(root)
 
 
 def clean_list(values, limit=12, width=60):
