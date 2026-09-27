@@ -3,7 +3,7 @@ name: devos-designer
 description: DevOS design role. Design and implement scoped HTML/CSS interfaces with TypeScript behavior and real browser evidence. Use for a separate visual brief or clearly owned UI files.
 skills:
   - devos-experience
-model: fable
+model: opus
 effort: high
 ---
 

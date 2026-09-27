@@ -1,0 +1,7 @@
+- [Roter Workflow ohne Job-Logs](github-actions-rot-ohne-joblogs.md) — erst Check-Annotationen lesen, "0 Schritte" heisst der Job lief nie
+- [SchadenMelden24: Actions durch Abrechnung blockiert](schadenmelden24-actions-abrechnung-blockiert.md) — seit 04.09.2026 kein Job gestartet, seitdem gemergte PRs sind ungeprueft
+- [SchadenMelden24: Mobile restlos weg](schadenmelden24-mobile-restlos-weg.md) — komplett erledigt inkl. Verzeichnis (#80) und Foto-Metadaten (#88); AVV-Waechter wartet auf Umstellung
+- [SchadenMelden24: Google-Projekt geloescht](schadenmelden24-gcp-projekt-geloescht.md) — am 24.09.2026 geloescht und wiederhergestellt, Kalender laeuft, Firebase-Schluessel geloescht
+- [SchadenMelden24 ohne Klon](schadenmelden24-ohne-klon-arbeiten.md) — Tarball + lokales git + Git-Data-API; autocrlf-Falle, auf echter Basis aufsetzen
+- [Hannes zahlt nichts an GitHub](github-nicht-bezahlen.md) — keine kostenpflichtigen GitHub-Optionen vorschlagen
+- [Sicherheitsnetz blockiert Zerstoererisches](safety-net-blockiert-zerstoererisches.md) — Zustimmung im Chat hebt es nicht auf, fertigen Befehl an Hannes geben

@@ -1,0 +1,3 @@
+- [Arbeitsteilung: Handarbeit bei mir, Entscheidungen bei Hannes](arbeitsteilung-hannes-macht-nur-entscheidungen.md) — alles per CLI/SSH/MCP selbst ausführen; ihm nur geben, was technisch niemand sonst tun kann
+- [Geheimnisse nie in den Verlauf — auch keine Bytegröße](lifeos-geheimnisse-nie-im-verlauf.md) — `ls -l` auf einen Geheimnispfad ist schon zu viel; Proben im Container, nur die Antwort ausgeben
+- [VPS-8-Lauf unterbrochen am 6. August 2026](vps-8-lauf-unterbrochen.md) — egress und backup stehen, CRITICAL bestanden; offen sind MEDIUM, die Ablösung des Exporters und eine blockierte Backend-Rückabfrage

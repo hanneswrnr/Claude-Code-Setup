@@ -1,0 +1,2 @@
+- [Rechtsfragen selbst entscheiden (SM24)](sm24-rechtsfragen-selbst-entscheiden.md) — PO delegiert DSGVO-/Steuerfragen; begründen, Primärquellen, Wiki
+- [Löschkonzept SM24 (Mig 680)](sm24-loeschkonzept.md) — was gelöscht/aufbewahrt wird, Gutschriften keine Plattform-Belege

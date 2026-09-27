@@ -1,0 +1,6 @@
+- [Stand von P8 — hier geht es weiter](menudeck-p8-review-stand.md) — beide Reviews gefahren, alle Befunde behoben; offen ist nur die unabhaengige Bestaetigung von S1/S2.
+- [MenuDeck-Setup auf diesem Windows-Rechner](menudeck-setup-windows.md) — vier Schritte, die die README nicht nennt; ohne sie startet nichts.
+- [Drei Instrumentenfallen](menudeck-instrumentenfallen.md) — Messungen, die wie bestandene Tests aussahen; die Positivkontrolle gehoert an den Anfang.
+- [Die CI war nie gruen](menudeck-ci-rot.md) — Defekt behoben, aber seit 2026-08-02 loest kein Push einen Lauf aus; braucht einen Blick ins Browser-Billing.
+- [Migrationen und der Ledger](menudeck-migrations-ledger.md) — der Ledger fuehrt Kommentare mit, folgt aber den Dateien; die Phasengrenze ist trotzdem bindend.
+- [Offene Punkte aus dem Erst-Setup](menudeck-offene-setup-korrektur.md) — faellige README-Korrektur und der npm-audit-Befund.

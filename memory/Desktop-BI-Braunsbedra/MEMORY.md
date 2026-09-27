@@ -1,0 +1,4 @@
+- [Next.js + Supabase (static export)](project_stack.md) — Nur Next+Supabase, PHP-API entfernt. Kontaktformular schreibt in contact_messages, Mail-Versand steht noch aus.
+- [Lucide 0.563 Icon-Namen](project_lucide_names.md) — PascalCase-Umbenennung (Home→House, CheckCircle→CircleCheck etc.); nur Namen aus L.icons registry verwenden.
+- [BI-Kernthema + Domain](project_bi_kernthema.md) — BI positioniert sich primär gegen Agri-PV-Solarpark "Sonnenquelle Geiseltal"/Krumpa. Produktiv-Domain: braunsbedra-bi.de (nicht bi-braunsbedra.de).
+- [Laptop/PC-Wechsel ueber Repo-.md](workflow_laptop_pc_context.md) — User wechselt Geraete; .md-Dateien im Repo-Root sind sein Kontext-Transfer. Keine loeschen/auslagern, vor Geraete-Wechsel pushen.

@@ -1,0 +1,14 @@
+---
+name: ai-os-project
+description: "AI OS / FleetView — Electron desktop app that live-monitors the user's Claude Agent SDK agents"
+metadata: 
+  node_type: memory
+  type: project
+  originSessionId: 4925184a-dfe0-41dd-b5e3-bbae313a6a98
+---
+
+The user (Hannes, hannes-werner@outlook.de) is building **AI OS · FleetView**, an Electron desktop app at `C:\Users\hanne\Desktop\AI OS` that shows in real time what their AI agents are doing. Decided 2026-06-15: monitor **real Claude Agent SDK** agents (`@anthropic-ai/claude-agent-sdk`), packaged as a **desktop app** — Electron chosen over Tauri because the SDK is Node, so the main process runs/streams agents directly.
+
+Architecture: `main.js` (orchestrator + IPC + auth/SDK detection), `agent-runner.js` (maps `query()` stream → fleet events: tool_use→steps, usage→tokens deduped by `message.id`, result→cost/status; one stream + AbortController per agent), `preload.js` (contextBridge `window.fleetAPI`), `index.html` (source-agnostic FleetView UI — **3D Three.js/WebGL factory**: robot agents work at workstations, glide around the hall, gather around a table for meetings when ≥2 are idle/done; mouse-orbit camera (drag/scroll); floating info-card sprite above each robot; + agent cards + live feed; demo in a plain browser, real agents in Electron). Three.js is bundled locally to `vendor/three.bundle.js` via esbuild (classic `window.THREE` global — offline-safe, avoids `file://` ESM issues; entry `vendor-entry.js` re-exports three + RoomEnvironment + RoundedBoxGeometry, rebuild with the esbuild `--global-name=THREE` command). Scene = orthographic isometric "floating diorama" (RoomEnvironment IBL + ACES tone-mapping for matte-premium look) per the user's STYLE brief. **Visual QA of the Electron 3D render:** `node_modules/electron/dist/electron.exe capture.js` writes `shot.png` via `webContents.capturePage()` — the headless Claude_Preview can't screenshot WebGL, so use this to actually see the render. Styled per [[schadenmelden24-brand-style]].
+
+Status 2026-06-15: **real agent runs validated** via `test-agent.js` — the SDK uses the on-disk Claude login (`~/.claude`, no API key needed); a real Haiku run streamed tool_use + tokens and finished (cost ~$0.056). SDK v0.3.177. Real agents run with `permissionMode:'bypassPermissions'` (autonomous — can use Bash/Write/Edit). The desktop app now **defaults to live mode** (real agents); Demo is opt-in via the toggle. Hero evolved per successive user requests: iso-tiles → 2D robot conveyor → **3D WebGL factory** (Three.js, robots at desks + gliding + meetings). Gotcha: SDK `system` messages have subtypes (`init`/`thinking_tokens`/`post_turn_summary`) and `rate_limit_event` fires — only `init` is surfaced in the feed. Next: `npm run dist` NSIS installer + autostart, per-agent detail drawer, permission-mode toggle.

@@ -1,0 +1,2 @@
+- [SchadenMelden24 Install Quirks](project_install_quirks.md) — Mobile braucht `--legacy-peer-deps` (Capacitor 5↔6 Konflikt); Sync-Check ohne .git via `git init`+`fetch`+`read-tree`+`diff -c core.autocrlf=false`
+- [4K+-Zaehler = veralteter HEAD](project_stale_checkout.md) — 2026-08-08 bereinigt; Diagnose-Rezept (Probe-Index gegen origin/main) statt raten. `git worktree` scheitert hier am Windows-Pfadlimit.

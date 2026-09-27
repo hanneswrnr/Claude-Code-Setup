@@ -1,0 +1,8 @@
+- [Anon-RLS verboten auf Portal-Tabellen](project_security_anon_rls.md) — niemals wieder anon-SELECT auf kunde_tokens/claims/etc.; nur API+Service-Role
+- [Client-IP via Helper](project_security_ip_trust.md) — getClientIp() aus lib/api/get-client-ip.ts; x-forwarded-for[0] ist spoof-bar
+- [SECURITY DEFINER Function-Grants](feedback_supabase_function_grants.md) — REVOKE FROM PUBLIC reicht nicht; explizit FROM anon revoken (Supabase Default-Privileges)
+- [Kein Co-Authored-By in Commits](feedback_no_coauthored_by.md) — Vercel-Block-Risiko; Trailer NIEMALS einfuegen
+- [Cron-Jobs bei cron-job.org](project_externer_cron_aufrufer.md) — zwei externe Jobs waren die echten Ausloeser (Notifications, Cleanup-Orphaned); Abschalt-Reihenfolge beachten
+- [Test-Vermittlerkonto](reference_test_vermittler.md) — hannes-werner+test888@outlook.de fuer Browser-Tests der Rolle vermittler; Nutzer meldet sich selbst an
+- [Produktentscheidung delegiert](feedback_produktentscheidung_delegiert.md) — bei „entscheide du“ selbst entscheiden: vorsichtig, umkehrbar, begründet dokumentiert, ohne Mails an Dritte
+- [Bezahlsystem-Umbau (PR 47)](project_bezahlsystem_umbau.md) — Haus-Testphase, Countdown, neue Abo-Seiten; am 24.09.2026 live; Nacharbeiten Stripe-Zahlarten, cleanup-orphaned, AGB

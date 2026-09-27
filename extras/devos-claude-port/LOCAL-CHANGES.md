@@ -40,7 +40,7 @@ The user asked for a token-efficient setup at maximum quality with a Codex-style
 - Model tiers: `devos-explorer` and `devos-researcher` sonnet/high; `devos-worker`, `devos-verifier` and `devos-platform` opus/high; `devos-designer` fable/high; `devos-reviewer` and `devos-security` fable/xhigh. The section "Model routing" in `devos-orchestrate` describes the tiers, generic specialists on opus, and the fallback to `model: "opus"` for the Fable roles when the weekly Fable limit is used up. The reviewer escalation through `devos-review.settings.json` is obsolete.
 - `/claude-api prompt-audit`, approved findings applied: duplicated German rules and step lists removed from `CLAUDE.md` (the DEVOS block is byte-identical) and a short section „Modelle“ added; self-check rituals removed from worker and platform; reviewer and security report every issue with a confidence level; the full contract is read by relevant section instead of completely for every B–D objective; the "two rounds without progress" rule now matches `CLAUDE.md` everywhere (take an untried route while the budget allows).
 - Backup before the change: `%USERPROFILE%\Documents\DevOS\backups\2026-09-11-modellstufen\`. Its `skills\devos-orchestrate\SKILL.md` is the hash-verified state `20c0f2f7…` from the table above.
-- Copies after the change: `local-changes/2026-09-11-modellstufen/` next to this note.
+- Copies after the change were kept in `local-changes/2026-09-11-modellstufen/` and moved on 2026-09-22 (superseded model tiers) to `%USERPROFILE%\Documents\DevOS\backups\2026-09-11-modellstufen-kopien-nach-aenderung\`; they also remain in the Git history of the setup repository.
 - Changed in the same step outside the port: `settings.json` (model, effortLevel, env `CLAUDE_CODE_SUBAGENT_MODEL` and `ANTHROPIC_DEFAULT_HAIKU_MODEL`, `modelSettings`, `statusLine`), `statusline.py`, `skills/loop-engineering/SKILL.md` and the agency description cap in `vendor/sync_agency_agents.py`.
 
 | Installed file (`~/.claude/…`) | Change | SHA-256 after the change |
@@ -62,7 +62,7 @@ Rollback: copy `CLAUDE.md`, the agent files, the four skill files, `settings.jso
 
 ## 2026-09-19 — Orchestrierung und Prüfung auf Opus xhigh
 
-Auf Wunsch wurden Hauptgespräch/Orchestrierung und die Prüfpfade auf Opus 5 mit der höchsten im Setup verwendeten Thinking-Stufe `xhigh` gestellt. Fable 5.1 auf `high` bleibt ausschließlich für Design (`devos-designer`) vorgesehen; Reviewer und Security laufen ebenfalls auf Opus `xhigh`, damit Fable nicht außerhalb des Designs eingesetzt wird. Eine neue Claude-Code-Sitzung ist nötig, damit die Einstellungen geladen werden.
+Auf Wunsch wurden Hauptgespräch/Orchestrierung und die Prüfpfade auf Opus mit der höchsten im Setup verwendeten Thinking-Stufe `xhigh` gestellt. Fable 5.1 auf `high` bleibt ausschließlich für Design (`devos-designer`) vorgesehen; Reviewer und Security laufen ebenfalls auf Opus `xhigh`, damit Fable nicht außerhalb des Designs eingesetzt wird. Eine neue Claude-Code-Sitzung ist nötig, damit die Einstellungen geladen werden.
 
 | Datei | Änderung |
 |---|---|
@@ -72,3 +72,22 @@ Auf Wunsch wurden Hauptgespräch/Orchestrierung und die Prüfpfade auf Opus 5 mi
 | `agents/devos-security.md` | `opus` / `xhigh` |
 | `skills/devos-orchestrate/SKILL.md` | Routing-Dokumentation auf Opus-orchestriert, Design-only-Fable aktualisiert |
 | `CLAUDE.md` | Modellregeln und Fable-Fallback aktualisiert |
+
+## 2026-09-22 — Umstellung auf Opus 5.5
+
+Auf Wunsch läuft alles außer Suche und Recherche auf Opus 5.5 (Kurzname `opus`, der bereits auf `claude-opus-5-5` zeigt; per Test-Agent geprüft). Fable wird nicht mehr eingesetzt, auch nicht für Design. Grundlage sind die Benchmark-Grafiken zur Veröffentlichung von Opus 5.5, die der Nutzer am 22.09.2026 als Bildschirmfotos geteilt hat (Werte abgelesen, nicht selbst gemessen): Opus 5.5 auf `high` liegt in Terminal-Bench 4.0, FrontierCode 1.1 und CursorBench 4.0 vor Fable 5.1 und der Vorgängergeneration auf jeder Stufe, bei geringeren Kosten; `xhigh` kostet etwa doppelt so viel wie `high` und bringt +2, 0 bzw. −3 Punkte. Sonnet 5 bleibt für Suche und Recherche. Dieser Eintrag ersetzt die Modellentscheidungen der früheren Einträge; die Kopien unter `local-changes/2026-09-11/` sind nur Archiv und dürfen nicht wieder eingespielt werden.
+
+- Kopien nach der Änderung: `local-changes/2026-09-22-opus-5-5/`
+
+| Datei | Änderung | SHA-256 nach der Änderung |
+|---|---|---|
+| `agents/devos-designer.md` | `fable` / `high` → `opus` / `high` | `cb7a25f2e18484f8c81f29a15d1ec4aaa1e3fe4fdd1de8608ef00d84e5fcc76e` |
+| `agents/devos-verifier.md` | `opus` / `xhigh` → `opus` / `high` | `feab4d54d0d905db2c54c54a6b412194fd8d028d124c1e4840d33568c75358a5` |
+| `agents/devos-reviewer.md` | unverändert `opus` / `xhigh` (Stand vom 19.09.2026) | `acff32cf968409aca90d1fd9759d6e27d0ef0338911aa8b8c577c44cd54d7ed9` |
+| `agents/devos-security.md` | unverändert `opus` / `xhigh` (Stand vom 19.09.2026) | `725a7511fac4737d489e095f61bfd3f3a8f840bb9ff51b0837017a4923d00ccf` |
+| `skills/devos-orchestrate/SKILL.md` | Abschnitt „Model routing": zwei Stufen (opus, sonnet), Fable-Limit-Regel entfernt, Hinweis gegen `max` | `690320575fa5ff82457d1417425d47c3693c06d47e251a610c9c3f35439f7e1c` |
+| `CLAUDE.md` | Abschnitt „Modelle": Opus 5.5, xhigh nur für Orchestrierung, Prüfung und Sicherheit; Fable-Regel entfernt | `ec69af8424f0d99d410a32cef8f3fe4e187e8800c98c2a9edb8916e4f594ebd0` |
+
+- Außerhalb des Ports geändert: `learning/lessons.jsonl` (Lektionen L-20260911-7c9217 und L-20260911-51c812 über `ll.py edit` auf den neuen Stand umformuliert). `settings.json` bleibt bei `model` `opus`, `effortLevel` `xhigh` und Unteragenten `opus`; der Schlüssel `skipWorkflowUsageWarning` darin stammt nicht aus dieser Änderung.
+- Unverändert: `devos-worker` und `devos-platform` (`opus` / `high`), `devos-explorer` und `devos-researcher` (`sonnet` / `high`).
+- Rollback: Stand vor der Änderung ist Commit `88ec724` im Setup-Repo. Wirksam wird die Änderung erst in einer neuen Claude-Code-Sitzung; in der Desktop-App zusätzlich im Eingabefeld Opus 5.5 mit „Extra hoch“ wählen.

@@ -1,0 +1,2 @@
+- [PowerShell kennt kein &&](powershell-no-double-ampersand.md) — Befehle einzeln geben, nicht verketten.
+- [Alte npm-CLI vs. gebuendelte claude.exe](claude-cli-version-mismatch.md) — Ursache fuer seltsame Plugin-Fehler unter Windows.
