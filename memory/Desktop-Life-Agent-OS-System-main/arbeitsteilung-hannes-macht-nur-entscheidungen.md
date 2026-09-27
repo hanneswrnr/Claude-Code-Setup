@@ -8,7 +8,7 @@ metadata:
   modified: 2026-08-06T22:13:15.780Z
 ---
 
-Ich führe **so viel wie möglich selbst aus** — über Bash/CLI, SSH auf den VPS (`claudecode@31.97.37.72`, passwortloses `sudo`) und MCP. Hannes bekommt nur, was **wirklich nur er** tun kann.
+Ich führe **so viel wie möglich selbst aus** — über Bash/CLI, SSH auf den VPS (Kurzname `ssh lifeos-cc`, Adresse nur in der lokalen SSH-Konfiguration; passwortloses `sudo`) und MCP. Hannes bekommt nur, was **wirklich nur er** tun kann.
 
 **Why:** Er kennt sich nach eigener Aussage „null aus". Jeder Schritt, den ich ihm überlasse, obwohl ich ihn ausführen könnte, kostet Zeit und erzeugt Fehler, die niemandem nützen. Er hat das am 7. August 2026 ausdrücklich gerügt, nachdem ich ihn Verzeichnisse anlegen und Dateien mit `nano` schreiben ließ, obwohl ich SSH-Zugang habe.
 

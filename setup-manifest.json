@@ -1,6 +1,6 @@
 {
  "source_home": "C:/Users/hanne",
- "exported_at": "2026-09-27T11:17:36+02:00",
+ "exported_at": "2026-09-27T11:24:53+02:00",
  "memory": {
   "AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-2ad80d": "C--Users-hanne-AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-2ad80d",
   "AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-3cac4a": "C--Users-hanne-AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-3cac4a",
@@ -336,7 +336,8 @@
   "claude/agents/xr-immersive-developer.md": "44e12145e6a151509a311e7bafa857efaf5fd04d23ffe781b1a7b1320830e43d",
   "claude/agents/xr-interface-architect.md": "c37d861d5f2ea98b9dd7de610ba718d801ad5a95c2a20ffd8cef82c3455ae3e2",
   "claude/agents/zk-steward.md": "4431caf0747012e60d581f75d25bcb98400fa218bd1dbb7b1145bd4916453080",
-  "claude/learning/lessons.jsonl": "bb23f02410ebc4a6247451bbf6bfffb2eb07f07c185e0abaf21584219428e226",
+  "claude/learning/config.json": "8b9822a21280c13be3c70f95ac136f81731aabeddd959738733dda7daaefc4b7",
+  "claude/learning/lessons.jsonl": "06e48d25ba2903288a2039531804252be9b132ff03010f31c3a241307beebc67",
   "claude/learning/ll.py": "b614851e9412013bbd7874c3c5fce3393a263c2f92867cb4a95eeb708fa63592",
   "claude/learning/llcore.py": "a20dc1ead2779410b876a0261b4673025bce07ca2d2b4f7f786dae91b2e318da",
   "claude/learning/llgate.py": "6c2d42b925138f484a5847f235d670d724d8a5ec26da7272ad036df9f9054e73",
@@ -506,7 +507,7 @@
   "memory/Desktop-BI-Braunsbedra/workflow_laptop_pc_context.md": "fcd49391f4027f55805aad9640bc557c6b96234418142754ff3ab2933db03e0f",
   "memory/Desktop-LIVARO-Home-Neu/MEMORY.md": "b543014241e0ee63bddd701af126be737b87976ecb31fddaf6afdc53187f958a",
   "memory/Desktop-Life-Agent-OS-System-main/MEMORY.md": "2ea01128657be211d6336d13dab17c9d86ea8867d8e9be400cac5db83ba04156",
-  "memory/Desktop-Life-Agent-OS-System-main/arbeitsteilung-hannes-macht-nur-entscheidungen.md": "cfcc66e6434b3c1160d7450e751063d3f559cd1dfe6fe75772569e7c50cb3d65",
+  "memory/Desktop-Life-Agent-OS-System-main/arbeitsteilung-hannes-macht-nur-entscheidungen.md": "8bad9334420aee18045d800172aa99af5ff6cee8351859f809e6ddd48d730567",
   "memory/Desktop-Life-Agent-OS-System-main/lifeos-geheimnisse-nie-im-verlauf.md": "189b0d5d57d2cc4f9088139cbbd32337eea86c49262e483a2d96d50903c16ec0",
   "memory/Desktop-Life-Agent-OS-System-main/vps-8-lauf-unterbrochen.md": "76359d38aa16b9c583f2e08ee2f5ef8a759532514cac72e729b03cce46ccda66",
   "memory/Desktop-MenuDeck-main/MEMORY.md": "162192096f31767b3a6d2d111dbbe14b9ebe1248595147ebc204e8889f03c88e",
