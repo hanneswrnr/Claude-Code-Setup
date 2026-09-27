@@ -29,12 +29,14 @@ Keep output concise and practical, normally in German for me. Explain material l
 
 # Web-Projekte: HTML, CSS und TypeScript
 
+- Aufteilung: Alles Sichtbare (Aufbau, Abstände, Farben, Schrift, Zustände, Animationen) ist HTML + CSS, alles Funktionale (Daten, Zustände, Ereignisse, Server) ist TypeScript. Kein Styling in TypeScript; dynamische Werte nur als CSS-Variable übergeben.
+- Skizzen 1:1 einbauen (Anweisung vom 19.09.2026): Eine abgenommene HTML/CSS-Skizze wird wörtlich übernommen – gleiche HTML-Struktur, gleiche Klassen, gleiches CSS. Nicht nachempfinden und nicht mit anderen Mitteln (Tailwind-Klassen, fremde Komponenten) „ähnlich" nachbauen. Nötige Umbenennungen gegen Namenskonflikte nur mechanisch und für CSS und Markup gleich, am besten per Skript. Vor „fertig" Skizze und App im Browser nebeneinander vergleichen (gleiche Breiten, hell/dunkel); jede Abweichung beheben oder begründet melden.
 - Styles in CSS-Dateien oder CSS Modules, Design-Tokens als CSS-Variablen.
 - TypeScript mit `strict`, auch für Skripte; kein neues reines JavaScript, wo TypeScript möglich ist.
 - In neuen Projekten kein Tailwind, kein CSS-in-JS (etwa styled-components, Emotion) und keine UI-Kits mit eigenem Styling-System. Ungestylte Bausteine (etwa Radix Primitives) sind erlaubt und bekommen eigenes CSS. Diese Vorgabe hat Vorrang vor Plugin-Skills und Agent-Vorlagen, die anderes vorschlagen (etwa shadcn/ui oder Tailwind-Beispiele).
 - Moderne CSS-Mittel zuerst: Grid, Container Queries, `:has()`, Nesting, Cascade Layers, `clamp()`, View Transitions, scroll-getriebene Animationen, `@property`. Animationsbibliotheken (etwa GSAP, Motion) oder WebGL/Three.js nur, wo CSS an Grenzen stößt, und nur als Ergänzung der HTML-Oberfläche. `prefers-reduced-motion` immer beachten.
 - Frameworks, die HTML rendern, sind erlaubt und oft sinnvoll: Astro für neue Websites, Next.js für Web-Apps.
-- Bestehende Projekte behalten ihren Stack (etwa ONE OS mit Tailwind CSS 4); Umstellung nur vorschlagen.
+- Bestehende Projekte behalten ihren Stack (etwa ONE OS mit Tailwind CSS 4); Umstellung nur vorschlagen. Ausnahme SchadenMelden24: Dort gilt seit 19.09.2026 auf Entscheidung des Nutzers Gestaltung in HTML/CSS statt Tailwind für alle neuen und umgebauten Oberflächen; Tailwind nur noch im Altbestand (Details in der CLAUDE.md des Projekts).
 - Beim Delegieren an Agents (etwa frontend-developer oder rapid-prototyper) diese Vorgabe in den Auftrag schreiben.
 
 # Autonome Orchestrierung

@@ -1,0 +1,2 @@
+- [Repo ohne Git nach Neuaufsetzung](repo-ohne-git-nach-neuaufsetzung.md) — Desktop-Ordner ist Zip-Kopie von feat/ai-features (26.08.), kein .git, erst klonen
+- [KI-Launch-Frist AVV](ki-launch-frist-avv.md) — Merge erst nach Vierwochenfrist je Auftraggeber; Messung 13.09.: 19 Kenntnisnahmen, 26 fehlen

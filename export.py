@@ -34,7 +34,8 @@ PLAN = [
     (HOME / ".gsd" / "defaults.json", "gsd/defaults.json", None),  # resolve_model_ids: GSD-Agents laufen auf Opus
 ]
 PAYLOAD = ("claude", "extras", "memory", "gsd")
-NEVER = re.compile(r"(^|/)(\.credentials\.json|[^/]*\.db|state|gates|projects|__pycache__|[^/]*\.pyc|[^/]*\.tmp|\.git)(/|$)",
+# synced: Skills, die die Desktop-App je Sitzung aus dem claude.ai-Konto hineinkopiert
+NEVER = re.compile(r"(^|/)(\.credentials\.json|[^/]*\.db|state|gates|projects|synced|__pycache__|[^/]*\.pyc|[^/]*\.tmp|\.git)(/|$)",
                    re.I)
 SECRET = re.compile(
     r"sk-ant-[A-Za-z0-9_-]{10,}|\bsk-[A-Za-z0-9]{32,}|\bsk-proj-[A-Za-z0-9_-]{20,}|"

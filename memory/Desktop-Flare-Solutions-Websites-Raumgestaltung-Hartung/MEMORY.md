@@ -1,0 +1,14 @@
+- [Hannes / Origin Labs](user-hannes-origin-labs.md) — user is Hannes Werner, agency Origin Labs (Flare Solutions), builds the site for Norman Hartung
+- [Einfache Sprache](feedback-einfache-sprache.md) — status and to-dos in plain German, explain jargon
+- [Konten & Verträge Hartung](project-hartung-konten-vertraege.md) — Vercel in Origin Labs Pro account, Alfahosting on Norman, web144p1 = portal login, sender mailbox formular@ → info@
+- [Edit statt Skript](feedback-edit-statt-skript.md) — classifier blocks script rewrites of source files; use Edit, one edit per file at a time
+- [Workflow-Limit](feedback-workflow-limit.md) — big fan-outs hit the weekly limit; after an abort check changed files and build first
+- [Alfahosting-Hilfe per API](reference-alfahosting-hilfe-api.md) — help center 403s WebFetch; Zendesk API /api/v2/help_center/de/articles/<id>.json works
+- [Git & Deploy bei Hartung](project-hartung-kein-git.md) — git + GitHub seit 11.09.2026, alles direkt zu main, Vercel deployt automatisch; Commit-Identität inline angeben
+- [aufnahme.mjs Exit 255](reference-aufnahme-exitcode.md) — screenshot tool exits 255 despite success; check the "geschrieben:" line
+- [Sektion entfernen](project-hartung-sektion-entfernen.md) — removing a section: retarget anchor redirects, manifest/AI checks, routen check on dev server
+- [Dateien statt Texte](feedback-dateien-statt-texte.md) — for third parties deliver the ready-to-forward file (original name/format), never a message text
+- [Rote Prüfung nicht wegerklären](feedback-rote-pruefung-nicht-wegerklaeren.md) — fix a failing check instead of calling it a known harmless quirk in the report
+- [Muster und Zahlen nachmessen](feedback-muster-und-zahlen-nachmessen.md) — Wildcard-Regeln vorher auf echte Treffer pruefen, Mengenangaben nie ungemessen schreiben
+- [Google-Videobericht](reference-google-videobericht.md) — dekorative Videos bleiben dort dauerhaft gemeldet; noindex auf der Datei raeumt nichts
+- [Livegang-Stand Hartung](project-hartung-livegang-stand.md) — live on www since 12.09.2026; apex has two A records (no Vercel cert), HSTS stage 2, open items in LIVEGANG.md §9

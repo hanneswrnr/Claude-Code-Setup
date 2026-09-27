@@ -1,0 +1,7 @@
+- [ONE OS: Orchestrator-Arbeitsweise](one-os-orchestrator-arbeitsweise.md) — Hauptsitzung orchestriert autonom mit Subagents; nächste Aufgaben = jüngste Runde
+- [ONE OS: Arbeitsplatz Flare](one-os-arbeitsplatz-flare.md) — Git-Checkout, kein Wirt/Produktion, gh angemeldet; Merge = Vercel-Auslieferung
+- [ONE OS: Merge-Freigabe](one-os-merge-freigabe.md) — Orchestrator merged geprüfte PRs selbst; seit 13.09.2026 auch Prod-Migrationen per Supabase-MCP ohne Rückfrage (alle Projekte mit MCP); Reihenfolge Migration → Merge → Smoke
+- [Docker Desktop aus Claude starten](docker-desktop-start-aus-claude.md) — Start-Process stirbt mit dem Aufruf, explorer.exe-Start überlebt
+- [Nutzer: kein Entwickler](nutzer-kein-entwickler.md) — alles Mögliche selbst machen, Aufgaben an ihn minimal und mit Beispielwerten
+- [ONE OS: Stand Runde 22](one-os-runde-22-stand.md) — Pause 13.09.2026, Integration auf r22/int, offen e2e/Protokoll/PR/Merge
+- [Supabase-MCP: Prod-Freigabe](supabase-mcp-prod-freigabe.md) — seit 13.09.2026 Prod-Migrationen/SQL über Supabase-MCP in allen Projekten ohne Rückfrage; Migration vor Merge; Löschen bleibt Rückfrage

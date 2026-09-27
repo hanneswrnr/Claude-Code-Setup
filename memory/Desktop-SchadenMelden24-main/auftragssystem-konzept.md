@@ -1,0 +1,16 @@
+---
+name: auftragssystem-konzept
+description: Auftragssystem-Vereinfachung ist seit 19.09.2026 komplett gebaut auf Branch feat/auftragssystem-vereinfachung (Klon C:\Users\hanne\sm24-auftrag), gepusht für Vercel-Preview, NICHT auf main; Mig 605/606 live
+metadata:
+  type: project
+---
+
+Konzept + Skizze liegen in `.planning/features/auftragssystem/`. Der PO hat am 18.09.2026 alle 17 Entscheidungen übernommen („du entscheidest komplett") und verlangt: nie direkt auf main, erst Vercel-Preview ansehen.
+
+Stand 19.09.2026: Alle fünf Stufen gebaut im eigenen Klon `C:\Users\hanne\sm24-auftrag`, Branch `feat/auftragssystem-vereinfachung`, mit main gemerged, gepusht. Prüfstand: tsc 0 Fehler, 3563 Tests grün, next build ok, unabhängige Prüfung + Browser-Sichtprüfung (Wegwerf-Seite, 393/768/1280, hell/dunkel) abgearbeitet. Migrationen 605 (kunden.versicherung_id/vermittler_id/katalog_versicherer_id + Trigger), 606 (Trigger blockiert Agentur-Löschen nicht mehr) und 607 (Tabelle auftrag_status_historie: nur Status-Wechsel, RLS an Auftrags-Sichtbarkeit gekoppelt, per Trigger befüllt) sind auf Prod. Stand nach zweiter Runde (19.09.): Historie-Reiter liest auftrag_status_historie (kein Service-Client – der wurde vom Auto-Mode als Sicherheitsabsenkung blockiert, die Tabellen-Lösung ist die sichere Alternative), Kundensuche serverseitig (lib/auftrag/kunden-suche.ts), Glossar-Wörter Agentur/Vertreter/Versicherungsgesellschaft, Vertreter im Laufzettel; 3632 Tests grün, Build ok, mit main 785492fb gemerged und gepusht.
+
+Inhalt: Suchfeld in jedem Select (+ description/keywords, kein Autofokus auf Touch), neutraler Zweitknopf, `lib/auftrag/*` (status-anzeige = EINE Quelle für Status-Namen, naechster-schritt, versicherung-zuordnung, neuer-auftrag, schadensarten-optionen, duplikat-check), `lib/types/auftrag-view.ts`, `components/shared/auftrag/*` (7 Karten, Kopf, Statusleiste, Reiter-Kanon, gesperrteFelder), neue Seite `/werkstatt/auftraege/neu`, alle 5 Detailansichten auf der Schale, Listen/Exporte mit gemeinsamen Status-Namen. Doku: `wiki/04-Patterns/Auftrag-Detail-Schale.md`, `wiki/03-Features/Eigenauftrag-Anlegen.md`.
+
+**Why:** Werkstatt-Feedback „Kunde zuerst, Schaden später"; fünf Detailansichten in drei Bauarten.
+
+**How to apply:** Merge nach main erst nach PO-Freigabe der Vorschau. Offen: (1) wenn Mig 620 (Werkstatt-Freischaltung) gemerged wird, prüfen ob auftrag_status_historie von wartende_werkstatt_sperre_anwenden() erfasst ist; (2) PO 19.09.2026: KEIN Notausgang – altes Anlege-Fenster restlos entfernt (Commit e8a2de2e), generell gilt für dieses Projekt: nichts hinter Schaltern/Übergangslösungen parken, gleich richtig einbauen; (3) TerminMaske des Termin-Chats später in `components/werkstatt/auftrag-neu/TerminEinstieg.tsx` tauschen, Hinweiszeile gegen `components/shared/Callout.tsx`; (4) ilike-Suche ohne pg_trgm-Index; (5) produktweite Wörter „Versicherung des Kunden"/„Provisionsabrechnung" bewusst nicht angefasst (anderer Chat); (6) Provisions-Chat ändert useEigenauftragActions.ts – kleiner Konflikt bei ~Z.500 möglich. Regeln: Schadenmelde-Formular bleibt ([[schaden-melden-formular-bleibt]]), Chat heißt „Chat", Admin sieht keine Aufträge ([[admin-keine-auftraege]]), Texte in Sie-Form.

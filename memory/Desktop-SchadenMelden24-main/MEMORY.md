@@ -1,2 +1,18 @@
+- [Prod-DB enthält Migrationen aus feat/ai-features](prod-db-drift-feat-ai-features.md) — vor CREATE OR REPLACE FUNCTION Live-Body abgleichen; Nummern 591–598 belegt
+- [Commit- und Umgebungsregeln SchadenMelden24](schadenmelden24-commit-regeln.md) — kein Co-Authored-By; Ordner war Zip ohne .git; .env-Schreiben blockiert; kein Testlogin
+- [Abgabe-Prüfliste: Knöpfe und Redirects](abgabe-pruefliste-knoepfe-redirects.md) — rolePrimaryButton statt fester Farben; kein redirect() aus Layouts unter loading.tsx, Auth-Redirect in die Middleware
+- [Terminsystem-Vereinfachung Konzept](terminsystem-vereinfachung-konzept.md) — Konzept v2 + Skizze v2 in .planning/features/terminbuchung/ (16.09.2026); Google-Push-Sync in Prod vermutlich tot (Spalte `ganztaegig` fehlt); 11 offene PO-Entscheidungen
+- [Schadenmelde-Formular bleibt](schaden-melden-formular-bleibt.md) — Entscheidung 16.09.2026: kein neuer Erstellungs-Ablauf für Versicherung/Vermittler
+- [Admin sieht keine Aufträge](admin-keine-auftraege.md) — UI am 16.09.2026 entfernt (Branch feat/admin-auftraege-entfernen); RLS-Lücke und Papierkorb-Totcode offen
+- [Auftragssystem-Konzept](auftragssystem-konzept.md) — 19.09.2026 komplett gebaut auf Branch feat/auftragssystem-vereinfachung (Klon C:/Users/hanne/sm24-auftrag), gepusht, wartet auf PO-Freigabe; Mig 605–607 live; offene Punkte erledigt (Historie über eigene Tabelle)
+- [Nutzerführung Gesamtplanung](nutzerfuehrung-gesamtplanung.md) — Stand 19.09.2026: Landkarte, Leitfaden, Bereiche 01–09 (je Konzept v2 + Skizze) fertig; PO hat alle Entscheidungen an die Planung delegiert; drei Korrektur-Sitzungen laufen; Bereich 10 in Arbeit; Chip Sicherheitslücke Termin-Links offen; Bau nur auf eigenem Branch
+- [Terminsystem Umsetzung Branch](terminsystem-umsetzung-branch.md) — Worktree C:\Users\hanne\sm24-termin, Branch feat/termin-vereinfachung; nie main, nur Branch pushen für Vercel-Preview; Migrationen 610–619
+- [GitHub kostet kein Geld](github-kein-geld.md) — Hannes zahlt nichts für GitHub; Prüfung no-mobile-app startet wegen Abrechnung nicht, Schutz vor Merge von Hand nachstellen
+- [Mobile-App überall entfernt](mobile-app-ueberall-entfernt.md) — darf in keinem Branch existieren; 19.09.2026 aus allen 46 Remote-Branches gelöscht; vor Merge prüfen
+- [Werkstatt-Freischaltung Migration 620](werkstatt-freischaltung-mig-620.md) — Branch fix/werkstatt-freischaltung-rls gepusht, 620 NICHT auf Prod, Freigabe offen; neue RLS-Tabellen brauchen wartende_werkstatt_sperre_anwenden()
+- [Provision nur vom Server, Mig 630 + 635](provision-nur-server-mig-630.md) — Mig 630 live; Mig 635 (Restpunkte) auf Branch fix/provision-restpunkte gepusht, wartet auf Freigabe fuer Einspielen und Merge
+- [Design 1:1 aus Skizze, HTML/CSS](design-1zu1-skizze-html-css.md) — PO 19.09.2026: gleiche Elemente wie Skizze/Galerie als echte CSS, Logik in TS; Schrift auf Akzent weiß; volle Breite
+- [Design nur HTML/CSS, Skizzen 1:1](design-html-css-skizzen-1zu1.md) — PO 19.09.2026; steht in CLAUDE.md, ADR 0024, wiki Skizze-1zu1-Einbau; Präfixe der Nutzerführung re- bis os-
+- [Sicherheitslücke Termin-Links geschlossen](termin-links-tracking-token-fix.md) — Branch fix/termin-links-ohne-tracking (6a4c071f) gepusht 20.09.2026, Merge wartet auf Freigabe; tracking_tokens in Prod leer
 - [SchadenMelden24 Install Quirks](project_install_quirks.md) — Mobile braucht `--legacy-peer-deps` (Capacitor 5↔6 Konflikt); Sync-Check ohne .git via `git init`+`fetch`+`read-tree`+`diff -c core.autocrlf=false`
 - [4K+-Zaehler = veralteter HEAD](project_stale_checkout.md) — 2026-08-08 bereinigt; Diagnose-Rezept (Probe-Index gegen origin/main) statt raten. `git worktree` scheitert hier am Windows-Pfadlimit.
