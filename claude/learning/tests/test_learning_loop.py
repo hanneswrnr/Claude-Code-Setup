@@ -496,6 +496,29 @@ class CoreIoTests(LLTestCase):
         self.assertEqual(self.core.retrieve([lesson], "echo a && echo b", "global", tool="PowerShell", strict=True), [lesson])
         self.assertEqual(self.core.retrieve([lesson], "echo a && echo b", "global", tool="Bash", strict=True), [])
 
+    def test_retrieve_mcp_tool_matches_across_servers(self):
+        # Befund /reflect 27.09.2026: Lektionen am Plugin-Werkzeug griffen beim claude.ai-Konnektor nie.
+        lesson = {"id": "L-3", "status": "active", "scope": "global", "kind": "mistake",
+                  "rule": "Ledger-Version nie nach int umwandeln",
+                  "triggers": {"keywords": ["schema_migrations"], "tools": ["mcp__plugin_supabase_supabase__execute_sql"],
+                               "errors": ["out of range for type integer"]}}
+        fehler = 'ERROR: 22003: value "20260617220750" is out of range for type integer'
+        for tool in ("mcp__plugin_supabase_supabase__execute_sql",
+                     "mcp__ad863f27-5e7a-4bec-ac6f-5b4b119cc02e__execute_sql",
+                     "MCP__AndererServer__Execute_SQL"):
+            self.assertEqual(self.core.retrieve([lesson], "", "global", tool=tool, error=fehler, strict=True), [lesson], tool)
+        # Anderes MCP-Werkzeug und Nicht-MCP-Werkzeug bleiben ausgeschlossen
+        self.assertEqual(self.core.retrieve([lesson], "", "global", tool="mcp__x__list_tables", error=fehler, strict=True), [])
+        self.assertEqual(self.core.retrieve([lesson], "", "global", tool="Bash", error=fehler, strict=True), [])
+
+    def test_tool_key_normalizes_only_mcp_names(self):
+        key = self.core.tool_key
+        self.assertEqual(key("mcp__ad863f27-5e7a__execute_sql"), "execute_sql")
+        self.assertEqual(key("mcp__plugin_supabase_supabase__execute_sql"), "execute_sql")
+        self.assertEqual(key("PowerShell"), "powershell")
+        self.assertEqual(key("mcp__nurserver"), "mcp__nurserver")
+        self.assertEqual(key(None), "")
+
 
 # ---------------------------------------------------------------------------
 # Treffer und Pflege (hits, score, curate)
@@ -1905,11 +1928,54 @@ class WorktreeProjectKeyTests(LLTestCase):
         plain.mkdir(parents=True)
         self.assertEqual(llcore.project_key(str(plain)), (old_style_key(plain), str(plain)))
 
-    def test_schadenmelden24_key_stays_the_same(self):
-        path = r"C:\Users\hanne\Desktop\SchadenMelden24"
-        self.assertEqual(old_style_key(path), "project:schadenmelden24-7c053f")
-        if Path(path, ".git").is_dir():
-            self.assertEqual(llcore.project_key(path), ("project:schadenmelden24-7c053f", path))
+    def test_schadenmelden24_old_folder_key_formula(self):
+        # Die alte Ordnerkennung bleibt als Rückfall (Repos ohne origin) und für den Umzug vom 27.09.2026.
+        self.assertEqual(old_style_key(r"C:\Users\hanne\Desktop\SchadenMelden24"), "project:schadenmelden24-7c053f")
+
+    def write_origin(self, root, url):
+        (root / ".git").mkdir(parents=True, exist_ok=True)
+        (root / ".git" / "config").write_text(
+            '[core]\n\tbare = false\n[remote "origin"]\n\turl = %s\n\tfetch = +refs/heads/*:refs/remotes/origin/*\n'
+            '[branch "main"]\n\tremote = origin\n' % url, encoding="utf-8")
+
+    def test_clones_of_one_remote_share_the_key(self):
+        # Befund /reflect 27.09.2026: jeder Klon und jeder umbenannte Ordner war ein neues Projekt.
+        a, b, c = self.tmp / "SchadenMelden24-main", self.tmp / "sm24-auftrag", self.tmp / "ssh-klon"
+        self.write_origin(a, "https://github.com/hanneswrnr/SchadenMelden24.git")
+        zugang = "x-access-token" + ":" + "geheim123"  # zur Laufzeit gebaut: kein Treffer für Geheimnis-Scanner
+        self.write_origin(b, "https://%s@github.com/hanneswrnr/schadenmelden24" % zugang)
+        self.write_origin(c, "git@github.com:hanneswrnr/SchadenMelden24.git")
+        key_a = llcore.project_key(str(a / "src"))[0]
+        self.assertTrue(key_a.startswith("project:schadenmelden24-"), key_a)
+        self.assertNotEqual(key_a, old_style_key(a))
+        self.assertEqual(llcore.project_key(str(b))[0], key_a)
+        self.assertEqual(llcore.project_key(str(c))[0], key_a)
+        self.assertNotIn("geheim123", key_a)
+        self.assertNotIn("github", key_a)
+        other = self.tmp / "anderes-repo"
+        self.write_origin(other, "https://github.com/hanneswrnr/ONE-OS.git")
+        self.assertNotEqual(llcore.project_key(str(other))[0], key_a)
+
+    def test_worktree_of_repo_with_origin_gets_remote_key(self):
+        self.write_origin(self.main, "https://github.com/beispiel/HauptProjekt.git")
+        folder = self.make_worktree("wt-remote", "gitdir: ../../../.git/worktrees/wt-remote\n")
+        expected = llcore.project_key(str(self.main))
+        self.assertTrue(expected[0].startswith("project:hauptprojekt-"), expected)
+        self.assertEqual(llcore.project_key(str(folder / "src" / "deep")), expected)
+
+    def test_config_without_origin_keeps_folder_key(self):
+        (self.main / ".git" / "config").write_text('[remote "upstream"]\n\turl = https://github.com/a/b.git\n',
+                                                   encoding="utf-8")
+        self.assertEqual(llcore.project_key(str(self.main)), (old_style_key(self.main), str(self.main)))
+
+    def test_remote_id_normalization(self):
+        rid = llcore.remote_id
+        for url in ("https://github.com/A/B.git", "https://github.com/a/b/", "http://user:pw@GitHub.com/a/b.git",
+                    "ssh://git@github.com:22/a/b.git", "git@github.com:a/b.git", "git@github.com:a/b"):
+            self.assertEqual(rid(url), "github.com/a/b", url)
+        self.assertEqual(rid(""), "")
+        self.assertEqual(rid("kein remote"), "")
+        self.assertEqual(rid(r"C:\repos\lokal"), "c/repos/lokal")  # lokaler Pfad: stabil, aber nie mit fremden Hosts gleich
 
     def test_submodule_gitdir_keeps_old_logic(self):
         (self.main / ".git" / "modules" / "lib").mkdir(parents=True)

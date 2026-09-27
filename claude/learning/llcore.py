@@ -422,11 +422,62 @@ def checkout_key(cwd=None):
     return _key_for(_checkout_root(cwd))
 
 
+def _origin_url(root):
+    """URL of remote "origin" from <root>/.git/config (plain file read, no git process), else ""."""
+    try:
+        with open(Path(root) / ".git" / "config", encoding="utf-8-sig", errors="replace") as fh:
+            text = fh.read(262144)
+    except OSError:
+        return ""
+    inside = False
+    for raw in text.splitlines():
+        line = raw.strip()
+        if line.startswith("["):
+            inside = re.fullmatch(r'\[\s*remote\s+"origin"\s*\]', line, re.I) is not None
+            continue
+        if inside:
+            m = re.fullmatch(r"url\s*=\s*(.+?)\s*", line, re.I)
+            if m:
+                return m.group(1).strip().strip('"')
+    return ""
+
+
+def remote_id(url):
+    """Normalized remote without scheme, credentials, port and .git: git@github.com:A/B.git and
+    https://token@github.com/a/b both give github.com/a/b. Only its hash goes into keys."""
+    low = (url or "").strip().lower().replace("\\", "/")
+    scheme = re.match(r"^[a-z][a-z0-9+.-]*://", low)
+    if scheme:
+        rest = low[scheme.end():]
+        host, _, path = rest.partition("/")
+        host = host.rsplit("@", 1)[-1]
+        host = re.sub(r":\d+$", "", host)
+    else:
+        m = re.match(r"^(?:[^@/]+@)?([^:/]+):(.+)$", low)  # scp-like: git@host:owner/repo
+        if not m:
+            return ""
+        host, path = m.group(1), m.group(2)
+    path = re.sub(r"/+", "/", path).strip("/")
+    path = re.sub(r"\.git$", "", path).strip("/")
+    return "%s/%s" % (host, path) if host and path else ""
+
+
+def _key_for_remote(rid, root):
+    name = rid.rsplit("/", 1)[-1]
+    slug = re.sub(r"[^a-z0-9]+", "-", name).strip("-")[:40] or "repo"
+    return "project:%s-%s" % (slug, hashlib.sha1(("git:" + rid).encode("utf-8")).hexdigest()[:6]), str(root)
+
+
 def project_key(cwd=None):
-    """Key for lessons: linked worktrees share the main project's key."""
+    """Key for lessons: all clones and linked worktrees of one repository share a key, taken from the
+    origin remote; without a usable remote the folder key as before (worktrees use the main checkout's)."""
     root = _checkout_root(cwd)
     if (root / ".git").is_file():
         root = _worktree_main(root) or root
+    if (root / ".git").is_dir():
+        rid = remote_id(_origin_url(root))
+        if rid:
+            return _key_for_remote(rid, root)
     return _key_for(root)
 
 
@@ -610,17 +661,26 @@ def keyword_hit(kw, low, toks):
     return kw in toks
 
 
+def tool_key(name):
+    """Comparable tool name: MCP tools only by their function part, so the same tool offered by
+    another server (plugin vs. claude.ai connector, changing connector ids) still matches."""
+    low = (name or "").lower()
+    if low.startswith("mcp__") and low.count("__") >= 2:
+        return low.rsplit("__", 1)[-1]
+    return low
+
+
 def retrieve(lessons, text, project, tool=None, error=None, limit=3, exclude=(), strict=False):
     """Rank active (and, weaker, stale) lessons against a prompt, command or error text."""
     low = (text or "").lower() + "\n" + (error or "").lower()
     toks = tokens(low)
-    tool = (tool or "").lower()
+    tool = tool_key(tool)
     ranked = []
     for lesson in lessons:
         if lesson["status"] not in ("active", "stale") or lesson["id"] in exclude or not in_scope(lesson, project):
             continue
         trig = lesson.get("triggers", {})
-        tools = [t.lower() for t in trig.get("tools", [])]
+        tools = [tool_key(t) for t in trig.get("tools", [])]
         if tool and tools and tool not in tools:
             continue
         keyword_hits = sum(1 for kw in (k.lower() for k in trig.get("keywords", []) + trig.get("errors", []))
