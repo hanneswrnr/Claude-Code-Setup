@@ -223,7 +223,10 @@ Geklappt, wenn: Ledger-Eintrag zurückkommt, Nachprüfung passt und das Prüfskr
   `d=$(git diff --name-only <getestet>..origin/main | grep -E '^supabase/migrations/|migration-.*\.test\.ts$|<bereich>'); [ -z "$d" ] && gh pr merge <nr> --merge --match-head-commit <kopf-sha>`
 - Danach den Merge-Stand komplett testen: im App-Ordner `npx vitest run` und `npx tsc --noEmit`.
 - Vercel-Status des Merge-Commits abwarten: `gh api repos/{owner}/{repo}/commits/<sha>/status --jq .state`.
-  Startet kein Produktions-Build, das melden bzw. per Vercel-Konnektor anstoßen.
+  Startet kein Produktions-Build, das melden bzw. per Vercel-Konnektor anstoßen. Ausnahme: Hat der Merge
+  nichts in `Web_Schadenmelden24/` geändert (reine Migration oder Doku), überspringt die Vorschau-Sperre den
+  Live-Build absichtlich (Beschreibung „Canceled by Ignored Build Step“, Stand grün); das ist richtig und
+  so zu berichten (Regeln in der Projekt-CLAUDE.md unter „Git & Branching“).
 
 ## 11. Stolperfallen
 

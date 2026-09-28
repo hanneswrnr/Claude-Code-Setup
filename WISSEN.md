@@ -2,15 +2,15 @@
 
 Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
-- Aktive Regeln: 518
-- Warten auf Freigabe: 1
-- Archivierte Regeln: 59
-- Gedächtnis-Notizen: 94
+- Aktive Regeln: 523
+- Warten auf Freigabe: 2
+- Archivierte Regeln: 60
+- Gedächtnis-Notizen: 95
 - Projekte und Sitzungen mit Gedächtnis: 15
 
 ## Gelernte Regeln (Lernloop)
 
-### Fehler vermeiden (362)
+### Fehler vermeiden (367)
 
 - In Shell-Befehlen keine Dotenv-Dateien namentlich nennen, auch nicht fuer git check-ignore; einzelne Dateiaenderungen nicht per git checkout mit Doppelstrich verwerfen, sondern den Inhalt mit git show HEAD:pfad zurueckschreiben *Warum: Das CC Safety Net blockt Dotenv-Pfade und git checkout mit Doppelstrich; ein geblockter Sammelbefehl fuehrt auch seine harmlosen Teile nicht aus* `L-20260911-0beed3`
 - Repos, deren Dateien per SHA-256-Manifest geprueft werden, mit einer .gitattributes-Zeile \* -text anlegen, bevor der erste git add laeuft *Warum: Git fuer Windows wandelt sonst Zeilenenden beim Auschecken um (autocrlf), dann passen die Pruefsummen auf anderen Geraeten nicht mehr* `L-20260911-0f4720`
@@ -355,13 +355,16 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Im Git-Bash dieses Rechners gibt es kein bc; Rechnungen mit awk oder feste Wertelisten in der Schleife verwenden *Warum: Am 27.09.2026 brach eine ffmpeg-Schleife ab, weil bc fehlte und die Startzeit leer blieb* `L-20260927-fffd33`
 - ffmpeg drawtext unter Windows nur mit ausdruecklicher fontfile-Angabe nutzen oder ganz weglassen; sonst bricht der Filter ab und es entsteht keine Ausgabedatei *Warum: Fontconfig findet unter Windows keine Standardkonfiguration; das Kontaktbild fehlte, und der folgende Lesezugriff ging ins Leere* `L-20260928-063d16`
 - Bei Playwright-Bildfolgen einer Animation den Bildausschnitt an einem ruhenden Nachbarelement ausrichten, nicht an der boundingBox des animierten Elements *Warum: Die boundingBox waechst mit dem transform der laufenden Animation; die Vergleichsbilder hatten dadurch einen anderen Ausschnitt und Massstab* `L-20260928-09a53a`
+- In SchadenMelden24-Tests keine Regex-Flags ab ES2018 (etwa s fuer dotAll) nutzen, sondern \[\\s\\S\]; nach Agent-Ergebnissen mit neuen Testdateien immer selbst tsc --noEmit laufen lassen *Warum: tsconfig hat target ES2017 und schliesst Testdateien ein; ein neuer Waechter war in vitest gruen, tsc meldete TS1501 und haette type-check und Build gebrochen* `L-20260928-246ff4` (nur Projekt schadenmelden24-c065cc)
 - In PL/pgSQL einen CASE-Ausdruck innerhalb einer IF-Bedingung immer in Klammern setzen, also IF x \<> (CASE WHEN a THEN 0 ELSE 1 END) THEN *Warum: PL/pgSQL beendet die IF-Bedingung am ersten THEN, auch am inneren des CASE; eine Migration brach dadurch stets mit Syntaxfehler 42601 ab und fiel erst im Docker-Test auf* `L-20260928-2d34af`
 - Wirkt ein stumm selbststartendes Video im Browser-Pane pausiert oder zeigt veraltete Zeiten, erst pruefen, ob das Pane verdeckt ist, statt den Code zu verdaechtigen; Vollbild ist im Pane gesperrt und nur im Code absicherbar *Warum: Am 28.09.2026 kostete ein scheinbar gestoppter Selbststart eine Fehlersuche; der Browser haelt stumme Autoplay-Videos in verdeckten Fenstern an, spaeter lief alles normal* `L-20260928-4827b8`
 - Im Bash-Werkzeug CR-Zeichen nicht per grep mit ANSI-C-Quoting in einer Befehlsersetzung zaehlen; stattdessen tr -cd mit Wagenruecklauf bzw. Zeilenumbruch je Datei zaehlen und beide Zahlen vergleichen *Warum: Das Werkzeug zerlegt ANSI-C-Quoting in einer Befehlsersetzung falsch, der Befehl brach mit unexpected EOF ab; der tr-Vergleich zeigt gemischte Zeilenenden zuverlaessig* `L-20260928-49bd06`
 - Direkt vor gh pr merge origin/main frisch holen und mit der getesteten Basis vergleichen; hat sich main bewegt, erst den kombinierten Stand testen und dann zusammenfuehren *Warum: Am 28.09.2026 kam kurz vor dem Merge von PR 209 eine andere Pull-Anfrage mit 74 Dateien auf main; der kombinierte Stand wurde erst nachtraeglich getestet* `L-20260928-5ad138`
+- Bevor ein Code-Kommentar oder Agenten-Auftrag behauptet, wie sich eine andere Route verhaelt (etwa dass sie ihren Upload selbst aufraeumt), genau diese Route lesen und nicht von einer Schwester-Route ableiten *Warum: Am 28.09.2026 stand im Kommentar, die Upload-Route raeume selbst auf; das galt nur fuer die Dokument-Route, nicht fuer die Foto-Route. Erst der parallele Doku-Agent fand es* `L-20260928-5c297b`
 - Neue Videos unter public/videos in SchadenMelden24 brauchen eine eigene Ausnahmezeile in .gitignore, weil mp4 dort pauschal ignoriert wird; nach dem Ablegen git status auf die Datei pruefen *Warum: Das neue Startseiten-Video fehlte am 28.09.2026 stillschweigend in git status; ohne Ausnahme waere es nie committet und auf Vercel ausgeliefert worden* `L-20260928-611744` (nur Projekt schadenmelden24-c065cc)
 - validateFileMagicBytes in SchadenMelden24 nie mit mehreren ZIP-Typen (DOCX, XLSX, PPTX) zugleich aufrufen: Typ vorher aus der Dateiendung bestimmen und nur gegen genau diesen Typ pruefen, gespeichert wird dieser Typ *Warum: Alle drei teilen den ZIP-Kopf; die Funktion meldet den ersten Treffer der Liste, eine Excel-Datei wuerde sonst als Word gespeichert* `L-20260928-629115` (nur Projekt schadenmelden24-c065cc)
 - Build-Reste in einem Worktree ausserhalb des Sitzungsordners nicht mit rm -rf loeschen, sondern die einzelnen Dateien per PowerShell Remove-Item -LiteralPath und danach die leeren Ordner mit Directory.Delete ohne Rekursion entfernen *Warum: Das Sicherheitsnetz blockiert rm -rf ausserhalb des aktuellen Arbeitsordners auch fuer ignorierte Build-Ordner; das Loeschen einzelner Dateien geht durch* `L-20260928-649135`
+- Grosse TypeScript-Bloecke mit Template-Strings, Backticks oder Apostrophen nicht per cat-Heredoc im Bash-Werkzeug an Dateien anhaengen; mit dem Edit-Werkzeug an einem eindeutigen Anker einfuegen oder neue Dateien mit Write anlegen *Warum: Am 28.09.2026 brach das Anhaengen eines Testblocks per Heredoc mit einem Quoting-Fehler ab, obwohl der Begrenzer in Hochkommas stand; mit Edit klappte es sofort* `L-20260928-705207`
 - Beim Einfrieren von Animationen fuer Bildnachweise nur zeitbasierte Animationen setzen: getAnimations nach timeline gleich document.timeline filtern, scroll-getriebene Animationen auslassen *Warum: Scroll-getriebene Animationen (animation-timeline view) werfen beim Setzen einer absoluten currentTime einen Fehler und brechen das ganze Pruefskript ab* `L-20260928-7d5d7d`
 - Vor einer Rechte-Aenderung an einer Datenbank-Funktion aeltere Pruef- und Rueckwegskripte nach dem woertlichen Rechte-Text durchsuchen und auf beide Staende umstellen; ein Rueckweg, der den alten Rechte-Text byte-genau herstellen soll, erst entziehen und dann in alter Reihenfolge neu vergeben *Warum: Pruefskripte vergleichen proacl als Text; nach dem Entzug fuer anon haette das Pruefskript der Vorgaenger-Migration faelschlich einen Fehler gemeldet, und GRANT haengt neue Eintraege hinten an* `L-20260928-7e5d0f`
 - In Playwright-Tests von Seiten mit fester Kopfleiste oder sichtbarkeitsabhaengiger Logik nicht page.click nutzen, sondern boundingBox holen und page.mouse.click auf die Mitte; fuer MP4 mit H.264 den Kanal msedge oder chrome statt Playwright-Chromium starten *Warum: page.click scrollte am 28.09.2026 vor dem Klick kurz weg, der IntersectionObserver meldete den Player als unsichtbar und das Video pausierte; das sah wie ein Code-Fehler aus. Playwright-Chromium spielt kein H.264* `L-20260928-869443`
@@ -369,8 +372,10 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Rollenmitgliedschaften in PostgreSQL 16+ mit derselben Rolle zuruecknehmen, die sie vergeben hat (oder REVOKE ... GRANTED BY); ein Superuser nimmt ohne Angabe nur eigene Vergaben zurueck *Warum: Im Container-Test zu Mig 784 blieb eine von postgres vergebene Mitgliedschaft nach REVOKE als supabase_admin stehen und verfaelschte spaetere Fingerabdruecke* `L-20260928-89915f`
 - Statische Code-Waechter nicht nur mit fester Dateiliste der erlaubten Aufrufer bauen, sondern nach pruefbarer Eigenschaft (etwa Dienstschluessel-Client in derselben Datei); nach jedem Merge von main den vollen Testlauf abwarten, bevor die Pull-Anfrage angelegt wird *Warum: Ein Waechter erlaubte das Auffrischen einer Sicht nur dem Cron; ein parallel gemergter PR fuegte einen legitimen Admin-Aufrufer hinzu, der volle Lauf wurde rot, die Pull-Anfrage war da schon angelegt* `L-20260928-8e9084` (nur Projekt schadenmelden24-c065cc)
 - Zweig-Vergleiche gegen main nicht nur mit git diff drei Punkte machen; vorher git merge-base pruefen und fuer Zweige ohne gemeinsame Basis zwei Punkte nehmen, Fehlerausgabe nie wegwerfen *Warum: Drei Punkte bricht bei Zweigen ohne Merge-Basis mit no merge base ab; mit weggeleiteter Fehlerausgabe fehlten so 52 von 252 Zweigen still in einer Migrations-Suche* `L-20260928-9c172d`
+- Ein Vercel-ignoreCommand, das per git diff gegen VERCEL_GIT_PREVIOUS_SHA Live-Builds ueberspringt, muss bauen, wenn der vorherige Stand gleich HEAD ist, sonst wird jeder Dashboard-Redeploy still uebersprungen *Warum: Am 28.09.2026 fand die Gegenpruefung genau diese Luecke: ein Redeploy nach Schluesseltausch waere als Canceled geendet, die neuen Umgebungsvariablen waeren nie live gegangen* `L-20260928-afb305`
 - Next.js-Produktionsbuild nicht im selben Ordner laufen lassen, in dem gerade ein next dev-Server laeuft; erst den Vorschau-Server stoppen oder danach neu starten *Warum: Beide schreiben in den Ordner .next; der Build ueberschreibt die Dateien des laufenden Dev-Servers und die Vorschau liefert danach Fehler* `L-20260928-b32f45`
 - Fuer Aenderungen am Claude-Code-Setup-Repo den Klon unter ~/.claude/vendor/Claude-Code-Setup nehmen, nicht den unter Dokumente; vorher mit git fetch und git status -sb pruefen, dass er gleichauf mit origin ist *Warum: Am 28.09.2026 lag der Klon unter Dokumente 9 Commits hinter GitHub, der vendor-Klon war aktuell; export.py im alten Klon haette neuere Sicherungen anderer Geraete ueberschrieben* `L-20260928-bdd543`
+- Beim Aufraeumen mit dem Service-Storage-Client nur Pfade aus gescheiterten remove-Aufrufen (error oder Ausnahme) in pending_storage_cleanups einreihen, nie nicht gemeldete; vom Client beschreibbare Pfadlisten zusaetzlich auf exakte Upload-Form und Obergrenzen pruefen *Warum: Am 28.09.2026 fand die Sicherheitspruefung: ohne RLS heisst nicht gemeldet einfach nicht vorhanden, und erfundene Pfade im eigenen Ordner haetten die gemeinsame Warteschlange fluten koennen* `L-20260928-c09908` (nur Projekt schadenmelden24-c065cc)
 - In Waechter-Tests Markenzeilen einer Migration (etwa das Ende eines DO-Blocks) per Zeilenanker suchen, nicht per indexOf, wenn der Kopfkommentar dieselbe Marke in einer Anleitung nennt *Warum: indexOf traf die Marke im Kopfkommentar der Mig 784 und die Reihenfolgepruefung wurde falsch rot* `L-20260928-d8616b`
 - In SchadenMelden24 den Vercel-Build-Stand nicht ueber den Vercel-Konnektor abfragen (kein Zugriff auf das Team hanneswrnrs-projects), sondern ueber den GitHub-Commit-Status oder gh pr checks lesen *Warum: Der Konnektor antwortete am 28.09.2026 mit 403 forbidden fuer diesen Bereich* `L-20260928-dffca7` (nur Projekt schadenmelden24-c065cc)
 - Windows-Python aus dem Bash-Werkzeug bekommt keine Git-Bash-Pfade wie /tmp: Pfad vorher mit cygpath -w umwandeln oder Dateien im Scratchpad mit Windows-Pfad ablegen *Warum: Am 28.09.2026 meldete python FileNotFoundError fuer /tmp/pr-773.md, obwohl die Datei fuer Bash existierte; der nachfolgende gh-Befehl lief mit dem alten Text weiter* `L-20260928-fdc638`
@@ -539,6 +544,10 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
 ## Wartet auf Freigabe (/reflect)
 
+### Fehler vermeiden (1)
+
+- Vercel-Status auf GitHub nicht nur am Zustand success messen: ein per Ignored Build Step uebersprungener Build steht ebenfalls auf success; die Beschreibung pruefen, bevor eine Vorschau oder ein Live-Build als vorhanden gemeldet wird *Warum: Am 28.09.2026 belegt: der uebersprungene Build meldete success mit Beschreibung Canceled by Ignored Build Step, obwohl nichts gebaut wurde* `L-20260928-bb3db3`
+
 ### Bewährt (1)
 
 - Arbeit vom zweiten Laptop des Nutzers holen: der Nutzer schickt der Laptop-Sitzung einen fertigen Satz, sie pusht das Projekt in einen eigenen Branch; hier per Hintergrund-Schleife mit git ls-remote auf den Branch warten *Warum: Am 27.09.2026 lag das 15-Sekunden-Video nur auf dem Laptop; so kam es ohne weitere Rueckfragen an und die Arbeit lief automatisch weiter* `L-20260927-8efbeb`
@@ -546,7 +555,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 ## Archiviert
 
 <details>
-<summary>59 archivierte Regeln anzeigen</summary>
+<summary>60 archivierte Regeln anzeigen</summary>
 
 - Vor eigenen Aenderungen an einem fremden Repo einmal Typpruefung und Tests auf dem unveraenderten Stand laufen lassen und das Ergebnis festhalten; spaetere Fehlschlaege lassen sich dann sicher zuordnen `L-20260911-1d2a96`
 - claude plugin details funktioniert nur für installierte Plugins; Token-Kosten eines Plugins erst nach der Installation prüfen und es bei Bedarf danach deaktivieren `L-20260911-979a3c`
@@ -607,6 +616,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Neue Worktrees von SchadenMelden24 haben den Wurzelordner scripts (Rueckweg- und Pruefskripte der Migrationen) und docs nicht; vor der Suche danach git sparse-checkout add scripts docs aus der Worktree-Wurzel ausfuehren `L-20260926-c5821d` (nur Projekt schadenmelden24-c065cc)
 - Neue SECURITY-DEFINER-Funktionen fuer HQ dieselben Tore wie requireHqAdmin pruefen lassen: Profilrolle werkstatt_gruppe, verifiziert, aktiv und zweiter Faktor per auth.jwt aal gleich aal2, nicht nur die Gruppen-Mitgliedschaft `L-20260926-d2ecbc` (nur Projekt schadenmelden24-c065cc)
 - npm run build in einem frischen Worktree ohne lokale Umgebungsdatei scheitert beim Vorab-Rendern der Anmeldeseiten; fuer den Nachweis nur dem Build-Prozess Platzhalter fuer die beiden oeffentlichen Supabase-Variablen (URL und Anon-Key) mitgeben `L-20260927-805b40` (nur Projekt scratch-2026-09-27-ce7144-469e42)
+- devos-reviewer und devos-security haben kein ToolSearch und damit keinen Supabase-Konnektor; Live-Katalogwerte, die sie brauchen, im Auftrag mitgeben oder selbst lesen, statt Live-Zugriff im Brief zu versprechen `L-20260928-dc32fb`
 
 </details>
 
@@ -707,6 +717,7 @@ Nur eine Übersicht: [MEMORY.md](memory/Desktop-LIVARO-Home-Neu/MEMORY.md)
 - [mig-775-gruppen-angemeldete-spaltenrechte](memory/Desktop-SchadenMelden24-main/mig-775-gruppen-angemeldete-spaltenrechte.md) – Mig 775 (gruppen_public_select_active nur anon, Funktion oeffentliche_werkstatt_gruppen, MV nur service_role) auf Zweig fix/gruppen-angemeldete-spaltenrechte, PR #211, NICHT live; Reihenfolge Migration vor Merge
 - [mig-783-gruppen-hilfsfunktionen-ohne-anon](memory/Desktop-SchadenMelden24-main/mig-783-gruppen-hilfsfunktionen-ohne-anon.md) – Mig 783 (anon verliert EXECUTE auf \_user_ist_werkstatt_der_gruppe(\_read) und \_werkstatt_id_von_user) LIVE seit 28.09.2026, PR #219 gemergt (a26ed518)
 - [mig-784-standorte-delete-nur-server](memory/Desktop-SchadenMelden24-main/mig-784-standorte-delete-nur-server.md) – Mig 784 (DELETE-Regel und DELETE-Recht auf werkstatt_standorte für anon/authenticated weg) LIVE seit 28.09.2026, PR #220 gemergt
+- [mig-786-standorte-folgebefunde](memory/Desktop-SchadenMelden24-main/mig-786-standorte-folgebefunde.md) – Mig 786 (werkstatt_standorte: anon ohne INSERT/UPDATE, Admin-INSERT-Regel weg, Hauptstandort nur per RPC werkstatt_hauptstandort_setzen) gebaut auf Zweig fix/werkstatt-standorte-folgebefunde, NICHT live, wartet auf Freigabe
 - [mobile-app-ueberall-entfernt](memory/Desktop-SchadenMelden24-main/mobile-app-ueberall-entfernt.md) – Mobile-App (Mobile_Schadenmelden24/, V2_MOBILE.md) darf in KEINEM Branch existieren; am 19.09.2026 aus allen 46 Remote-Branches per Lösch-Commit entfernt
 - [nebenbefunde-768-mig-776-777](memory/Desktop-SchadenMelden24-main/nebenbefunde-768-mig-776-777.md) – Mig 776 (tote Funktion) + 777 (TRUNCATE/TRIGGER/REFERENCES/MAINTAIN für anon/authenticated) LIVE seit 28.09.2026, PR #210 gemergt; Mig 781 (Standort mit Termin-Verlauf löschbar) LIVE seit 28.09.2026, PR #216 gemergt
 - [nutzerfuehrung-gesamtplanung](memory/Desktop-SchadenMelden24-main/nutzerfuehrung-gesamtplanung.md) – Dritter Planungs-Chat „Nutzerführung überall" (ab 16.09.2026); Stand 18.09.2026: Landkarte + Leitfaden v1 fertig, Bereich 01 als Nächstes; Termine und Aufträge ausgenommen

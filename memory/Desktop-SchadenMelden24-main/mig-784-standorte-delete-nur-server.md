@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: eb502487-d9e3-4bbe-8a07-1bf14fa011d0
-  modified: 2026-09-28T19:57:03.684Z
+  modified: 2026-09-28T21:44:09.837Z
 ---
 
 Mig 784 entfernt `werkstatt_standorte_delete_policy` und entzieht anon/authenticated DELETE auf
@@ -17,5 +17,5 @@ Mig 784 entfernt `werkstatt_standorte_delete_policy` und entzieht anon/authentic
 
 **How to apply:** Neuer App-Code darf Standorte nur mit Service-Client in `app/api` löschen (Wächter
 `lib/werkstatt/__tests__/migration-784-…`). Notfall: `scripts/rueckweg-784-…sql`, danach Ledger
-784 entfernen. Offene Nebenbefunde (anon INSERT/UPDATE, Hauptstandort-Wechsel nicht atomar,
-Admin-INSERT-Regel) als Folgeaufgabe vorgeschlagen. Verwandt: [[nebenbefunde-768-mig-776-777]].
+784 entfernen. Die Nebenbefunde (anon INSERT/UPDATE, Hauptstandort-Wechsel nicht atomar,
+Admin-INSERT-Regel) behebt [[mig-786-standorte-folgebefunde]]. Verwandt: [[nebenbefunde-768-mig-776-777]].

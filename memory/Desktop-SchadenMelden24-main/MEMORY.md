@@ -22,8 +22,9 @@
 - [Nebenbefunde 768: Mig 776/777](nebenbefunde-768-mig-776-777.md) — 776/777 LIVE seit 28.09.2026, PR #210 gemergt; Mig 781 (Standort mit Termin-Verlauf löschbar) LIVE, PR #216 gemergt; Notfall zuerst Rückweg 777
 - [Mig 775 Gruppen angemeldete Spaltenrechte](mig-775-gruppen-angemeldete-spaltenrechte.md) — LIVE seit 28.09.2026, PR #211; Rückweg nach Mig 777; Folge: offizielle Standorte (sichtbar ja, nur gelistete, ohne werkstatt_id/status)
 - [Mig 783 Gruppen-Hilfsfunktionen ohne anon](mig-783-gruppen-hilfsfunktionen-ohne-anon.md) — LIVE seit 28.09.2026 (783-TEST OK), PR #219 gemergt (a26ed518); Folgepunkt authenticated mit fremden Kennungen offen
-- [Mig 784 Standorte nur über Server löschen](mig-784-standorte-delete-nur-server.md) — LIVE seit 28.09.2026, PR #220 gemergt; Nebenbefunde als Folgeaufgabe
+- [Mig 784 Standorte nur über Server löschen](mig-784-standorte-delete-nur-server.md) — LIVE seit 28.09.2026, PR #220 gemergt; Nebenbefunde → Mig 786
+- [Mig 786 Standorte-Folgebefunde](mig-786-standorte-folgebefunde.md) — Zweig fix/werkstatt-standorte-folgebefunde, NICHT live; erst einspielen, dann sofort mergen
 - [Verbund-Beitritt Mig 773 + 780](verbund-beitritt-mig-773-780.md) — Anfrage/Einladung + Einladungs-Mail live seit 28.09.2026 (PR #206, #215); Mailversand Standard aus, Grenzen bewusst gesetzt
 - [Startseiten-Video als Kino-Bühne](startseiten-video-kino-buehne.md) — LIVE seit 28.09.2026 (PR #222); Ton nur ein Durchlauf, Selbststart + Schleife; 9:16 für Instagram auf Zweig video/showreel-30s-9x16 (Worktree C:\Users\hanne\sm24-reel916)
 - [Supabase-Standardrechte ab 30.10.2026, Wächter ab Mig 783](supabase-standardrechte-30-10-waechter.md) — neue public-Tabellen brauchen GRANTs (auch service_role); PR #218 gemergt 28.09., Kontroll-Todo 31.10.
-- [Lager-Dokumente, Mig 785](lager-dokumente-mig-785.md) — LIVE seit 28.09.2026, PR #221 gemergt; Regeln in lib/lager/dokumente.ts; Standort-Löschen räumt Dateien noch nicht auf
+- [Lager-Dokumente, Mig 785](lager-dokumente-mig-785.md) — LIVE seit 28.09.2026, PR #221 gemergt; Regeln in lib/lager/dokumente.ts; Standort-Löschen räumt Dateien seit PR #223 auf (gemergt 28.09.2026, 6cbe37cb); Folgestufe Trigger offen
