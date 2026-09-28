@@ -34,7 +34,7 @@ Stand 28. September 2026: Opus 5.5 für alles außer Suche, Sonnet 5.5 für Such
 
 Wo das eingestellt ist:
 
-- `claude/settings.json`: `"model": "opus"` und `"effortLevel": "xhigh"` für das Hauptgespräch, `CLAUDE_CODE_SUBAGENT_MODEL=opus` für alle Agents ohne eigene Angabe, `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5` (der Kurzname `sonnet` zeigt auf Sonnet 5.5, auch in Claude-Code-Versionen vor 2.1.284), `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-5-5` (wer Haiku anfordert, bekommt Sonnet 5.5) und `modelSettings`, das Sonnet 5.5 auf `high` begrenzt.
+- `claude/settings.json`: `"model": "opus[1m]"` (Opus 5.5 mit 1 Million Token Kontext) und `"effortLevel": "xhigh"` für das Hauptgespräch, `CLAUDE_CODE_SUBAGENT_MODEL=opus` für alle Agents ohne eigene Angabe, `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5` (der Kurzname `sonnet` zeigt auf Sonnet 5.5, auch in Claude-Code-Versionen vor 2.1.284), `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-5-5` (wer Haiku anfordert, bekommt Sonnet 5.5) und `modelSettings`, das Sonnet 5.5 auf `high` begrenzt.
 - `claude/agents/devos-*.md`: feste Modell- und Effort-Werte je Rolle.
 - `gsd/defaults.json`: `"resolve_model_ids": "omit"`. Die GSD-Befehle geben ihren Agents dadurch kein eigenes Modell mit, also gilt auch dort Opus 5.5.
 - `claude/CLAUDE.md` (Abschnitt „Modelle“) und `claude/skills/devos-orchestrate/SKILL.md` (Abschnitt „Model routing“): die Regeln dazu.

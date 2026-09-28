@@ -104,6 +104,20 @@ Schreiber-Liste steht.
 - Funktionen immer ganz per `CREATE OR REPLACE` aus dem belegten Live-Körper, nie dynamisch patchen.
   Keine Großbuchstaben mit Umlaut in Funktionskörpern (lower() rechnet live anders als im Container).
 - Neue Tabelle mit RLS: Sperre aus Mig 620 aufrufen (`wartende_werkstatt_sperre_anwenden`).
+- Neue Tabelle, Partition, Sicht, Mat-Sicht oder Sequenz in `public` (auch nach `DROP` + `CREATE`):
+  Rechte ausdrücklich vergeben, nach dem `CREATE` in derselben Migration. Supabase nimmt ab
+  30.10.2026 neuen Objekten SELECT, INSERT, UPDATE und DELETE aus den Standardrechten, auch für
+  `service_role`; ohne GRANT kommen Server-Code und Browser mit 42501 nicht mehr an die Tabelle,
+  egal ob RLS stimmt. Mindestens `GRANT SELECT, INSERT, UPDATE, DELETE ON public.x TO service_role;`
+  (nur die nötigen Rechte) oder bewusst `REVOKE ALL … FROM PUBLIC, anon, authenticated, service_role;`
+  (Muster Mig 732). Für jede Policy `TO authenticated`/`TO anon` das passende Recht an diese Rolle
+  (`FOR SELECT` → SELECT, `FOR UPDATE`/`FOR DELETE` zusätzlich SELECT, `FOR ALL` mindestens SELECT).
+  Nie `GRANT ALL`, keine Massenfreigabe `ON ALL TABLES IN SCHEMA public`, kein
+  `ALTER DEFAULT PRIVILEGES … GRANT`. Sequenzen (`serial`, `CREATE SEQUENCE`):
+  `GRANT USAGE ON SEQUENCE … TO service_role`; besser `uuid` oder Identity. Wächter ab Mig 783
+  (prüft auch `scripts/rueckweg-NNN-*.sql`): `lib/__tests__/migration-rechte-neue-relationen.test.ts`;
+  Regel, Vorlage und Prüfabfragen in `wiki/05-Anti-Patterns/Supabase-Function-Grants.md`
+  (Abschnitt „Neue Tabellen, Sichten und Sequenzen“).
 - md5-Werte nie in dieselbe Zeile wie Namen mit token, secret, key, auth, credential oder api
   (Regel `wiki/04-Patterns/Pruefsummen-ohne-GitGuardian-Fehlalarm.md`).
 - Selbstprüfung am Ende (Trigger, md5, Rechte, genau eine Fassung je Funktion); bei Fehler rollt alles zurück.
@@ -118,7 +132,9 @@ Prüfblock abschneiden, vorher per grep sichern, dass kein DROP, ALTER, GRANT od
 
 - **Rückweg** `scripts/rueckweg-NNN-<thema>.sql`: stellt geänderte Funktionen byte-genau auf den
   Live-Stand davor zurück (md5 im Kopf), entfernt neue Trigger und Funktionen, Wächter gegen
-  falschen Ausgangsstand, wiederholbar, Hinweis auf LF und auf den Ledger-Eintrag.
+  falschen Ausgangsstand, wiederholbar, Hinweis auf LF und auf den Ledger-Eintrag. Legt der Rückweg
+  eine Tabelle oder Sicht neu an, vergibt er deren Rechte wieder ausdrücklich (neue Objekte haben ab
+  30.10.2026 keine Standardrechte mehr).
 - **Prüfskript** `scripts/verify-NNN-<thema>.sql`: endet immer mit Abbruch; Erfolg ist die
   Meldung „NNN-TEST OK“, Fehlschlag „NNN-TEST FAIL n: …“, übersprungene Teile „NNN-HINWEIS“. Jede
   Prüfung in eigenem Block, keine Personendaten, `statement_timeout`, `lock_timeout`,
@@ -136,7 +152,7 @@ Prüfblock abschneiden, vorher per grep sichern, dass kein DROP, ALTER, GRANT od
   Migrationen nichts entfernen, abschalten oder freigeben.
 
 Geklappt, wenn: `run.sh` alle Fälle grün meldet und
-`npx vitest run lib/<bereich>/__tests__/migration-NNN lib/__tests__/migration-pruefsummen-gitguardian`
+`npx vitest run lib/<bereich>/__tests__/migration-NNN lib/__tests__/migration-pruefsummen-gitguardian lib/__tests__/migration-rechte-neue-relationen lib/__tests__/migration-777-tabellenrechte`
 im App-Ordner grün ist.
 
 ## 6. Docker
@@ -187,7 +203,9 @@ Stand melden, Hannes um erneute Freigabe genau dieses Schritts bitten, dann einm
    `INSERT INTO supabase_migrations.schema_migrations (version, name, statements) VALUES ('NNN', '<thema>', ARRAY['-- siehe supabase/migrations/NNN_<thema>.sql']) ON CONFLICT DO NOTHING RETURNING version;`
 6. **Nachprüfung, nur lesend:** Trigger aktiv (`tgenabled::text`), md5 wie in der Migration,
    SECURITY DEFINER, Eigentümer, `proconfig`, kein EXECUTE für anon/authenticated
-   (`has_function_privilege`), genau eine Fassung je Funktion.
+   (`has_function_privilege`), genau eine Fassung je Funktion. Neue Tabellen und Sichten:
+   `has_table_privilege('service_role', 'public.x', 'SELECT')` usw. wie geplant, für
+   anon/authenticated nur die gewollten Rechte.
 7. **Prüfskript erneut** gegen den eingespielten Stand: „NNN-TEST OK“, danach keine Sperren.
 8. Doku und Code-Kommentare auf „live“ mit Datum umstellen, committen, pushen.
 

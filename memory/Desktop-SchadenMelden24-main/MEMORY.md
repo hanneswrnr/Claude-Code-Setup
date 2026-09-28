@@ -10,9 +10,20 @@
 - [GitHub kostet kein Geld](github-kein-geld.md) — Hannes zahlt nichts für GitHub; Prüfung no-mobile-app startet wegen Abrechnung nicht, Schutz vor Merge von Hand nachstellen
 - [Mobile-App überall entfernt](mobile-app-ueberall-entfernt.md) — darf in keinem Branch existieren; 19.09.2026 aus allen 46 Remote-Branches gelöscht; vor Merge prüfen
 - [Werkstatt-Freischaltung Migration 620](werkstatt-freischaltung-mig-620.md) — Branch fix/werkstatt-freischaltung-rls gepusht, 620 NICHT auf Prod, Freigabe offen; neue RLS-Tabellen brauchen wartende_werkstatt_sperre_anwenden()
+- [Spaltenschutz Gruppen-Tickets, Mig 771](gruppen-tickets-spaltenschutz-mig-771.md) — Zweig fix/gruppen-tickets-spaltenschutz, Mig 771 LIVE seit 27.09.2026 (verify OK), PR #201 gemergt (0bd791ff); neue Client-Spalten brauchen Eintrag in der Trigger-Liste
 - [Provision nur vom Server, Mig 630 + 635](provision-nur-server-mig-630.md) — Mig 630 live; Mig 635 (Restpunkte) auf Branch fix/provision-restpunkte gepusht, wartet auf Freigabe fuer Einspielen und Merge
 - [Design 1:1 aus Skizze, HTML/CSS](design-1zu1-skizze-html-css.md) — PO 19.09.2026: gleiche Elemente wie Skizze/Galerie als echte CSS, Logik in TS; Schrift auf Akzent weiß; volle Breite
 - [Design nur HTML/CSS, Skizzen 1:1](design-html-css-skizzen-1zu1.md) — PO 19.09.2026; steht in CLAUDE.md, ADR 0024, wiki Skizze-1zu1-Einbau; Präfixe der Nutzerführung re- bis os-
 - [Sicherheitslücke Termin-Links geschlossen](termin-links-tracking-token-fix.md) — Branch fix/termin-links-ohne-tracking (6a4c071f) gepusht 20.09.2026, Merge wartet auf Freigabe; tracking_tokens in Prod leer
 - [SchadenMelden24 Install Quirks](project_install_quirks.md) — Mobile braucht `--legacy-peer-deps` (Capacitor 5↔6 Konflikt); Sync-Check ohne .git via `git init`+`fetch`+`read-tree`+`diff -c core.autocrlf=false`
 - [4K+-Zaehler = veralteter HEAD](project_stale_checkout.md) — 2026-08-08 bereinigt; Diagnose-Rezept (Probe-Index gegen origin/main) statt raten. `git worktree` scheitert hier am Windows-Pfadlimit.
+- [Verbund deaktivieren, HQ nur lesen, Tickets ruhen](verbund-inaktiv-hq-nur-lesen-mig-779.md) — Mig 779 + 782 live seit 28.09.2026 (PR 213, 217); deaktiviert ⇒ HQ nur lesen, Tickets ruhen für alle
+- [Mig 772 Gruppen anon-Spaltenrechte](mig-772-gruppen-anon-spaltenrechte.md) — live seit 27.09.2026, PR #203 gemergt; Folgebefund = Mig 775
+- [Nebenbefunde 768: Mig 776/777](nebenbefunde-768-mig-776-777.md) — 776/777 LIVE seit 28.09.2026, PR #210 gemergt; Mig 781 (Standort mit Termin-Verlauf löschbar) LIVE, PR #216 gemergt; Notfall zuerst Rückweg 777
+- [Mig 775 Gruppen angemeldete Spaltenrechte](mig-775-gruppen-angemeldete-spaltenrechte.md) — LIVE seit 28.09.2026, PR #211; Rückweg nach Mig 777; Folge: offizielle Standorte (sichtbar ja, nur gelistete, ohne werkstatt_id/status)
+- [Mig 783 Gruppen-Hilfsfunktionen ohne anon](mig-783-gruppen-hilfsfunktionen-ohne-anon.md) — LIVE seit 28.09.2026 (783-TEST OK), PR #219 gemergt (a26ed518); Folgepunkt authenticated mit fremden Kennungen offen
+- [Mig 784 Standorte nur über Server löschen](mig-784-standorte-delete-nur-server.md) — LIVE seit 28.09.2026, PR #220 gemergt; Nebenbefunde als Folgeaufgabe
+- [Verbund-Beitritt Mig 773 + 780](verbund-beitritt-mig-773-780.md) — Anfrage/Einladung + Einladungs-Mail live seit 28.09.2026 (PR #206, #215); Mailversand Standard aus, Grenzen bewusst gesetzt
+- [Startseiten-Video als Kino-Bühne](startseiten-video-kino-buehne.md) — LIVE seit 28.09.2026 (PR #222); Ton nur ein Durchlauf, Selbststart + Schleife; 9:16 für Instagram auf Zweig video/showreel-30s-9x16 (Worktree C:\Users\hanne\sm24-reel916)
+- [Supabase-Standardrechte ab 30.10.2026, Wächter ab Mig 783](supabase-standardrechte-30-10-waechter.md) — neue public-Tabellen brauchen GRANTs (auch service_role); PR #218 gemergt 28.09., Kontroll-Todo 31.10.
+- [Lager-Dokumente, Mig 785](lager-dokumente-mig-785.md) — LIVE seit 28.09.2026, PR #221 gemergt; Regeln in lib/lager/dokumente.ts; Standort-Löschen räumt Dateien noch nicht auf
