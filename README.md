@@ -20,25 +20,25 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | `export.py`, `restore.py` | Setup sichern und wiederherstellen |
 | `setup-manifest.json` | Liste aller Dateien mit Prüfsumme, geschrieben von `export.py` |
 
-## Modell-Setup (Opus 5.5)
+## Modell-Setup (Opus 5.5 und Sonnet 5.5)
 
-Stand 22. September 2026: Opus 5.5 für alles außer Suche, Sonnet 5 für Suche und Recherche. Haiku und Fable werden nie eingesetzt, die Stufe `max` wird vermieden.
+Stand 28. September 2026: Opus 5.5 für alles außer Suche, Sonnet 5.5 für Suche und Recherche. Haiku und Fable werden nie eingesetzt, die Stufe `max` wird vermieden.
 
 | Wer | Modell | Denkstufe (Effort) |
 |---|---|---|
 | Hauptgespräch und Orchestrierung | Opus 5.5 (`opus`) | xhigh |
 | Unabhängige Prüfung (`devos-reviewer`) und Sicherheit (`devos-security`) | Opus 5.5 | xhigh |
 | Umsetzung, Tests, Plattform und Design (`devos-worker`, `devos-verifier`, `devos-platform`, `devos-designer`) | Opus 5.5 | high |
-| Suche und Recherche (`devos-explorer`, `devos-researcher`) | Sonnet 5 (`sonnet`) | high |
+| Suche und Recherche (`devos-explorer`, `devos-researcher`) | Sonnet 5.5 (`sonnet`) | high |
 | Alle anderen Agents | Opus 5.5 | wie die Sitzung |
 
 Wo das eingestellt ist:
 
-- `claude/settings.json`: `"model": "opus"` und `"effortLevel": "xhigh"` für das Hauptgespräch, `CLAUDE_CODE_SUBAGENT_MODEL=opus` für alle Agents ohne eigene Angabe, `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-5` (wer Haiku anfordert, bekommt Sonnet 5) und `modelSettings`, das Sonnet 5 auf `high` begrenzt.
+- `claude/settings.json`: `"model": "opus"` und `"effortLevel": "xhigh"` für das Hauptgespräch, `CLAUDE_CODE_SUBAGENT_MODEL=opus` für alle Agents ohne eigene Angabe, `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5` (der Kurzname `sonnet` zeigt auf Sonnet 5.5, auch in Claude-Code-Versionen vor 2.1.284), `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-5-5` (wer Haiku anfordert, bekommt Sonnet 5.5) und `modelSettings`, das Sonnet 5.5 auf `high` begrenzt.
 - `claude/agents/devos-*.md`: feste Modell- und Effort-Werte je Rolle.
 - `gsd/defaults.json`: `"resolve_model_ids": "omit"`. Die GSD-Befehle geben ihren Agents dadurch kein eigenes Modell mit, also gilt auch dort Opus 5.5.
 - `claude/CLAUDE.md` (Abschnitt „Modelle“) und `claude/skills/devos-orchestrate/SKILL.md` (Abschnitt „Model routing“): die Regeln dazu.
-- Der Kurzname `opus` zeigt immer auf das aktuelle Opus-Modell.
+- Der Kurzname `opus` zeigt immer auf das aktuelle Opus-Modell. `sonnet` ist dagegen fest auf Sonnet 5.5 eingestellt; bei einem neuen Sonnet-Modell alle drei Stellen mit `claude-sonnet-5-5` in `settings.json` anpassen.
 
 **Desktop-App:** Dort bestimmt die Auswahl im Eingabefeld das Modell neuer Sitzungen, nicht `settings.json`. Auf jedem Gerät einmal „Opus 5.5“ und die Stufe „Extra hoch“ (xhigh) auswählen.
 

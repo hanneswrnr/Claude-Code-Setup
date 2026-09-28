@@ -3,7 +3,8 @@
     "VERCEL_PLUGIN_TELEMETRY": "off",
     "ENABLE_STOP_REVIEW": "0",
     "CLAUDE_CODE_SUBAGENT_MODEL": "opus",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5"
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5"
   },
   "permissions": {
     "allow": [
@@ -363,7 +364,7 @@
   },
   "effortLevel": "xhigh",
   "modelSettings": {
-    "claude-sonnet-5": {
+    "claude-sonnet-5-5": {
       "maxEffortLevel": "high"
     }
   },

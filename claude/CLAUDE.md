@@ -50,7 +50,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 
 # Modelle
 
-- Stufen: Sonnet 5 für Suche und Recherche, sonst immer Opus 5.5 (Kurzname `opus`). Orchestrierung, unabhängige Prüfung und Sicherheit auf `xhigh`; Umsetzung, Tests, Plattform und Design auf `high` über die `devos-*`-Rollen, denn allgemeine Spezialisten übernehmen die Stufe der Sitzung. Haiku und Fable nie einsetzen, `max` vermeiden. Die Zuordnung der Rollen steht in `devos-orchestrate`.
+- Stufen: Sonnet 5.5 für Suche und Recherche, sonst immer Opus 5.5 (Kurzname `opus`). Orchestrierung, unabhängige Prüfung und Sicherheit auf `xhigh`; Umsetzung, Tests, Plattform und Design auf `high` über die `devos-*`-Rollen, denn allgemeine Spezialisten übernehmen die Stufe der Sitzung. Haiku und Fable nie einsetzen, `max` vermeiden. Die Zuordnung der Rollen steht in `devos-orchestrate`.
 
 # Kommunikation
 

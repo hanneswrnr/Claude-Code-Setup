@@ -91,3 +91,18 @@ Auf Wunsch läuft alles außer Suche und Recherche auf Opus 5.5 (Kurzname `opus`
 - Außerhalb des Ports geändert: `learning/lessons.jsonl` (Lektionen L-20260911-7c9217 und L-20260911-51c812 über `ll.py edit` auf den neuen Stand umformuliert). `settings.json` bleibt bei `model` `opus`, `effortLevel` `xhigh` und Unteragenten `opus`; der Schlüssel `skipWorkflowUsageWarning` darin stammt nicht aus dieser Änderung.
 - Unverändert: `devos-worker` und `devos-platform` (`opus` / `high`), `devos-explorer` und `devos-researcher` (`sonnet` / `high`).
 - Rollback: Stand vor der Änderung ist Commit `88ec724` im Setup-Repo. Wirksam wird die Änderung erst in einer neuen Claude-Code-Sitzung; in der Desktop-App zusätzlich im Eingabefeld Opus 5.5 mit „Extra hoch“ wählen.
+
+## 2026-09-28 — Sonnet 5.5 für Suche und Recherche
+
+Auf Wunsch ersetzt Sonnet 5.5 (`claude-sonnet-5-5`, erschienen am 28.09.2026) überall Sonnet 5. Die Kennung steht in der Modellliste, die die Desktop-App am 28.09.2026 geladen hat; laut Änderungsprotokoll macht Claude Code erst ab 2.1.284 Sonnet 5.5 zum Standard für den Kurznamen `sonnet`. Installiert war 2.1.281, deshalb legt `ANTHROPIC_DEFAULT_SONNET_MODEL` die Zuordnung fest. Die Grenze `high` wurde von Sonnet 5 übernommen, für Sonnet 5.5 aber nicht neu gemessen.
+
+- Kopien nach der Änderung: `local-changes/2026-09-28-sonnet-5-5/`
+
+| Datei | Änderung | SHA-256 nach der Änderung |
+|---|---|---|
+| `skills/devos-orchestrate/SKILL.md` | Abschnitt „Model routing": `sonnet` ist Sonnet 5.5, Grenze `high` gilt für Sonnet 5.5 | `eb181b0cb56a399c23bf1fca15bb894ca2cf983b2f533fcc54598c40d93a470e` |
+| `CLAUDE.md` | Abschnitt „Modelle": Sonnet 5.5 für Suche und Recherche | `bd45b326ef87044ba370a1fe779f97b760a3fc3e92b8f2ddfd0715195eb1b9fa` |
+
+- Außerhalb des Ports geändert: `settings.json` (neu `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5`; `ANTHROPIC_DEFAULT_HAIKU_MODEL` von `claude-sonnet-5` auf `claude-sonnet-5-5`; `modelSettings` begrenzt jetzt `claude-sonnet-5-5` auf `high`) und `learning/lessons.jsonl` (Lektion L-20260911-7c9217 über `ll.py edit` auf Sonnet 5.5 umformuliert).
+- Unverändert: alle Rollendateien. `devos-explorer` und `devos-researcher` behalten `sonnet` / `high`; der Kurzname zeigt jetzt auf Sonnet 5.5.
+- Rollback: Stand vor der Änderung ist Commit `457ee45` im Setup-Repo. Wirksam wird die Änderung erst in einer neuen Claude-Code-Sitzung.

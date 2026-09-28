@@ -66,7 +66,7 @@ Select the installed role through the Agent tool's `subagent_type` (`devos-explo
 
 ## Model routing
 
-The setup uses two tiers (decision of 2026-09-22): `opus` (currently Opus 5.5) for all judgment, implementation and design work, and `sonnet` (Sonnet 5) for bounded search and research. Opus 5.5 at high effort beats Fable 5.1 and the previous Opus generation at every effort level on the published coding benchmarks, at lower cost, so Fable is not routed to. Never route work to `haiku` or `fable`. The `opus` alias resolves to the provider's current Opus model; re-check `/model` before changing defaults and do not silently substitute an unavailable model.
+The setup uses two tiers (decision of 2026-09-22, Sonnet tier raised to Sonnet 5.5 on 2026-09-28): `opus` (currently Opus 5.5) for all judgment, implementation and design work, and `sonnet` (Sonnet 5.5, pinned through `ANTHROPIC_DEFAULT_SONNET_MODEL`) for bounded search and research. Opus 5.5 at high effort beats Fable 5.1 and the previous Opus generation at every effort level on the published coding benchmarks, at lower cost, so Fable is not routed to. Never route work to `haiku` or `fable`. The `opus` alias resolves to the provider's current Opus model; re-check `/model` before changing defaults and do not silently substitute an unavailable model.
 
 - Root: the user's session choice, by default Opus 5.5 at xhigh effort. Keep architecture and risky integration here.
 - `devos-explorer`, `devos-researcher`: sonnet/high for bounded evidence gathering. Escalate ambiguous cross-system analysis to root.
@@ -76,7 +76,7 @@ The setup uses two tiers (decision of 2026-09-22): `opus` (currently Opus 5.5) f
 - Generic specialists and `general-purpose` define no model and run on opus (`CLAUDE_CODE_SUBAGENT_MODEL`). Route cheap read-only work to `devos-explorer` or `devos-researcher`, whose effort is pinned, rather than passing `model: "sonnet"` to agents that inherit the session effort. Built-in Explore inherits the root model, capped at Opus.
 - Avoid `max` effort: on Opus 5.5 it costs three to four times high for at most about two benchmark points.
 
-Subagents without an `effort` setting inherit the session effort; settings cap Sonnet 5 at high, because its higher levels multiply tokens without a measured quality gain. Role-file settings apply unless a spawn overrides the model; an effort level the model does not support falls back to the highest supported level below it. Tool allowlists remove edit tools from read-only roles, but Bash/PowerShell can still write; state read-only ownership in the task as well.
+Subagents without an `effort` setting inherit the session effort; settings cap Sonnet 5.5 at high, because the higher levels multiplied tokens without a measured quality gain on Sonnet 5. Role-file settings apply unless a spawn overrides the model; an effort level the model does not support falls back to the highest supported level below it. Tool allowlists remove edit tools from read-only roles, but Bash/PowerShell can still write; state read-only ownership in the task as well.
 
 ## Integrate and finish
 
