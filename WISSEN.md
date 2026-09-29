@@ -2,7 +2,7 @@
 
 Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
-- Aktive Regeln: 506
+- Aktive Regeln: 516
 - Warten auf Freigabe: 0
 - Archivierte Regeln: 79
 - Gedächtnis-Notizen: 95
@@ -10,7 +10,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
 ## Gelernte Regeln (Lernloop)
 
-### Fehler vermeiden (359)
+### Fehler vermeiden (366)
 
 - In Shell-Befehlen keine Dotenv-Dateien namentlich nennen, auch nicht fuer git check-ignore; einzelne Dateiaenderungen nicht per git checkout mit Doppelstrich verwerfen, sondern den Inhalt mit git show HEAD:pfad zurueckschreiben *Warum: Das CC Safety Net blockt Dotenv-Pfade und git checkout mit Doppelstrich; ein geblockter Sammelbefehl fuehrt auch seine harmlosen Teile nicht aus* `L-20260911-0beed3`
 - Repos, deren Dateien per SHA-256-Manifest geprueft werden, mit einer .gitattributes-Zeile \* -text anlegen, bevor der erste git add laeuft *Warum: Git fuer Windows wandelt sonst Zeilenenden beim Auschecken um (autocrlf), dann passen die Pruefsummen auf anderen Geraeten nicht mehr* `L-20260911-0f4720`
@@ -371,8 +371,15 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - In Waechter-Tests Markenzeilen einer Migration (etwa das Ende eines DO-Blocks) per Zeilenanker suchen, nicht per indexOf, wenn der Kopfkommentar dieselbe Marke in einer Anleitung nennt *Warum: indexOf traf die Marke im Kopfkommentar der Mig 784 und die Reihenfolgepruefung wurde falsch rot* `L-20260928-d8616b`
 - In SchadenMelden24 den Vercel-Build-Stand nicht ueber den Vercel-Konnektor abfragen (kein Zugriff auf das Team hanneswrnrs-projects), sondern ueber den GitHub-Commit-Status oder gh pr checks lesen *Warum: Der Konnektor antwortete am 28.09.2026 mit 403 forbidden fuer diesen Bereich* `L-20260928-dffca7` (nur Projekt schadenmelden24-c065cc)
 - Windows-Python aus dem Bash-Werkzeug bekommt keine Git-Bash-Pfade wie /tmp: Pfad vorher mit cygpath -w umwandeln oder Dateien im Scratchpad mit Windows-Pfad ablegen *Warum: Am 28.09.2026 meldete python FileNotFoundError fuer /tmp/pr-773.md, obwohl die Datei fuer Bash existierte; der nachfolgende gh-Befehl lief mit dem alten Text weiter* `L-20260928-fdc638`
+- Nach einem Merge keinen Befehl zum Loeschen des Remote-Zweigs in einen Sammelbefehl haengen; das Safety Net blockt dann alle Schritte. Remote-Zweig stehen lassen oder den Nutzer fragen *Warum: Am 28.09.2026 blieb dadurch auch das Aktualisieren von main liegen und musste getrennt wiederholt werden* `L-20260929-3f3ff8`
+- ffmpeg ab Version 7 kennt die Option vsync nicht mehr; fuer Einzelbild-Auswahl mit select stattdessen -fps_mode passthrough setzen *Warum: Der Aufruf brach mit Unrecognized option ab; fps_mode ist der Nachfolger und behaelt jedes ausgewaehlte Bild* `L-20260929-74cb56`
+- Nach change_directory aus einer Sitzung ohne Ordner liest preview_start die launch.json weiter im alten Scratch-Ordner; dort anlegen und Pfade zum Projekt absolut angeben, nicht ins Repo schreiben *Warum: Am 28.09.2026 fand preview_start die launch.json im Projektordner nicht; so bleibt das Repo sauber und die Vorschau startet sofort* `L-20260929-9a9c6a`
+- Ein Filmkorn- oder Blend-Overlay mit mix-blend-mode nicht in einen eigenen Stapelkontext legen (kein z-index, opacity oder transform am Eltern-Element) *Warum: Sonst mischt es nur mit transparentem Hintergrund und legt einen grauen Schleier ueber das ganze Bild statt Weiss sauber zu lassen* `L-20260929-dffacf`
+- PSNR je Bild gegen eine Rohaufnahme mit schwankender Bildrate nicht im ffmpeg-Filtergraphen messen; einzelne Einbrueche dort als Einzelbilder nachpruefen oder gegen eine Datei mit fester Bildrate vergleichen *Warum: Am 28.09.2026 zeigte der Graph einzelne Bilder mit 21 dB, als Standbild verglichen waren es 38 bis 48 dB; die Zuordnung im Graphen verrutschte* `L-20260929-e29584`
+- Beim Rendern von CSS-Animationen per Seek (currentTime) alle Animationen einmal bei t=0 sammeln und merken, statt bei jedem Seek nur document.getAnimations() zu nutzen *Warum: getAnimations liefert beendete Animationen ohne fill nicht mehr; nach einem Sprung zurueck blieben ganze Szenen unsichtbar* `L-20260929-f15eee`
+- Wird aus einem Film mitten drin ein Stueck Bild herausgeschnitten, die Tonspur an derselben Stelle schneiden (kurze Ueberblendung, etwa 0,25 s) statt sie durchlaufen zu lassen und nur hinten zu kuerzen *Warum: Am 28.09.2026 lief die Musik nach dem Schnitt sonst 2,3 s versetzt zum Bild; die Gegenpruefung fand es, der Abgleich per Samplevergleich bestaetigte die Korrektur* `L-20260929-f7e1a6`
 
-### Bewährt (122)
+### Bewährt (123)
 
 - UI hinter Login oder Datenbank ohne Zugangsdaten pruefen: voruebergehende Harness-Route mit echten Komponenten, Beispieldaten, abgefangenen API-Antworten und Platzhalter-Umgebungswerten bauen, im Browser ansehen und danach loeschen *Warum: So liessen sich Origin-Labs-Admin-Formular und Kundenseite zweimal belastbar pruefen; das Aufraeumen wurde per git status kontrolliert* `L-20260911-a6d6c1`
 - Einen GitHub-ZIP-Download in einen Git-Checkout verwandeln: git init, remote add, fetch des Zweigs, dann git reset origin/zweig ohne hard; git status zeigt danach, ob der Download dem Stand gleicht *Warum: So entsteht ohne Dateiverlust ein pruefbarer Verlauf fuer Diffs, Worktrees und Zweige* `L-20260911-cb3524`
@@ -496,8 +503,9 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Kurze CSS-Uebergangsanimationen im Browser pruefen: den ausloesenden Timer abfangen, alle Animationen per document.getAnimations pausieren und auf feste Zeitpunkte setzen, dann Bild machen und den Timer von Hand ausloesen *Warum: Screenshots dauern laenger als eine 1-Sekunden-Animation; so liessen sich am 28.09.2026 alle Zwischenzustaende der Video-Ruecklauf-Animation reproduzierbar ansehen* `L-20260928-a9d978`
 - Bringt export.py im Setup-Repo fremde offene Staende mit, eigene Aenderung als eigenen Commit vorab stagen und den Rest samt setup-manifest.json und WISSEN.md als letzten Sicherungs-Commit anhaengen; alle Commits zusammen pushen *Warum: restore.py bricht ab, wenn eine Pruefsumme im Manifest nicht passt; ein Zwischen-Commit mit altem Manifest ist daher nur zusammen mit dem Abschluss-Commit gueltig (28.09.2026, drei Commits sauber getrennt)* `L-20260928-c4c920`
 - Einen Befund aus einer Code-Sichtpruefung zu Animationen oder reduzierter Bewegung vor der Behebung im echten Browser messen: Playwright mit reducedMotion reduce, berechneten animationName und laufende getAnimations vorher und nachher auslesen, dazu eine Bildfolge im Abstand von 200 ms *Warum: Globale CSS-Regeln koennen den Befund schon abdecken; am 27.09.2026 pulsierte der gemeldete Dialog gar nicht sichtbar, und nur die Vorher-Messung erlaubte eine ehrliche Einordnung im Bericht* `L-20260928-f57531`
+- Wenn mehrere Agenten gleichzeitig bauen oder rendern, jedem Lauf einen eigenen Build-Ordner geben (z. B. build-tmp/label-pid) statt einen gemeinsamen Ordner zu leeren *Warum: Ein gemeinsamer Build-Ordner wird sonst mitten im Lesen eines anderen Laufs geloescht; mit privaten Ordnern liefen vier Agenten am 28.09.2026 ohne Stoerung parallel* `L-20260929-ef16cf`
 
-### Vorliebe (25)
+### Vorliebe (27)
 
 - Einen Orchestrator-Prompt nicht per CLAUDE.md-Import ins Projekt einbauen, sondern als Memory oder Dokument ablegen *Warum: Subagents erben die CLAUDE.md-Hierarchie und wuerden sonst selbst anfangen zu orchestrieren* `L-20260911-28134a`
 - Status, offene Punkte und To-dos in einfachem Deutsch ohne Fachjargon erklären; unvermeidbare Fachbegriffe kurz erklären *Warum: Ausdrücklicher Wunsch des Nutzers, zuerst im Projekt Raumgestaltung-Hartung festgehalten (10.09.2026)* `L-20260911-4db8bc`
@@ -524,6 +532,8 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Mergen einer Pull-Anfrage nie als Aufgabe fuer den Nutzer formulieren; stattdessen kurz um Zustimmung bitten und nach seinem Ja selbst mergen, vorher main plus Aenderung pruefen *Warum: Nutzer ist kein Entwickler und sagte am 25.09.2026 ausdruecklich: mach du das selbst; seine CLAUDE.md nennt Merges als Claudes Aufgabe* `L-20260925-340f25`
 - Bei Rückfragen zu Kunden-Mails in SchadenMelden24 den vorhandenen manuellen Weg (Knopf Fahrzeug abholbereit melden) nennen; keine automatische Kundenmail bei Abschluss oder anderem Statuswechsel anbieten oder einbauen *Warum: Am 25.09.2026 wählte der Product Owner zuerst Mail nur bei Abschluss und korrigierte sofort: Abholbereit meldet die Werkstatt ausschließlich manuell per Knopf* `L-20260925-6bdb03` (nur Projekt schadenmelden24-c065cc)
 - In Videos, Mockups und Marketing-Oberflaechen keine erfundenen Beispielwerte zeigen (keine Zahlen, Datum, Uhrzeit, Namen, Orte, Fahrzeuge, Kennzeichen, Auftragsnummern) und keine echten Kundennamen; Werte als neutrale Platzhalter-Balken darstellen, nur Beschriftungen, Rollen, Status und Kategorien als Text *Warum: Ausdrueckliche Vorgabe des Nutzers am 27.09.2026 beim SchadenMelden24-Showreel; UI-Beispieldaten wie 742 Auftraege und Staedtenamen wurden abgelehnt* `L-20260927-4f5b41`
+- Bei Marken- und Showreel-Videos fuer eigene Firmen des Nutzers die echte Marke durchziehen: echtes Logo in vielen Szenen, echte Website- und Produkttexte statt fiktiver Kunden; frueh echte gerenderte Standbilder zeigen *Warum: Nutzer forderte am 28.09.2026 ausdruecklich staerkeren Bezug zur Origin-Labs-Marke mit richtigem Logo und Farben* `L-20260929-2c0df6`
+- Widerspricht eine Textbeschwerde des Nutzers einem Stand, den er gerade freigegeben hat, vor dem Umbau den vollen Satz vorher und nachher woertlich zeigen und kurz bestaetigen lassen *Warum: Am 28.09.2026 kuerzte ich nach einer Beschwerde einen freigegebenen Satz; kurz danach war der vorige Stand doch richtig und musste in einer weiteren Freigaberunde zurueckgeholt werden* `L-20260929-7c2d1d`
 
 ## Wartet auf Freigabe (/reflect)
 
