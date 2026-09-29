@@ -2,15 +2,15 @@
 
 Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
-- Aktive Regeln: 504
-- Warten auf Freigabe: 1
+- Aktive Regeln: 505
+- Warten auf Freigabe: 0
 - Archivierte Regeln: 93
 - Gedächtnis-Notizen: 95
 - Projekte und Sitzungen mit Gedächtnis: 15
 
 ## Gelernte Regeln (Lernloop)
 
-### Fehler vermeiden (364)
+### Fehler vermeiden (365)
 
 - In Shell-Befehlen keine Dotenv-Dateien namentlich nennen, auch nicht fuer git check-ignore; einzelne Dateiaenderungen nicht per git checkout mit Doppelstrich verwerfen, sondern den Inhalt mit git show HEAD:pfad zurueckschreiben *Warum: Das CC Safety Net blockt Dotenv-Pfade und git checkout mit Doppelstrich; ein geblockter Sammelbefehl fuehrt auch seine harmlosen Teile nicht aus* `L-20260911-0beed3`
 - Repos, deren Dateien per SHA-256-Manifest geprueft werden, mit einer .gitattributes-Zeile \* -text anlegen, bevor der erste git add laeuft *Warum: Git fuer Windows wandelt sonst Zeilenenden beim Auschecken um (autocrlf), dann passen die Pruefsummen auf anderen Geraeten nicht mehr* `L-20260911-0f4720`
@@ -369,6 +369,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - In Waechter-Tests Markenzeilen einer Migration (etwa das Ende eines DO-Blocks) per Zeilenanker suchen, nicht per indexOf, wenn der Kopfkommentar dieselbe Marke in einer Anleitung nennt *Warum: indexOf traf die Marke im Kopfkommentar der Mig 784 und die Reihenfolgepruefung wurde falsch rot* `L-20260928-d8616b`
 - In SchadenMelden24 den Vercel-Build-Stand nicht ueber den Vercel-Konnektor abfragen (kein Zugriff auf das Team hanneswrnrs-projects), sondern ueber den GitHub-Commit-Status oder gh pr checks lesen *Warum: Der Konnektor antwortete am 28.09.2026 mit 403 forbidden fuer diesen Bereich* `L-20260928-dffca7` (nur Projekt schadenmelden24-c065cc)
 - Windows-Python aus dem Bash-Werkzeug bekommt keine Git-Bash-Pfade wie /tmp: Pfad vorher mit cygpath -w umwandeln oder Dateien im Scratchpad mit Windows-Pfad ablegen *Warum: Am 28.09.2026 meldete python FileNotFoundError fuer /tmp/pr-773.md, obwohl die Datei fuer Bash existierte; der nachfolgende gh-Befehl lief mit dem alten Text weiter* `L-20260928-fdc638`
+- Pruef- oder Simulationsskripte, deren Testdaten gefaehrliche Befehlstexte enthalten (etwa Force-Push oder Loeschbefehle als Beispielstrings), mit dem Write-Werkzeug als Datei ablegen und per python datei starten, nie als Heredoc oder python -c im Befehl *Warum: Das Safety Net durchsucht den rohen Befehlstext und blockiert den ganzen Aufruf, auch wenn die Texte nur Daten sind; aus einer Datei gestartet laeuft dasselbe Skript durch (29.09.2026)* `L-20260929-0ff3fe`
 - ffmpeg ab Version 7 kennt die Option vsync nicht mehr; fuer Einzelbild-Auswahl mit select stattdessen -fps_mode passthrough setzen *Warum: Der Aufruf brach mit Unrecognized option ab; fps_mode ist der Nachfolger und behaelt jedes ausgewaehlte Bild* `L-20260929-74cb56`
 - Nach change_directory aus einer Sitzung ohne Ordner liest preview_start die launch.json weiter im alten Scratch-Ordner; dort anlegen und Pfade zum Projekt absolut angeben, nicht ins Repo schreiben *Warum: Am 28.09.2026 fand preview_start die launch.json im Projektordner nicht; so bleibt das Repo sauber und die Vorschau startet sofort* `L-20260929-9a9c6a`
 - Bash- und PowerShell-Erlaubnisregeln nie mit Stern vor dem Unterbefehl schreiben (etwa git -C Stern push); fuer git push zusaetzlich Nachfrage-Regeln auf --e und --rece setzen, weil git abgekuerzte Optionen annimmt *Warum: Ein Stern vor dem Unterbefehl passt auf -c-Optionen, die Programme starten; git push --receive-pack bzw. --exec fuehrt mit lokalem Ziel beliebige Befehle aus, auch abgekuerzt als --e oder --rece (am 29.09.2026 mit git 2.52 nachgeprueft)* `L-20260929-af6c32`
@@ -525,9 +526,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
 ## Wartet auf Freigabe (/reflect)
 
-### Fehler vermeiden (1)
-
-- Pruef- oder Simulationsskripte, deren Testdaten gefaehrliche Befehlstexte enthalten (etwa Force-Push oder Loeschbefehle als Beispielstrings), mit dem Write-Werkzeug als Datei ablegen und per python datei starten, nie als Heredoc oder python -c im Befehl *Warum: Das Safety Net durchsucht den rohen Befehlstext und blockiert den ganzen Aufruf, auch wenn die Texte nur Daten sind; aus einer Datei gestartet laeuft dasselbe Skript durch (29.09.2026)* `L-20260929-0ff3fe`
+Keine.
 
 ## Archiviert
 

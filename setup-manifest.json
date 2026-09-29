@@ -341,7 +341,7 @@
   "claude/agents/xr-interface-architect.md": "c37d861d5f2ea98b9dd7de610ba718d801ad5a95c2a20ffd8cef82c3455ae3e2",
   "claude/agents/zk-steward.md": "4431caf0747012e60d581f75d25bcb98400fa218bd1dbb7b1145bd4916453080",
   "claude/learning/config.json": "dc9c2c44477de92bf6c3a0ac3dc378437b929e08ee88b98af9cffab71e849476",
-  "claude/learning/lessons.jsonl": "12d854cc8bedc7826f52fbfd28a2ed65074a835f82bbe1d261a11c330b59b031",
+  "claude/learning/lessons.jsonl": "68cf6a845c1d5c29edaff11b26cd19a0a5d962a0043a0496ff6dbc8759f196c8",
   "claude/learning/ll.py": "b614851e9412013bbd7874c3c5fce3393a263c2f92867cb4a95eeb708fa63592",
   "claude/learning/llcore.py": "9b99382d6b8c6f9fe562f553d5100db331c8c58ac1cea688bd974b40179e5039",
   "claude/learning/llgate.py": "b7fee5e6942b89a1609ae13fc859eed20ba6d07565346be88c5eb5a75d8a7fb7",
