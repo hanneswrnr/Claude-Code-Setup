@@ -348,7 +348,7 @@
   "claude/learning/llhooks.py": "471b5cc5e5487e7e681cbb186047f6b795aa1a5cdac2545cf09b64b7f9d8816f",
   "claude/learning/llsearch.py": "70617b006897c94eee238c02c9834cb92f6051667153baea42409dc5c4e93589",
   "claude/learning/tests/test_learning_loop.py": "dbf96a9738baf8dc51ea8a1dae2e9171832991085d1256922698fba2b13d5b33",
-  "claude/settings.json": "0f5b06e5cf4fea976f9eeb08a0771bdec18ce764b70063091117279d8f8e97ce",
+  "claude/settings.json": "77000f3ecdfd59ef16d99e756c779c519918be604b75cf25b94c41bb50d9d0ca",
   "claude/skills/devos-bootstrap/SKILL.md": "f8bcf03fe403f9b003289d9b2fb01619fe0af297749fff79db935b9e43e7a41d",
   "claude/skills/devos-bootstrap/references/web-quality.md": "dddda8994bd199a31b9bf764742f760c942bd820216b1e904bff10c7878c307e",
   "claude/skills/devos-experience/SKILL.md": "f48a50037a942e216b24eeee3d08a4ed2533bd6ff799ded69f475e3b1910f451",
