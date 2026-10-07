@@ -2,9 +2,9 @@
   "env": {
     "VERCEL_PLUGIN_TELEMETRY": "off",
     "ENABLE_STOP_REVIEW": "0",
-    "CLAUDE_CODE_SUBAGENT_MODEL": "opus",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5"
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-5-5"
   },
   "permissions": {
     "allow": [
@@ -247,7 +247,7 @@
       "PowerShell(*learning*config.json*)"
     ]
   },
-  "model": "opus[1m]",
+  "model": "claude-opus-5-5",
   "hooks": {
     "SessionStart": [
       {
@@ -398,10 +398,19 @@
       }
     }
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "medium",
   "modelSettings": {
     "claude-sonnet-5-5": {
-      "maxEffortLevel": "high"
+      "maxEffortLevel": "max",
+      "effortLevel": "medium"
+    },
+    "claude-haiku-5-5": {
+      "effortLevel": "medium",
+      "maxEffortLevel": "max"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high",
+      "maxEffortLevel": "max"
     }
   },
   "tui": "fullscreen",

@@ -8,6 +8,7 @@ Aufruf: python export.py
 import datetime as dt
 import hashlib
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -16,7 +17,13 @@ from urllib.parse import quote
 REPO = Path(__file__).resolve().parent
 HOME = Path.home()
 CLAUDE = HOME / ".claude"
-DEVOS = HOME / "Documents" / "DevOS" / "devos-claude-port"
+# Read from the working DevOS port and mirror it into the repository. Override
+# this path on machines that keep the source elsewhere.
+DEVOS = Path(os.environ.get(
+    "DEVOS_CLAUDE_PORT_SOURCE",
+    str(HOME / "Documents" / "DevOS" / "devos-claude-port"),
+)).expanduser()
+DEVOS_TARGET = REPO / "extras" / "devos-claude-port"
 
 # (Quelle, Ziel im Repo, Muster relativ zur Quelle; None = einzelne Datei)
 PLAN = [
@@ -31,7 +38,7 @@ PLAN = [
                                          "agency-agents.selection.json"]),
     (CLAUDE / "vendor" / "agency-agents" / "LICENSE", "claude/vendor/agency-agents.LICENSE", None),
     (DEVOS, "extras/devos-claude-port", ["**/*"]),
-    (HOME / ".gsd" / "defaults.json", "gsd/defaults.json", None),  # resolve_model_ids: GSD-Agents laufen auf Opus
+    (HOME / ".gsd" / "defaults.json", "gsd/defaults.json", None),  # omit: keine Modell-ID; aktive Auswahl wird vererbt
 ]
 PAYLOAD = ("claude", "extras", "memory", "gsd")
 # synced: Skills, die die Desktop-App je Sitzung aus dem claude.ai-Konto hineinkopiert
@@ -188,7 +195,22 @@ def knowledge(contents, names):
     return "\n".join(out) + "\n"
 
 
+def devos_source_error(source=DEVOS):
+    """Refuse a missing or overlapping source before the export can prune files."""
+    source = Path(source).expanduser().resolve()
+    target = DEVOS_TARGET.resolve()
+    if not source.is_dir():
+        return "Die DevOS-Quelle fehlt: %s (Pfad mit DEVOS_CLAUDE_PORT_SOURCE setzen)" % source
+    if source == target or source in target.parents or target in source.parents:
+        return "DevOS-Quelle und Repo-Ziel dürfen sich nicht überschneiden: %s -> %s" % (source, target)
+    return None
+
+
 def main():
+    error = devos_source_error()
+    if error:
+        print("Abbruch, nichts exportiert. " + error)
+        return 1
     files, names = collect()
     contents = {target: source.read_bytes() for target, source in files.items()}  # jede Quelle genau einmal lesen
     wissen = knowledge(contents, names).encode("utf-8")

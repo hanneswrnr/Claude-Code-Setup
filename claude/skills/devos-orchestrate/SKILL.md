@@ -66,17 +66,36 @@ Select the installed role through the Agent tool's `subagent_type` (`devos-explo
 
 ## Model routing
 
-The setup uses two tiers (decision of 2026-09-22, Sonnet tier raised to Sonnet 5.5 on 2026-09-28): `opus` (currently Opus 5.5) for all judgment, implementation and design work, and `sonnet` (Sonnet 5.5, pinned through `ANTHROPIC_DEFAULT_SONNET_MODEL`) for bounded search and research. Opus 5.5 at high effort beats Fable 5.1 and the previous Opus generation at every effort level on the published coding benchmarks, at lower cost, so Fable is not routed to. Never route work to `haiku` or `fable`. The `opus` alias resolves to the provider's current Opus model; re-check `/model` before changing defaults and do not silently substitute an unavailable model.
+The repository defines a balanced three-tier policy; Claude Code itself does not infer this matrix from task semantics:
 
-- Root: the user's session choice, by default Opus 5.5 at xhigh effort. Keep architecture and risky integration here.
-- `devos-explorer`, `devos-researcher`: sonnet/high for bounded evidence gathering. Escalate ambiguous cross-system analysis to root.
-- `devos-worker`, `devos-platform`, `devos-verifier`: opus/high for implementation contracts, platform work, adversarial tests and reproduction. On Opus 5.5, xhigh roughly doubles cost over high for little or no measured gain.
-- `devos-designer`: opus/high for visual direction and scoped HTML/CSS work.
-- `devos-reviewer`, `devos-security`: opus/xhigh as independent correctness and security gates, where a missed defect costs more than the tokens.
-- Generic specialists and `general-purpose` define no model and run on opus (`CLAUDE_CODE_SUBAGENT_MODEL`). Route cheap read-only work to `devos-explorer` or `devos-researcher`, whose effort is pinned, rather than passing `model: "sonnet"` to agents that inherit the session effort. Built-in Explore inherits the root model, capped at Opus.
-- Avoid `max` effort: on Opus 5.5 it costs three to four times high for at most about two benchmark points.
+| Default role | Model | Effort | Use |
+| --- | --- | --- | --- |
+| devos-explorer | Haiku 5.5 (haiku) | medium | Bounded read-only discovery |
+| devos-researcher | Sonnet 5.5 (sonnet) | medium | Focused current-doc/API research; use high only for an explicit version conflict |
+| devos-worker, devos-platform, devos-infra, devos-verifier | Sonnet 5.5 (sonnet) | high | Clear implementation, platform/infra and functional verification |
+| devos-designer | Opus 5.5 (opus) | high | Visual direction, design decisions and visual review |
+| devos-worker-xhigh | Sonnet 5.5 (sonnet) | xhigh | Explicit escalation for a complex implementation when the task warrants deeper reasoning |
+| devos-worker-max | Sonnet 5.5 (sonnet) | max | Optional task-specific experiment for bounded, multi-step terminal work when evidence favors longer autonomous completion |
+| Root, devos-architect, devos-reviewer | Opus 5.5 (opus) | high | Orchestration, contracts, difficult integration and independent C/D review |
+| devos-security | Opus 5.5 (opus) | xhigh | Class-D trust boundaries and security gates |
 
-Subagents without an `effort` setting inherit the session effort; settings cap Sonnet 5.5 at high, because the higher levels multiplied tokens without a measured quality gain on Sonnet 5. Role-file settings apply unless a spawn overrides the model; an effort level the model does not support falls back to the highest supported level below it. Tool allowlists remove edit tools from read-only roles, but Bash/PowerShell can still write; state read-only ownership in the task as well.
+
+Settings pin the root conversation to Opus 5.5/high; Sonnet 5.5 and Haiku 5.5 remain at medium. All three permit maxEffortLevel max, but Max stays an explicit session or role choice. Prefer devos-worker-xhigh for scope-sensitive Sonnet work; use devos-worker-max only when a clearly scoped task and task-specific evidence justify longer autonomous CLI work. Anthropic reports Sonnet 5.5 Xhigh above Max on FrontierCode; Max runs more often triggered review subagents that led to timeouts or out-of-scope edits. The generic subagent default remains sonnet. Role frontmatter supplies the named-role default, but desktop, CLI or process-level overrides can take precedence. Verify the effective session with /model, /effort and /doctor when it matters. Do not claim automatic model routing, cost savings or quality guarantees without a versioned measurement.
+
+Effort is model- and benchmark-specific, not a monotonic quality ladder, and best scores at different effort levels are not a like-for-like model comparison. Haiku 5.5 Terminal-Bench rises from 20.3% at medium to 39.2% at max in Anthropic's accuracy-cost chart, but remains a secondary choice for narrow tasks where Haiku fits. Sonnet 5.5 reaches 70.6% at the upper end of its Terminal-Bench accuracy-cost curve; on FrontierCode, Xhigh scores 52.1% versus 46.2% at Max. Anthropic notes that Max more often invoked its code-review skill with many subagents, causing timeouts or out-of-scope edits in two examined cases. Prefer Xhigh for scope-sensitive Sonnet work; keep Max optional and task-evaluated. For Opus 5.5, the supplied Terminal-Bench chart shows Xhigh at 66.4% / about $7.35 and Max at 64.8% / about $11.24 per attempt. The score gap is within Anthropic's ±2.6-point standard error, so Xhigh is a better default deep-reasoning choice than Max, but not proven more accurate. The dollar chart uses API task cost and is not a direct Claude Max subscription charge. Keep Opus high for orchestration, design and review; use Xhigh for especially complex or high-risk work, while Max remains task-evaluated. Use a fresh session or supported explicit model/effort control when the Agent API cannot set effort per call. Sources: https://www.anthropic.com/claude-haiku-5-5, https://www.anthropic.com/claude-sonnet-5-5, and https://www.anthropic.com/claude-opus-5-5. The researcher uses Sonnet medium by default; increase it only when the brief records a concrete version/API conflict. Security uses Opus xhigh for Class-D work because the missed-defect cost justifies it.
+
+Every delegated task brief contains:
+
+1. Outcome and capability: the requested result, stack/capability (web, services/API, database, AI/data, mobile/desktop, platform/infra, security or QA) and the files/subsystem owned.
+2. Risk and escalation: class A-D, trust boundaries, destructive/production/external actions and the exact condition that returns control to root.
+3. Context budget: relevant paths/symbols, required current documentation, context-window needs, compacted handoff summary and excluded logs/secrets. Use the smallest context that preserves correctness.
+4. Parallel wave: prerequisites, independent work, one writer per file/subsystem, maximum useful concurrency and the integration order. No nested swarm.
+5. Verification: requirement-derived positive and negative checks, reproducible commands/evidence, UI/runtime evidence where relevant, and the reviewer/security cross-check required for C/D.
+6. Return contract: changed paths, behavior, decisions, executed checks with results, residual risks, blockers and items requiring root judgment.
+
+Risk still outranks file count: keep A with root, use compact implementation plus verification for B, add architecture/contracts and independent review for C, and retain critical security/authorization/production decisions at root for D. Generic specialists are expertise layers, not alternate orchestrators; brief them with this complete contract and the explicit prohibition on nested delegation.
+
+Claude Max uses a shared usage pool, not per-task API spend. Check /usage and /context before adding parallel workers; use the allowance for independent work and verification.
 
 ## Integrate and finish
 

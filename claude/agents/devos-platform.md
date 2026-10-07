@@ -1,7 +1,7 @@
 ---
 name: devos-platform
 description: DevOS platform role. Choose or implement a bounded mobile, desktop or game platform contract. Use for native or cross-platform stack decisions and platform implementation in assigned files.
-model: opus
+model: sonnet
 effort: high
 ---
 

@@ -21,7 +21,7 @@
       "source": "AGENTS.md",
       "source_sha256": "1cd80a7de48261bd17062f0ec0222376332e1db2f9b2a9679500cdaf25e2822a",
       "source_matches_codex_state": true,
-      "sha256": "10bcecccad6f60ff93e938980ca28397d2efd20996d667809570eebcbec24fcc",
+      "sha256": "dda521f6dabf540aecb52f9273ff31613258c729fa09fa18b509f6d3c52192a2",
       "change": "adapted"
     },
     {
@@ -30,7 +30,7 @@
       "source": "devos-review.config.toml",
       "source_sha256": "51a631ef2fcb3067cbbf9f6aeab61e43091e6134db963e3a58616a2995ed2859",
       "source_matches_codex_state": true,
-      "sha256": "fe164f356b8dac0e7399719d7b65ad7b2696acc40f9e61710e6606a3ab20d383",
+      "sha256": "a83246a618dbb3f312bf1d42b802858d8c90eb800d672a1bf41f0e0cf51a60d8",
       "change": "adapted"
     },
     {
@@ -39,7 +39,7 @@
       "source": "agents/devos-designer.toml",
       "source_sha256": "4e021d57d71b4a19e3b16b9528751178c0410fa6f3e931bc3b2cb51133d40f14",
       "source_matches_codex_state": true,
-      "sha256": "b8159c213368cd89868352507efc2650f66ee320e71197f4f809e0cf9e540df4",
+      "sha256": "cb7a25f2e18484f8c81f29a15d1ec4aaa1e3fe4fdd1de8608ef00d84e5fcc76e",
       "change": "adapted"
     },
     {
@@ -48,7 +48,7 @@
       "source": "agents/devos-explorer.toml",
       "source_sha256": "855375e60999ced65599f214a24f577194e50c4083e38d38ddf89133cc44a56e",
       "source_matches_codex_state": true,
-      "sha256": "1aef2d2af8dd79363f1d50da9a4b1439af84099370df5536b0b3393273a9c3f1",
+      "sha256": "313fea01d1af33f9bbb229a2bf96e72d7ccc73f878c21cf9e25c0feb494cb85a",
       "change": "adapted"
     },
     {
@@ -57,7 +57,7 @@
       "source": "agents/devos-platform.toml",
       "source_sha256": "7257dea42a5ad786bd1d2582feb3c35742f67a100914b065cd7ab699e98d725b",
       "source_matches_codex_state": true,
-      "sha256": "91c6bc5401187d87dc83e5ef92a6789a964e0bbd0a2ab8d5a70251efa69ca5ae",
+      "sha256": "bdcc8205b2b4519bb6cd13fe2033a48fec1b80bdf622baa25c8179039b4a12e7",
       "change": "adapted"
     },
     {
@@ -66,7 +66,7 @@
       "source": "agents/devos-researcher.toml",
       "source_sha256": "14f7e8cea5005bd2b06821f42257b7579cabe6e3e3d8ad0a49a8e43e74bc63c1",
       "source_matches_codex_state": true,
-      "sha256": "351cd55aff5f56c8817662c04c31a34c1fa52d4449ef4eefc32073a372a5299f",
+      "sha256": "0c86e65006b909b7c49a9180111b122b311b812079aa8fc74a9261c3379d5386",
       "change": "adapted"
     },
     {
@@ -75,7 +75,7 @@
       "source": "agents/devos-reviewer.toml",
       "source_sha256": "3290bf50fd7819f27a54b4fbe2c8bc9b84d83e9ecb9993d5d42f8aa914b8aa83",
       "source_matches_codex_state": true,
-      "sha256": "f178b9a888babd3bb181569cbbcf2230b888a9c22e0a2fa3bce555a3c2cbab21",
+      "sha256": "5338494f5da3533f386db4b0dd20a49e753f4438a148151e34baaf8cfae8a817",
       "change": "adapted"
     },
     {
@@ -84,7 +84,7 @@
       "source": "agents/devos-security.toml",
       "source_sha256": "f0433e18a480c13f996656065dce6c321bb83646cc3edf41f78ffd30dbb7d4c1",
       "source_matches_codex_state": true,
-      "sha256": "10c940e4c7ac2e5916e8f4577d992df9c6abaa76b35489892c0c466256061c5a",
+      "sha256": "725a7511fac4737d489e095f61bfd3f3a8f840bb9ff51b0837017a4923d00ccf",
       "change": "adapted"
     },
     {
@@ -93,7 +93,7 @@
       "source": "agents/devos-verifier.toml",
       "source_sha256": "f122887acabdce943f8559c39868c07d7898191335b9f50bdac2b059f7601d93",
       "source_matches_codex_state": true,
-      "sha256": "ba514d66f758b0c65433865fd01aaee7abaa1eb6239d7d141af8e20e8157159a",
+      "sha256": "01d35ccf5cedcd6e45170c7e337a3c97bfe15594b941f6630ce44ebcfd877bed",
       "change": "adapted"
     },
     {
@@ -102,8 +102,44 @@
       "source": "agents/devos-worker.toml",
       "source_sha256": "330f4faa7ad0d431bfa4beea66524468e24ec69555ca982faaa3a33da90ce763",
       "source_matches_codex_state": true,
-      "sha256": "b994d523ef380805a8249dba02a2d0279da1d9c92568e0ae5a363b6aefbf240f",
+      "sha256": "8ada4691b43a26f4d68ccd9fc64ef43c686e993180fe330140deeca43d851582",
       "change": "adapted"
+    },
+    {
+      "path": "agents/devos-architect.md",
+      "target": "~/.claude/agents/devos-architect.md",
+      "source": "agents/devos-architect.md",
+      "source_sha256": null,
+      "source_matches_codex_state": false,
+      "sha256": "172133c55225507beee1aed4f908af889c1cc1fb29b50b0dd6738bb0e315639f",
+      "change": "new"
+    },
+    {
+      "path": "agents/devos-infra.md",
+      "target": "~/.claude/agents/devos-infra.md",
+      "source": "agents/devos-infra.md",
+      "source_sha256": null,
+      "source_matches_codex_state": false,
+      "sha256": "6ba8be58fa34ff729328f26c984daddd6f15fa9f58d093b890ef93fc6b4230e3",
+      "change": "new"
+    },
+    {
+      "path": "agents/devos-worker-max.md",
+      "target": "~/.claude/agents/devos-worker-max.md",
+      "source": "agents/devos-worker-max.md",
+      "source_sha256": null,
+      "source_matches_codex_state": false,
+      "sha256": "3aea1c16cc2c69fa636f7f0b6123df15df53e0b34a6077511c7192ffaaaf546e",
+      "change": "new"
+    },
+    {
+      "path": "agents/devos-worker-xhigh.md",
+      "target": "~/.claude/agents/devos-worker-xhigh.md",
+      "source": "agents/devos-worker-xhigh.md",
+      "source_sha256": null,
+      "source_matches_codex_state": false,
+      "sha256": "a071cd02da528dd223f5e735f3c921b7ed69f85df8d99e6cd95af0fbe634ee7a",
+      "change": "new"
     },
     {
       "path": "skills/devos-bootstrap/references/web-quality.md",
@@ -183,7 +219,7 @@
       "source": "skills/devos-orchestrate/SKILL.md",
       "source_sha256": "3588bc1de08f3a75029769c669451f189735f0a03e6d8bdb622cf150409837e6",
       "source_matches_codex_state": true,
-      "sha256": "92a872e28413c4f0da93446fde844c81bb81099a193cdef0b6a6b66868814154",
+      "sha256": "f1d3113461d1afe7ed9a4e744c1d9b842112846830f73904a117f3c12bfbc0ea",
       "change": "adapted"
     },
     {
