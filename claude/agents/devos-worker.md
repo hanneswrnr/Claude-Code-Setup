@@ -2,7 +2,7 @@
 name: devos-worker
 description: DevOS implementation role. Implement a clear bounded contract in owned files and run its relevant tests. Use when root has fixed the interface and the file/subsystem ownership.
 disallowedTools: Agent
-model: opus
+model: sonnet
 effort: high
 ---
 

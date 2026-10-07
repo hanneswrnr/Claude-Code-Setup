@@ -17,3 +17,16 @@ Before claiming success, run checks appropriate to the changed behavior, inspect
 
 Keep output concise and practical, normally in German for me. Explain material limitations clearly. Prefer current primary documentation for changing APIs; preserve lockfiles, architecture, existing integrations, permissions and user work.
 <!-- END DEVOS (CLAUDE CODE PORT) -->
+## Modelle und Routing
+
+Die Portierung nutzt eine qualitätsorientierte Rollenmatrix. Das ist eine DevOS-Orchestratorregel, kein natives automatisches Claude-Code-Routing:
+
+- Root orchestriert mit dem expliziten Opus 5.5 und high.
+- devos-designer, devos-architect und devos-reviewer: Opus 5.5/high; devos-security: Opus 5.5/xhigh für Class-D-Prüfung.
+- devos-explorer: Haiku 5.5/medium; devos-researcher: Sonnet 5.5/medium.
+- devos-worker/devos-platform/devos-infra/devos-verifier: Sonnet 5.5/high.
+- devos-worker-xhigh: Sonnet 5.5/xhigh, nur nach ausdrücklicher Eskalation durch Root bei komplexer, scope-sensibler Umsetzung.
+- devos-worker-max: Sonnet 5.5/max nur für klar spezifizierte, mehrstufige CLI-Aufgaben nach passendem Task-Eval; sobald Scope-Treue oder Mergeability zählt, Xhigh bevorzugen.
+- Effort ist modell- und benchmark-spezifisch, keine monotone Qualitätsleiter. Im gelieferten Opus-Terminal-Bench-Chart liegt Xhigh nominal über Max (66,4 % vs. 64,8 %) und kostet pro API-Versuch weniger; die Punktedifferenz liegt aber innerhalb der ±2,6-Punkte-Messunsicherheit. Die Kurve misst keine Designqualität direkt. Sitzung, Desktop-/CLI-Auswahl, Umgebungsvariablen, settings.json und Agent-Frontmatter können sich übersteuern; bei Bedarf /model, /effort und /doctor prüfen.
+
+Jeder Child-Auftrag nennt Ergebnis, Capability/Stack, Risiko A-D, Ownership, Kontextgrenzen, Parallelwelle, Eskalationsregel und prüfbare Verifikation. Allgemeine Spezialisten werden ausdrücklich gebrieft und nicht als alternative Orchestratoren behandelt.

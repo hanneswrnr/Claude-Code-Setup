@@ -1,6 +1,6 @@
 # Claude-Code-Setup (Origin Labs)
 
-Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das Setup gesichert und auf andere Geräte übertragen.
+Versioniertes globales Claude-Code-Setup von Origin Labs. Hier wird das Setup gesichert und auf andere Geräte übertragen.
 
 ## Was drin ist
 
@@ -9,38 +9,41 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | `claude/CLAUDE.md` | Globale Regeln: DevOS, Grundregeln, Web-Projekte mit HTML/CSS und TypeScript, autonome Orchestrierung, Lernloop, Loop Engineering |
 | `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modell-Setup (siehe unten), Statusleiste |
 | `claude/statusline.py` | Statusleiste im Terminal: Modell, Effort, Kontext, Cache-Trefferquote und Abo-Limits |
-| `claude/agents/` | 320 Agents: 279 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt), 8 DevOS-Rollen mit festen Modellstufen und 33 GSD-Agents |
-| `claude/skills/` | 81 Skills: DevOS-Skills, `learn`, `reflect`, `recall`, `loop-engineering`, `sichtpruefung-hinter-login` und 67 GSD-Skills (deren Motor kommt aus npm, siehe Schritt 6) |
+| `claude/agents/` | 324 Agents: 279 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt), 12 DevOS-Rollen mit festen Modellstufen und 33 GSD-Agents |
+| `claude/skills/` | 82 Skills: DevOS-Skills, `learn`, `reflect`, `recall`, `loop-engineering`, `sichtpruefung-hinter-login` und 67 GSD-Skills (deren Motor kommt aus npm, siehe Schritt 6) |
 | `claude/learning/` | Lernloop mit Prüf-Gate, Tests und allen gelernten Lektionen (`lessons.jsonl`: aktive, auf Freigabe wartende und archivierte) |
 | `memory/` | Automatisches Gedächtnis aller Projekte und Sitzungen, ein Ordner je Projekt (zum Beispiel `memory/Desktop-SchadenMelden24/`) |
 | `WISSEN.md` | Lesbare Übersicht über alles Gelernte: Regeln des Lernloops und Gedächtnis-Notizen je Projekt. Wird von `export.py` erzeugt |
 | `claude/vendor/` | Sync-Skript und Manifest der Agency Agents mit deren Lizenz |
-| `gsd/defaults.json` | Modell-Einstellung für GSD: Die GSD-Agents laufen damit auf Opus 5.5 statt auf eigenen Modellstufen |
+| `gsd/defaults.json` | GSD-Vorgabe `resolve_model_ids: omit`: setzt keine Modell-ID; GSD erbt die aktive Claude-Code-/Subagent-Auswahl |
 | `extras/devos-claude-port/` | DevOS-Paket mit Prüfsummen, der Ursprung der Portierung aus Codex |
 | `export.py`, `restore.py` | Setup sichern und wiederherstellen |
 | `setup-manifest.json` | Liste aller Dateien mit Prüfsumme, geschrieben von `export.py` |
 
-## Modell-Setup (Opus 5.5 und Sonnet 5.5)
+## Modell-Setup (Haiku 5.5, Sonnet 5.5 und Opus 5.5)
 
-Stand 28. September 2026: Opus 5.5 für alles außer Suche, Sonnet 5.5 für Suche und Recherche. Haiku und Fable werden nie eingesetzt, die Stufe `max` wird vermieden.
+Das Setup nutzt eine auf Aufgabe, Risiko und Modell abgestimmte DevOS-Rollenmatrix. Das ist eine Orchestratorregel und kein natives automatisches Claude-Code-Routing: Sitzung, Desktop-/CLI-Auswahl, Umgebungsvariablen, settings.json und Agent-Frontmatter können die effektive Auswahl beeinflussen.
+
+Voraussetzung für das vollständige 5.5-Trio ist Claude Code CLI 2.1.293 oder neuer. Sonnet 5.5 wird ab 2.1.284 unterstützt. Hauptgespräch und Orchestrierung verwenden explizit Opus 5.5 mit high. Architektur, Design und unabhängiges Review liegen ebenfalls bei Opus; Sonnet übernimmt die meiste Umsetzung und Verifikation. Die Rollen verwenden die Provider-Aliase haiku, sonnet und opus; explizite Anthropic-Modell-IDs stehen in settings.json für das Hauptmodell und verifizierte Modellgrenzen.
 
 | Wer | Modell | Denkstufe (Effort) |
 |---|---|---|
-| Hauptgespräch und Orchestrierung | Opus 5.5 (`opus`) | xhigh |
-| Unabhängige Prüfung (`devos-reviewer`) und Sicherheit (`devos-security`) | Opus 5.5 | xhigh |
-| Umsetzung, Tests, Plattform und Design (`devos-worker`, `devos-verifier`, `devos-platform`, `devos-designer`) | Opus 5.5 | high |
-| Suche und Recherche (`devos-explorer`, `devos-researcher`) | Sonnet 5.5 (`sonnet`) | high |
-| Alle anderen Agents | Opus 5.5 | wie die Sitzung |
+| Discovery (devos-explorer) | Haiku 5.5 (haiku) | medium |
+| Recherche (devos-researcher) | Sonnet 5.5 (sonnet) | medium; high nur bei Versions-/API-Konflikt |
+| Umsetzung, Verifikation und Plattform/Infra | Sonnet 5.5 (sonnet) | high; devos-worker-xhigh für scope-sensible Eskalationen; devos-worker-max nur nach passendem Task-Eval für mehrstufige CLI-Aufgaben |
+| Design (devos-designer) | Opus 5.5 (opus) | high |
+| Architektur und unabhängiges Review (devos-architect, devos-reviewer) | Opus 5.5 (opus) | high |
+| Security (devos-security) | Opus 5.5 (opus) | xhigh für Class D |
+| Hauptgespräch und Orchestrierung (Root) | Opus 5.5 (claude-opus-5-5) | high; Xhigh für besonders komplexe oder risikoreiche Aufgaben |
 
 Wo das eingestellt ist:
 
-- `claude/settings.json`: `"model": "opus[1m]"` (Opus 5.5 mit 1 Million Token Kontext) und `"effortLevel": "xhigh"` für das Hauptgespräch, `CLAUDE_CODE_SUBAGENT_MODEL=opus` für alle Agents ohne eigene Angabe, `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5` (der Kurzname `sonnet` zeigt auf Sonnet 5.5, auch in Claude-Code-Versionen vor 2.1.284), `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-5-5` (wer Haiku anfordert, bekommt Sonnet 5.5) und `modelSettings`, das Sonnet 5.5 auf `high` begrenzt.
-- `claude/agents/devos-*.md`: feste Modell- und Effort-Werte je Rolle.
-- `gsd/defaults.json`: `"resolve_model_ids": "omit"`. Die GSD-Befehle geben ihren Agents dadurch kein eigenes Modell mit, also gilt auch dort Opus 5.5.
-- `claude/CLAUDE.md` (Abschnitt „Modelle“) und `claude/skills/devos-orchestrate/SKILL.md` (Abschnitt „Model routing“): die Regeln dazu.
-- Der Kurzname `opus` zeigt immer auf das aktuelle Opus-Modell. `sonnet` ist dagegen fest auf Sonnet 5.5 eingestellt; bei einem neuen Sonnet-Modell alle drei Stellen mit `claude-sonnet-5-5` in `settings.json` anpassen.
+- claude/settings.json: model claude-opus-5-5; Opus 5.5 ist für das Hauptgespräch auf high gesetzt. Sonnet und Haiku starten auf medium; alle drei Modelle erlauben Max als Obergrenze. CLAUDE_CODE_SUBAGENT_MODEL=sonnet bleibt der Default für allgemeine Spezialisten.
+- claude/agents/devos-*.md: feste Defaults je benannter DevOS-Rolle. Ein höheres Modell oder Effort ist eine explizite Eskalationsanweisung; Effort ist nicht monoton, daher Xhigh für scope-sensible Sonnet-Arbeit bevorzugen und Max nur taskbezogen evaluieren. Es gibt kein magisches Auto-Routing.
+- claude/CLAUDE.md und claude/skills/devos-orchestrate/SKILL.md: Task-, Risiko-, Kontext-, Parallel-, Eskalations- und Verifikationsvertrag.
+- gsd/defaults.json bleibt unverändert und setzt mit resolve_model_ids: omit keine Modell-ID; GSD erbt die aktive Claude-Code-/Subagent-Auswahl.
 
-**Desktop-App:** Dort bestimmt die Auswahl im Eingabefeld das Modell neuer Sitzungen, nicht `settings.json`. Auf jedem Gerät einmal „Opus 5.5“ und die Stufe „Extra hoch“ (xhigh) auswählen.
+Die Opus-Zuordnung für Design ist eine Qualitätsentscheidung; die Coding-Effort-Kurven messen keine Designqualität direkt. Desktop-App: Dort bestimmt die Auswahl im Eingabefeld das Modell neuer Sitzungen. Vor wichtigen Aufgaben /model, /effort und /doctor prüfen; ein DevOS-Profil kann eine externe Sitzungs- oder Umgebungsvariable nicht sicher übersteuern.
 
 ## Was bewusst nicht drin ist
 
@@ -51,14 +54,14 @@ Wo das eingestellt ist:
 - **Suchindex und Zustände des Lernloops** (`sessions.db`, `state/`, Treffer, Änderungsprotokoll). Sie entstehen auf jedem Gerät neu. Die Suche in früheren Sitzungen (`recall`) findet deshalb nur Sitzungen des jeweiligen Geräts.
 - **Reste alter Werkzeuge** (`claude-mem`, `superpowers`, `ui-ux-pro-max`, `helpers`, `hooks`), die im Setup nicht mehr eingebunden sind.
 
-`export.py` bricht ab, bevor etwas geschrieben wird, wenn eine Datei nach einem Schlüssel, Token oder Passwort in einer Adresse aussieht. Das gilt auch für das Gedächtnis. Bekannte Lehrbeispiele in fremden Agent-Beschreibungen sind einzeln freigegeben.
+`export.py` bricht ab, bevor etwas geschrieben wird, wenn eine Datei nach einem Schlüssel, Token oder Passwort in einer Adresse aussieht. Das gilt auch für das Gedächtnis. Bekannte Lehrbeispiele in fremden Agent-Beschreibungen sind einzeln freigegeben. Die DevOS-Port-Quelle liegt standardmäßig unter `~/Documents/DevOS/devos-claude-port`; mit `DEVOS_CLAUDE_PORT_SOURCE` lässt sich der Pfad ändern. Fehlt die Quelle oder überschneidet sie sich mit dem Repo-Ziel, bricht der Export ohne Änderungen ab.
 
 ## Auf einem neuen Gerät einrichten
 
 1. Installieren: Claude-Desktop-App, Node.js, Python 3.11 oder neuer, Git und die GitHub-Kommandozeile `gh`. Unter Windows zusätzlich zwei Dinge, ohne die Schritt 5 und 6 scheitern:
    ```
    Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-   npm i -g @anthropic-ai/claude-code
+   npm i -g @anthropic-ai/claude-code@2.1.293
    ```
    Die Desktop-App allein legt den Befehl `claude` nicht in den Suchpfad, und ein frisches Windows blockiert die `.ps1`-Startdateien von `npm`, `claude`, `vercel` und `codex`.
 2. Repo holen und in den Ordner wechseln:
@@ -86,7 +89,7 @@ Wo das eingestellt ist:
    npm i -g get-shit-done-cc
    ```
    Ohne diesen Schritt erscheinen die `/gsd:`-Befehle, greifen beim Aufruf aber ins Leere. Das Paket heißt `get-shit-done-cc`; `get-shit-done` ohne Zusatz ist ein fremdes Paket.
-   Danach `python restore.py` noch einmal ausführen. Das stellt die Modell-Einstellung für GSD wieder her, falls die Installation sie überschrieben hat.
+   Danach `python restore.py` noch einmal ausführen, damit die gesicherten GSD-Agents und Skills wieder zum Setup passen. `gsd/defaults.json` setzt keine Modell-ID; GSD erbt die aktive Claude-Code-/Subagent-Auswahl.
 7. Anmelden, wo es gebraucht wird:
    - Claude-Konto
    - `codex login` für das Codex-Plugin
