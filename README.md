@@ -127,15 +127,19 @@ Es gibt keinen automatischen Abgleich zwischen Geräten. Das Repo übernimmt imm
    ```
    python restore.py
    ```
-   Achtung: `restore.py` ersetzt lokale Lektionen und Notizen, die dieses Gerät noch nicht gesichert hat, durch den Repo-Stand. Die alte Fassung liegt danach in `~/.claude/restore-backup-<Datum>`.
+   `restore.py` führt die Lektionen zusammen (jede Lektion einmal, bei doppelten die zuletzt geänderte) und behält Gedächtnis-Notizen dieses Geräts, die neuer sind. Alles andere wird durch den Repo-Stand ersetzt; die alte Fassung liegt danach in `~/.claude/restore-backup-<Datum>`.
+   Wurde dabei doch etwas überschrieben (etwa mit einer älteren Fassung von `restore.py`), holt dieser Befehl Lektionen und Notizen aus der Sicherung zurück; den Ordnernamen aus der Meldung „Vorher gesichert“ einsetzen:
+   ```
+   python restore.py --zurueckholen C:\Users\hanne\.claude\restore-backup-20261011-144518
+   ```
 2. **Zum Sichern auf dem Gerät, auf dem du gearbeitet hast:** zuerst nur prüfen, ob ein anderes Gerät inzwischen etwas gesichert hat.
    ```
    git pull
    ```
-   Meldet `git pull` „Already up to date“, weiter mit Schritt 3. Kommen neue Änderungen herein, nicht exportieren, sondern Claude bitten, die Stände zusammenzuführen. Sonst löscht `export.py` im Repo, was das andere Gerät gesichert hat. Nicht `restore.py` ausführen, das würde die Arbeit auf diesem Gerät zurücksetzen.
-3. Sichern. `export.py` schreibt dabei auch `WISSEN.md` neu.
+   Meldet `git pull` „Already up to date“, weiter mit Schritt 3. Kommen neue Änderungen herein, nicht exportieren, sondern Claude bitten, die Stände zusammenzuführen. Sonst überschreibt `export.py` im Repo, was das andere Gerät gesichert hat. Nicht `restore.py` ausführen, das würde die Arbeit auf diesem Gerät zurücksetzen.
+3. Sichern. `export.py` schreibt dabei auch `WISSEN.md` neu. `--behalten` sorgt dafür, dass Gedächtnis-Notizen, die nur das Repo hat (etwa aus Sitzungen ohne Projektordner auf dem anderen Gerät), nicht gelöscht werden.
    ```
-   python export.py
+   python export.py --behalten
    ```
    ```
    git add -A

@@ -3,7 +3,8 @@
 Kopiert nur freigegebene Dateien aus ~/.claude, das automatische Gedächtnis aller Projekte, die GSD-Einstellung
 und das DevOS-Paket, nie Anmeldedaten, Gesprächsverläufe oder Caches. Bricht ab, bevor etwas geschrieben wird,
 wenn eine Datei oder die erzeugte Übersicht WISSEN.md nach einem Schlüssel oder Token aussieht.
-Aufruf: python export.py
+Aufruf: python export.py [--behalten]
+  --behalten  Gedächtnis-Dateien, die nur im Repo liegen (etwa von einem anderen Gerät), nicht löschen.
 """
 import datetime as dt
 import hashlib
@@ -189,8 +190,21 @@ def knowledge(contents, names):
 
 
 def main():
+    keep = "--behalten" in sys.argv[1:]
+    unknown = [a for a in sys.argv[1:] if a != "--behalten"]
+    if unknown:
+        print("Unbekannte Option: %s (erlaubt: --behalten)" % " ".join(unknown))
+        return 2
     files, names = collect()
     contents = {target: source.read_bytes() for target, source in files.items()}  # jede Quelle genau einmal lesen
+    if keep:  # Gedächtnis, das nur das Repo hat (etwa von einem anderen Gerät), nicht löschen
+        old = json.loads((REPO / "setup-manifest.json").read_text(encoding="utf-8")) if (REPO / "setup-manifest.json").is_file() else {}
+        for target in old.get("files", {}):
+            kurz = target[len("memory/"):].split("/", 1)[0]
+            if target.startswith("memory/") and target not in contents and (REPO / target).is_file():
+                contents[target] = (REPO / target).read_bytes()
+                if kurz not in names and kurz in old.get("memory", {}):
+                    names[kurz] = old["memory"][kurz]
     wissen = knowledge(contents, names).encode("utf-8")
     hits = [target for target, data in contents.items() if blocked(target, data)]
     hits += ["WISSEN.md"] if blocked("WISSEN.md", wissen) else []
