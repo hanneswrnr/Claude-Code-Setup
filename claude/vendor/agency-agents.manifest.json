@@ -2,38 +2,15 @@
  "repo": "https://github.com/msitarzewski/agency-agents",
  "commit": "6d29a9b 2026-09-08",
  "synced_at": "2026-09-11T22:07:48",
- "selection": {},
+ "selection": {
+  "exclude": [
+   "academic",
+   "gis",
+   "healthcare",
+   "spatial-computing"
+  ]
+ },
  "files": {
-  "academic-anthropologist.md": {
-   "source": "academic/academic-anthropologist.md",
-   "name": "anthropologist",
-   "sha256": "23c1625e2ab345799b8efa4056645870ce06d81d8736a6a056f4b21cf2f47507"
-  },
-  "academic-geographer.md": {
-   "source": "academic/academic-geographer.md",
-   "name": "geographer",
-   "sha256": "9cb00e733dc6e6a31895cc4294cc3184e4fee68ca52e8afb4d3809a575602969"
-  },
-  "academic-historian.md": {
-   "source": "academic/academic-historian.md",
-   "name": "historian",
-   "sha256": "ae8424e79a66a073c6f45b11138e48e3bc7384a25308f91d427b61b7d14e0afd"
-  },
-  "academic-narratologist.md": {
-   "source": "academic/academic-narratologist.md",
-   "name": "narratologist",
-   "sha256": "30b531043c66119f88415e588e8c8223b65ff4a2bbf5a8531487ee3038f57238"
-  },
-  "academic-psychologist.md": {
-   "source": "academic/academic-psychologist.md",
-   "name": "psychologist",
-   "sha256": "da08855a94bb261aac474b6bf428abe664546a17effa95064bf6998022edf615"
-  },
-  "academic-statistician.md": {
-   "source": "academic/academic-statistician.md",
-   "name": "statistician",
-   "sha256": "be0c15ac106d974630a5152dc1966faca3175c2234a46cd6696d61492e68fd2c"
-  },
   "accounts-payable-agent.md": {
    "source": "specialized/accounts-payable-agent.md",
    "name": "accounts-payable-agent",
@@ -514,71 +491,6 @@
    "name": "game-designer",
    "sha256": "55f74fe6c5258e366b67d58d6bd05a5dd1d3f1b9972acb5f3ac69df360baacf0"
   },
-  "gis-3d-scene-developer.md": {
-   "source": "gis/gis-3d-scene-developer.md",
-   "name": "3d-scene-developer",
-   "sha256": "1cc72b8f98fcefdb5223797057f1344e636e1cb671b146b93ce288e7521d8d2f"
-  },
-  "gis-analyst.md": {
-   "source": "gis/gis-analyst.md",
-   "name": "gis-analyst",
-   "sha256": "5479339ca467c36cde1914e43337564adcff4bf9a552423ed3782a6405d5f928"
-  },
-  "gis-bim-specialist.md": {
-   "source": "gis/gis-bim-specialist.md",
-   "name": "bim-gis-specialist",
-   "sha256": "d9aae079651fd0cf6f8843b6d5d942ea3c6dc25ef39308989bb13de52dd9e41d"
-  },
-  "gis-cartography-designer.md": {
-   "source": "gis/gis-cartography-designer.md",
-   "name": "cartography-designer",
-   "sha256": "eb8e368a804b8d4b3a4d38f15ee6ca803dee588b7b94f99763e2e4005eb78d0d"
-  },
-  "gis-drone-reality-mapping.md": {
-   "source": "gis/gis-drone-reality-mapping.md",
-   "name": "drone-reality-mapping-specialist",
-   "sha256": "49e508cab893edec627f2038d55f425bc9f0f1987284784eca5de2a86f3c905a"
-  },
-  "gis-geoai-ml-engineer.md": {
-   "source": "gis/gis-geoai-ml-engineer.md",
-   "name": "geoai-ml-engineer",
-   "sha256": "9a9fefc9a04fa3bf78d3eb3cadc4c7c69e8df16c17b9d028b0455d28a18a1eda"
-  },
-  "gis-geoprocessing-specialist.md": {
-   "source": "gis/gis-geoprocessing-specialist.md",
-   "name": "geoprocessing-specialist",
-   "sha256": "87f46be75f301a657ae8337029c4610a4fc720d9461992b462b7270736f659c4"
-  },
-  "gis-qa-engineer.md": {
-   "source": "gis/gis-qa-engineer.md",
-   "name": "gis-qa-engineer",
-   "sha256": "881f5bcf33957f6e64508b52e34e9df670ef7686cda6d4355c60a3e85ad4e5a0"
-  },
-  "gis-solution-engineer.md": {
-   "source": "gis/gis-solution-engineer.md",
-   "name": "solution-engineer",
-   "sha256": "938c65a975a3010d7d52ef43553d1a87049a1585526678b869d8b8b8d157ba01"
-  },
-  "gis-spatial-data-engineer.md": {
-   "source": "gis/gis-spatial-data-engineer.md",
-   "name": "spatial-data-engineer",
-   "sha256": "a89843d569ee892a15103575174dc8a48f9c72762c37ef856fa67b8eede0db39"
-  },
-  "gis-spatial-data-scientist.md": {
-   "source": "gis/gis-spatial-data-scientist.md",
-   "name": "spatial-data-scientist",
-   "sha256": "acec00e20207c53c0cee34d0b022202f890b3ff6d51ebde84123cede2d8675c3"
-  },
-  "gis-technical-consultant.md": {
-   "source": "gis/gis-technical-consultant.md",
-   "name": "technical-consultant",
-   "sha256": "b1420f918d52fe2a3e1e5a2634231b0f590755e4be106f50fc3689bb0253a3b3"
-  },
-  "gis-web-gis-developer.md": {
-   "source": "gis/gis-web-gis-developer.md",
-   "name": "web-gis-developer",
-   "sha256": "4e00ae1e80363aefc5b1fda547fd680e8514f12db8440d96f977f5d6dfefeab2"
-  },
   "godot-gameplay-scripter.md": {
    "source": "game-development/godot/godot-gameplay-scripter.md",
    "name": "godot-gameplay-scripter",
@@ -609,30 +521,15 @@
    "name": "aging-parent-care-companion",
    "sha256": "cee50c1261e6eeeded80db631f2a74fa002dd6e20daee279d23c78bb48944cd0"
   },
-  "healthcare-clinical-evidence-agent.md": {
-   "source": "healthcare/healthcare-clinical-evidence-agent.md",
-   "name": "clinical-evidence-agent",
-   "sha256": "dcd8861c90a3adc76330ffb17f1f8880a101a14728181e0c71edcbc53a5ccf67"
-  },
   "healthcare-customer-service.md": {
    "source": "specialized/healthcare-customer-service.md",
    "name": "healthcare-customer-service",
    "sha256": "e8fe75719c56236b7d0f4fd204d5705d47f1c41cc0932002495c0001cf49d097"
   },
-  "healthcare-innovation-strategist.md": {
-   "source": "healthcare/healthcare-innovation-strategist.md",
-   "name": "healthcare-innovation-strategist",
-   "sha256": "1b6869ce57fcbd604f0223783f9be9bc1b495105fa9786ddc4537773c3c079bd"
-  },
   "healthcare-marketing-compliance.md": {
    "source": "specialized/healthcare-marketing-compliance.md",
    "name": "healthcare-marketing-compliance-specialist",
    "sha256": "c03428b08532563f47c35ccfb58e240ba73309c2932d0850f05d77344a596da8"
-  },
-  "healthcare-sovereign-health-systems-agent.md": {
-   "source": "healthcare/healthcare-sovereign-health-systems-agent.md",
-   "name": "sovereign-health-systems-agent",
-   "sha256": "bfb1d9e3eb9f819b0b8fe298727fd35926ab4bf71225e9706c0a8d56ea330e76"
   },
   "hospitality-guest-services.md": {
    "source": "specialized/hospitality-guest-services.md",
@@ -688,11 +585,6 @@
    "source": "specialized/ma-integration-manager.md",
    "name": "m-a-integration-manager",
    "sha256": "370805112a19e7df868282bfd067c6ccf5efc2a83023fbce1924022773d63dd3"
-  },
-  "macos-spatial-metal-engineer.md": {
-   "source": "spatial-computing/macos-spatial-metal-engineer.md",
-   "name": "macos-spatial-metal-engineer",
-   "sha256": "8cd73eef1bbf8101eb6b43452047f6f9a06f0d39c9d31582964b32438ac1bded"
   },
   "marketing-aeo-foundations.md": {
    "source": "marketing/marketing-aeo-foundations.md",
@@ -1284,11 +1176,6 @@
    "name": "technical-artist",
    "sha256": "d836bdf224e3d996e7e869e37cd86d0e068ac73d067e22e0d98e6b9e3e66fcea"
   },
-  "terminal-integration-specialist.md": {
-   "source": "spatial-computing/terminal-integration-specialist.md",
-   "name": "terminal-integration-specialist",
-   "sha256": "26297ce3dbc525c5983a97b7f8c89d7bf361fc8b1280504333c9d5a8685885c4"
-  },
   "testing-accessibility-auditor.md": {
    "source": "testing/testing-accessibility-auditor.md",
    "name": "accessibility-auditor",
@@ -1373,26 +1260,6 @@
    "source": "game-development/unreal-engine/unreal-world-builder.md",
    "name": "unreal-world-builder",
    "sha256": "f99d2c9458b717c1d0341e0d9a27f550a11c3b8f3f5df119679c9a27e0f234de"
-  },
-  "visionos-spatial-engineer.md": {
-   "source": "spatial-computing/visionos-spatial-engineer.md",
-   "name": "visionos-spatial-engineer",
-   "sha256": "22245b3b2b3a718786ce0b7440f66ec708fd9eb8dfd52ee2b3dd39a35358491a"
-  },
-  "xr-cockpit-interaction-specialist.md": {
-   "source": "spatial-computing/xr-cockpit-interaction-specialist.md",
-   "name": "xr-cockpit-interaction-specialist",
-   "sha256": "1e040708558c0853add5b250bd8a9dc4af424db74df52b06c2ca1e9bd815a58c"
-  },
-  "xr-immersive-developer.md": {
-   "source": "spatial-computing/xr-immersive-developer.md",
-   "name": "xr-immersive-developer",
-   "sha256": "44e12145e6a151509a311e7bafa857efaf5fd04d23ffe781b1a7b1320830e43d"
-  },
-  "xr-interface-architect.md": {
-   "source": "spatial-computing/xr-interface-architect.md",
-   "name": "xr-interface-architect",
-   "sha256": "c37d861d5f2ea98b9dd7de610ba718d801ad5a95c2a20ffd8cef82c3455ae3e2"
   },
   "zk-steward.md": {
    "source": "specialized/zk-steward.md",

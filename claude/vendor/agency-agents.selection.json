@@ -1,0 +1,8 @@
+{
+  "exclude": [
+    "academic",
+    "gis",
+    "healthcare",
+    "spatial-computing"
+  ]
+}
