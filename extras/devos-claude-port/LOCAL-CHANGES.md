@@ -106,3 +106,29 @@ Auf Wunsch ersetzt Sonnet 5.5 (`claude-sonnet-5-5`, erschienen am 28.09.2026) ü
 - Außerhalb des Ports geändert: `settings.json` (neu `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5`; `ANTHROPIC_DEFAULT_HAIKU_MODEL` von `claude-sonnet-5` auf `claude-sonnet-5-5`; `modelSettings` begrenzt jetzt `claude-sonnet-5-5` auf `high`) und `learning/lessons.jsonl` (Lektion L-20260911-7c9217 über `ll.py edit` auf Sonnet 5.5 umformuliert).
 - Unverändert: alle Rollendateien. `devos-explorer` und `devos-researcher` behalten `sonnet` / `high`; der Kurzname zeigt jetzt auf Sonnet 5.5.
 - Rollback: Stand vor der Änderung ist Commit `457ee45` im Setup-Repo. Wirksam wird die Änderung erst in einer neuen Claude-Code-Sitzung.
+
+## 2026-10-11 — Denkstufen nach Benchmarks, Haiku 5.5 für schnelle Suchen
+
+Auf Wunsch wurde das Setup auf Qualität, Nutzungsverbrauch und Tempo neu abgestimmt. Der Nutzer hob am 11.10.2026 die Regel „nie Haiku“ auf, weil sich Haiku 5.5 (`claude-haiku-5-5`, erschienen am 07.10.2026) stark verbessert hat, und gab vor: Die höchste Denkstufe ist nicht immer die beste. Grundlage sind die Herstellerangaben zu Opus 5.5, Sonnet 5.5 und Haiku 5.5 sowie die Werte von Artificial Analysis, die nur aus Suchergebnis-Auszügen stammen, weil die Seite gesperrt war. Nichts davon ist selbst gemessen. Die Stufen im Einzelnen:
+
+- **Opus 5.5:** `medium` erreicht schon Opus 5 auf `high`. `xhigh` bringt etwa 5 Indexpunkte über `medium` für das 2,6-Fache, `max` etwa 2 weitere Punkte für das 1,7-Fache von `xhigh`.
+- **Sonnet 5.5:** auf `max` schwächer als auf `xhigh`.
+- **Haiku 5.5:** stark für kurze Suchen, schwach bei langer mehrstufiger Arbeit. Ab 100.000 Token Eingabe kostet es das Fünffache.
+
+Dieser Eintrag ersetzt die Modellentscheidungen der früheren Einträge.
+
+- Kopien nach der Änderung: `local-changes/2026-10-11-effort-haiku/`
+
+| Datei | Änderung | SHA-256 nach der Änderung |
+|---|---|---|
+| `skills/devos-orchestrate/SKILL.md` | Abschnitt „Model routing": drei Stufen (opus, sonnet, haiku), Begründung der Denkstufen, Root auf `high` mit `/effort xhigh` für lange autonome Läufe, `Explore` auf haiku/medium, `max` über `modelSettings` gesperrt | `de067a65298993ffb532f102b631e9edf0970757e2918b591ecd7cf8e8c2cec0` |
+| `CLAUDE.md` | Abschnitt „Modelle": Haiku 5.5 für schnelle Suchen und Hintergrundaufgaben, Hauptgespräch auf `high`, `xhigh` nur für Prüfung und Sicherheit oder auf Wunsch, `max` gesperrt, Grenzen von Haiku | `2cf2173e72b4fa5ebe93b785ddbae0a489b6762fac20fd7cef33367f004dc73a` |
+
+- Außerhalb des Ports geändert:
+  - `settings.json`: In `modelSettings` neu `claude-opus-5-5` mit `effortLevel` `high`, `maxEffortLevel` `xhigh` und `autoCompactWindow` 400000 sowie `claude-haiku-5-5` mit `maxEffortLevel` `high`; Sonnet bleibt bei `high`. `ANTHROPIC_DEFAULT_HAIKU_MODEL` von `claude-sonnet-5-5` auf `claude-haiku-5-5`. Das oberste `effortLevel` steht jetzt auf `high` statt `xhigh`. Laut Doku ignoriert Opus 5.5 dieses Feld in der Benutzer-`settings.json`, deshalb lief Opus 5.5 bisher auf seinem Standard `medium`; erst der Eintrag unter `modelSettings` wirkt.
+  - Neuer Agent `agents/Explore.md` (haiku/medium, nur lesend). Er ersetzt den eingebauten Explore-Agenten, der sonst auf dem Modell des Hauptgesprächs lief, also auf Opus.
+  - `learning/lessons.jsonl`: Lektion L-20260911-7c9217 über `ll.py edit` auf den neuen Stand umformuliert.
+  - 28 Agency Agents der Bereiche `academic`, `gis`, `healthcare` und `spatial-computing` entfernt. Die Auswahl steht in `vendor/agency-agents.selection.json`; `restore.py` räumt sie auf den Geräten mit Sicherung auf, nur unveränderte und nur aus abgewählten Bereichen.
+  - Gedächtnis-Notiz `feedback-model-choice` (Sitzung vom 11.09.2026) auf die Aufhebung des Haiku-Verbots angepasst.
+- Unverändert: alle `devos-*`-Rollendateien.
+- Rollback: Stand vor der Änderung ist Commit `94258f4` im Setup-Repo. Wirksam wird die Änderung erst in einer neuen Claude-Code-Sitzung. In der Desktop-App zusätzlich im Eingabefeld Opus 5.5 mit „Hoch“ wählen.

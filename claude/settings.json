@@ -4,7 +4,7 @@
     "ENABLE_STOP_REVIEW": "0",
     "CLAUDE_CODE_SUBAGENT_MODEL": "opus",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-5-5",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-sonnet-5-5"
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-5-5"
   },
   "permissions": {
     "allow": [
@@ -398,9 +398,17 @@
       }
     }
   },
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high",
+      "maxEffortLevel": "xhigh",
+      "autoCompactWindow": 400000
+    },
     "claude-sonnet-5-5": {
+      "maxEffortLevel": "high"
+    },
+    "claude-haiku-5-5": {
       "maxEffortLevel": "high"
     }
   },

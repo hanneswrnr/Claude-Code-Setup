@@ -9,7 +9,7 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | `claude/CLAUDE.md` | Globale Regeln: DevOS, Grundregeln, Web-Projekte mit HTML/CSS und TypeScript, autonome Orchestrierung, Lernloop, Loop Engineering |
 | `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modell-Setup (siehe unten), Statusleiste |
 | `claude/statusline.py` | Statusleiste im Terminal: Modell, Effort, Kontext, Cache-Trefferquote und Abo-Limits |
-| `claude/agents/` | 320 Agents: 279 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt), 8 DevOS-Rollen mit festen Modellstufen und 33 GSD-Agents |
+| `claude/agents/` | 293 Agents: 251 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt; ohne die Bereiche Wissenschaft, Geodaten, Medizin und VR/AR), 8 DevOS-Rollen mit festen Modellstufen, der Such-Agent `Explore` auf Haiku 5.5 und 33 GSD-Agents |
 | `claude/skills/` | 81 Skills: DevOS-Skills, `learn`, `reflect`, `recall`, `loop-engineering`, `sichtpruefung-hinter-login` und 67 GSD-Skills (deren Motor kommt aus npm, siehe Schritt 6) |
 | `claude/learning/` | Lernloop mit Prüf-Gate, Tests und allen gelernten Lektionen (`lessons.jsonl`: aktive, auf Freigabe wartende und archivierte) |
 | `memory/` | Automatisches Gedächtnis aller Projekte und Sitzungen, ein Ordner je Projekt (zum Beispiel `memory/Desktop-SchadenMelden24/`) |
@@ -20,27 +20,44 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | `export.py`, `restore.py` | Setup sichern und wiederherstellen |
 | `setup-manifest.json` | Liste aller Dateien mit Prüfsumme, geschrieben von `export.py` |
 
-## Modell-Setup (Opus 5.5 und Sonnet 5.5)
+## Modell-Setup (Opus 5.5, Sonnet 5.5 und Haiku 5.5)
 
-Stand 28. September 2026: Opus 5.5 für alles außer Suche, Sonnet 5.5 für Suche und Recherche. Haiku und Fable werden nie eingesetzt, die Stufe `max` wird vermieden.
+Stand 11. Oktober 2026. Grundsatz: Die höchste Denkstufe ist nicht automatisch die beste. Jede Stufe ist nach den veröffentlichten Benchmarks gewählt (Quellen unten).
 
 | Wer | Modell | Denkstufe (Effort) |
 |---|---|---|
-| Hauptgespräch und Orchestrierung | Opus 5.5 (`opus`) | xhigh |
+| Hauptgespräch und Orchestrierung | Opus 5.5 (`opus`) | high; für lange autonome Läufe bei Bedarf `/effort xhigh` |
 | Unabhängige Prüfung (`devos-reviewer`) und Sicherheit (`devos-security`) | Opus 5.5 | xhigh |
 | Umsetzung, Tests, Plattform und Design (`devos-worker`, `devos-verifier`, `devos-platform`, `devos-designer`) | Opus 5.5 | high |
-| Suche und Recherche (`devos-explorer`, `devos-researcher`) | Sonnet 5.5 (`sonnet`) | high |
-| Alle anderen Agents | Opus 5.5 | wie die Sitzung |
+| Gründliche Kartierung und Recherche (`devos-explorer`, `devos-researcher`) | Sonnet 5.5 (`sonnet`) | high |
+| Schnelle Suche (`Explore`, ersetzt den eingebauten Such-Agenten) | Haiku 5.5 (`haiku`) | medium |
+| Hintergrundaufgaben von Claude Code (etwa Sitzungstitel) | Haiku 5.5 | Standard des Modells |
+| Alle anderen Agents | Opus 5.5 | wie die Sitzung (high) |
+
+Warum so:
+
+- **Opus 5.5:** Schon `medium` erreicht Opus 5 auf `high`. Von `medium` auf `xhigh` gibt es etwa 5 Indexpunkte für rund 2,6-fache Kosten, `max` bringt nur noch etwa 2 Punkte für das 1,7-Fache von `xhigh` (Artificial Analysis). Anthropic empfiehlt `xhigh` und `max` nur, wo ein Gewinn gemessen ist. Darum `high` als Standard und `xhigh` nur für die Prüf-Rollen, wo ein übersehener Fehler mehr kostet als die Token.
+- **Sonnet 5.5:** Auf `max` schneidet es in FrontierCode schlechter ab als auf `xhigh`, weil es dann zu viel delegiert und in Zeitlimits läuft. Darum ist es auf `high` begrenzt.
+- **Haiku 5.5:** etwa 40-mal günstiger als Opus je Token und deutlich schneller, in FrontierCode 46,4 % gegenüber 52,1 % bei Sonnet 5.5 auf `xhigh`, aber schwach bei langer mehrstufiger Arbeit (Terminal-Bench 39 %). Ab 100.000 Token Eingabe steigt sein Preis auf das Fünffache. Darum nur für kurze Nachschlage-Suchen; was Grundlage für Architektur-, Sicherheits- oder Löschentscheidungen ist, kartiert weiter `devos-explorer` auf Sonnet.
+- **Fable 5.1** bleibt draußen: teurer als Opus 5.5 und in den Coding-Benchmarks schwächer.
 
 Wo das eingestellt ist:
 
-- `claude/settings.json`: `"model": "opus[1m]"` (Opus 5.5 mit 1 Million Token Kontext) und `"effortLevel": "xhigh"` für das Hauptgespräch, `CLAUDE_CODE_SUBAGENT_MODEL=opus` für alle Agents ohne eigene Angabe, `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5` (der Kurzname `sonnet` zeigt auf Sonnet 5.5, auch in Claude-Code-Versionen vor 2.1.284), `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-5-5` (wer Haiku anfordert, bekommt Sonnet 5.5) und `modelSettings`, das Sonnet 5.5 auf `high` begrenzt.
-- `claude/agents/devos-*.md`: feste Modell- und Effort-Werte je Rolle.
+- `claude/settings.json`:
+  - `"model": "opus[1m]"` für das Hauptgespräch.
+  - `modelSettings` → `claude-opus-5-5` → `"effortLevel": "high"`: die Denkstufe von Opus 5.5 (gilt auch für `opus[1m]`). Wichtig: Das oberste `effortLevel` in `~/.claude/settings.json` ignoriert Opus 5.5 laut Doku; es wirkt nur noch auf ältere Modelle. Das frühere `xhigh` dort hatte deshalb keine Wirkung, Opus 5.5 lief bisher auf seinem Standard `medium`. `/effort` speichert ebenfalls unter `modelSettings`.
+  - `CLAUDE_CODE_SUBAGENT_MODEL=opus` für alle Agents ohne eigene Angabe.
+  - `ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-5-5` und `ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-haiku-5-5` legen die Kurznamen fest; Haiku übernimmt damit auch Hintergrundaufgaben wie Sitzungstitel.
+  - `modelSettings` → `maxEffortLevel` sperrt `max`: Opus höchstens `xhigh`, Sonnet und Haiku höchstens `high`.
+  - `modelSettings` → `claude-opus-5-5` → `"autoCompactWindow": 400000`: Gespräche auf Opus werden bei etwa 400.000 statt beim Standard von rund 967.000 Token zusammengefasst (braucht Claude Code 2.1.288 oder neuer). Jeder Arbeitsschritt liest den ganzen Kontext neu ein; ein halb so großer Kontext halbiert diese Grundlast. Nachteil: Bei sehr langen Sitzungen wird früher zusammengefasst, Details aus dem Anfang gehen eher verloren. Für eine einzelne Sitzung mit `/autocompact` änderbar, dauerhaft in `settings.json` (höchstens 1000000).
+- `claude/agents/devos-*.md` und `claude/agents/Explore.md`: feste Modell- und Effort-Werte je Rolle.
 - `gsd/defaults.json`: `"resolve_model_ids": "omit"`. Die GSD-Befehle geben ihren Agents dadurch kein eigenes Modell mit, also gilt auch dort Opus 5.5.
 - `claude/CLAUDE.md` (Abschnitt „Modelle“) und `claude/skills/devos-orchestrate/SKILL.md` (Abschnitt „Model routing“): die Regeln dazu.
-- Der Kurzname `opus` zeigt immer auf das aktuelle Opus-Modell. `sonnet` ist dagegen fest auf Sonnet 5.5 eingestellt; bei einem neuen Sonnet-Modell alle drei Stellen mit `claude-sonnet-5-5` in `settings.json` anpassen.
+- Der Kurzname `opus` zeigt immer auf das aktuelle Opus-Modell. `sonnet` und `haiku` sind fest eingestellt; bei einem neuen Modell die Kennungen `claude-sonnet-5-5` bzw. `claude-haiku-5-5` in `settings.json` anpassen (Umgebungsvariable und `modelSettings`).
 
-**Desktop-App:** Dort bestimmt die Auswahl im Eingabefeld das Modell neuer Sitzungen, nicht `settings.json`. Auf jedem Gerät einmal „Opus 5.5“ und die Stufe „Extra hoch“ (xhigh) auswählen.
+**Desktop-App:** Dort bestimmt die Auswahl im Eingabefeld das Modell neuer Sitzungen, nicht `settings.json`. Auf jedem Gerät einmal „Opus 5.5“ und die Stufe „Hoch“ (high) auswählen.
+
+Quellen (abgerufen am 11.10.2026): anthropic.com/news/claude-opus-5-5, anthropic.com/claude-sonnet-5-5, anthropic.com/claude-haiku-5-5, platform.claude.com/docs/en/build-with-claude/effort, code.claude.com/docs/en/model-config, code.claude.com/docs/en/sub-agents. Die Werte von Artificial Analysis stammen nur aus Suchergebnis-Auszügen, weil die Seite hier gesperrt war.
 
 ## Was bewusst nicht drin ist
 
@@ -146,4 +163,5 @@ Es gibt keinen automatischen Abgleich zwischen Geräten. Das Repo übernimmt imm
     ```
     git clone https://github.com/msitarzewski/agency-agents ~/.claude/vendor/agency-agents
     ```
-  - Danach `python ~/.claude/vendor/sync_agency_agents.py` ausführen.
+  - Danach `python ~/.claude/vendor/sync_agency_agents.py` ausführen. Das Skript merkt sich die Auswahl in `agency-agents.selection.json` (zurzeit ohne die Bereiche `academic`, `gis`, `healthcare` und `spatial-computing`); alle wieder holen mit `--all`.
+  - `restore.py` entfernt Agency Agents aus abgewählten Bereichen, aber nur, wenn sie auf dem Gerät unverändert sind; sie landen vorher im Sicherungsordner.

@@ -3,6 +3,7 @@
 Kopiert die Dateien nach ~/.claude, das Gedächtnis nach ~/.claude/projects/<projekt>/memory, die GSD-Einstellung
 nach ~/.gsd und das DevOS-Paket nach ~/Documents/DevOS, prüft vorher jede Prüfsumme und Pfadlänge, sichert alles,
 was überschrieben würde, und ersetzt den Benutzerordner des Export-Geräts durch den dieses Geräts.
+Agency Agents aus abgewählten Bereichen werden entfernt, wenn sie auf dem Gerät unverändert sind (mit Sicherung).
 Gedächtnis aus Sitzungen ohne Projektordner bleibt nur im Repo, weil Claude es auf anderen Geräten nicht lädt.
 Aufruf: python restore.py [--dry-run] [--home ORDNER]
 """
@@ -60,6 +61,43 @@ def rewrite(text, old, new):
     for before, after in ((old_w.replace("\\", "\\\\"), json_new), (old_w, new_w), (old_p, new_p)):
         text = text.replace(before, after)
     return text
+
+
+def retired_agents(home, manifest):
+    """Agency Agents aus Bereichen, die die Auswahl im Repo ausschließt, die dieses Gerät aber noch unverändert hat.
+
+    Grundlage ist das Agency-Manifest des Geräts vor dem Einspielen: Entfernt werden nur Dateien, die das Sync-Skript
+    dort selbst installiert hat, die seitdem nicht verändert wurden und deren Bereich die Auswahl im Repo-Manifest
+    abwählt (--exclude oder nicht in --only). Eigene Agents und neuere Agents aus noch gewählten Bereichen bleiben.
+    """
+    def load(path):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8-sig"))
+        except (OSError, ValueError):
+            return {}
+        return data if isinstance(data, dict) else {}
+
+    old = load(home / ".claude" / "vendor" / "agency-agents.manifest.json").get("files")
+    repo = load(REPO / "claude" / "vendor" / "agency-agents.manifest.json")
+    new, selection = repo.get("files"), repo.get("selection")
+    if not isinstance(old, dict) or not isinstance(new, dict) or not isinstance(selection, dict):
+        return [], []
+    only, exclude = selection.get("only") or [], selection.get("exclude") or []
+    retire, kept = [], []
+    for fname, entry in sorted(old.items()):
+        if not isinstance(entry, dict) or not isinstance(entry.get("source"), str):
+            continue
+        division = entry["source"].split("/")[0]
+        if not (division in exclude or (only and division not in only)):
+            continue
+        target = home / ".claude" / "agents" / fname
+        if fname in new or "claude/agents/" + fname in manifest["files"] or unsafe(fname) or not target.is_file():
+            continue
+        if hashlib.sha256(target.read_bytes()).hexdigest() == entry.get("sha256"):
+            retire.append(target)
+        else:
+            kept.append(target)
+    return retire, kept
 
 
 def next_steps(home):
@@ -126,12 +164,20 @@ def main():
         return 1
     note = ("%d Gedächtnis-Dateien aus Sitzungen ohne Projektordner übersprungen (bleiben im Repo und in WISSEN.md)"
             % skipped if skipped else "")
+    retire, kept = retired_agents(home, manifest)  # vor dem Schreiben lesen: danach liegt schon das neue Manifest da
     print("%d Dateien im Setup, davon %d neu oder geändert" % (len(planned), len(changed)))
+    if retire:
+        print("%d Agency Agents aus abgewählten Bereichen werden entfernt (vorher gesichert)" % len(retire))
+    if kept:
+        print("%d Agency Agents aus abgewählten Bereichen bleiben, weil sie auf diesem Gerät verändert wurden: %s"
+              % (len(kept), ", ".join(p.name for p in kept)))
     if args.dry_run:
         for _, dest, _ in changed[:60]:
             print("  " + str(dest))
         if len(changed) > 60:
             print("  … und %d weitere" % (len(changed) - 60))
+        for path in retire:
+            print("  entfernen: " + str(path))
         if note:
             print(note)
         return 0
@@ -144,7 +190,15 @@ def main():
             backed_up += 1
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(data)
+    for path in retire:
+        backup = backup_root / ".claude" / path.relative_to(home / ".claude")
+        backup.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(path, backup)
+        path.unlink()
+        backed_up += 1
     print("Wiederhergestellt: %d Dateien." % len(changed))
+    if retire:
+        print("Entfernt: %d Agency Agents aus abgewählten Bereichen." % len(retire))
     if note:
         print(note)
     if backed_up:

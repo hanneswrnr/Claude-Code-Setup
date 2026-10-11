@@ -1,4 +1,4 @@
 - [User profile](user-profile.md) — German solo vibe coder on Windows; Codex DevOS preferences
 - [Claude setup project](claude-setup-project.md) — what is installed (agency-agents, DevOS port, learning loop, Prüf-Gate, plugins), audit hardening 2026-09-11 (@inline plugin disables, ask rules, CLI), declined routines
 - [Plain German](feedback-plain-german.md) — status and to-dos in simple German, explain jargon
-- [Model choice](feedback-model-choice.md) — no Haiku 4.5 in the setup; research only current models (Claude 5 family)
+- [Model choice](feedback-model-choice.md) — only current models in the setup (no Haiku 4.5, Haiku 5.5 allowed since 2026-10-11); research only current models

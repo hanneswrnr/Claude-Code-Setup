@@ -66,17 +66,20 @@ Select the installed role through the Agent tool's `subagent_type` (`devos-explo
 
 ## Model routing
 
-The setup uses two tiers (decision of 2026-09-22, Sonnet tier raised to Sonnet 5.5 on 2026-09-28): `opus` (currently Opus 5.5) for all judgment, implementation and design work, and `sonnet` (Sonnet 5.5, pinned through `ANTHROPIC_DEFAULT_SONNET_MODEL`) for bounded search and research. Opus 5.5 at high effort beats Fable 5.1 and the previous Opus generation at every effort level on the published coding benchmarks, at lower cost, so Fable is not routed to. Never route work to `haiku` or `fable`. The `opus` alias resolves to the provider's current Opus model; re-check `/model` before changing defaults and do not silently substitute an unavailable model.
+The setup uses three tiers (decision of 2026-10-11, replacing the two-tier routing of 2026-09-22/28): `opus` (currently Opus 5.5) for all judgment, implementation, design and review work; `sonnet` (Sonnet 5.5, pinned through `ANTHROPIC_DEFAULT_SONNET_MODEL`) for bounded mapping and research; `haiku` (Haiku 5.5, pinned through `ANTHROPIC_DEFAULT_HAIKU_MODEL`) for quick read-only lookups and background tasks. Fable 5.1 costs more than Opus 5.5 and scores lower on the published coding benchmarks, so it is not routed to. The aliases resolve to the provider's current models; re-check `/model` before changing defaults and do not silently substitute an unavailable model.
 
-- Root: the user's session choice, by default Opus 5.5 at xhigh effort. Keep architecture and risky integration here.
-- `devos-explorer`, `devos-researcher`: sonnet/high for bounded evidence gathering. Escalate ambiguous cross-system analysis to root.
-- `devos-worker`, `devos-platform`, `devos-verifier`: opus/high for implementation contracts, platform work, adversarial tests and reproduction. On Opus 5.5, xhigh roughly doubles cost over high for little or no measured gain.
+Effort is set by evidence, not by "highest is best". Published results for Opus 5.5 (vendor and Artificial Analysis figures, October 2026): medium matches or beats Opus 5 at high; xhigh adds about five index points over medium for about 2.6 times the cost; max adds about two more points for about 1.7 times the cost of xhigh. Anthropic advises reserving xhigh and max for work with a measured gain. Sonnet 5.5 scores lower at max than at xhigh on FrontierCode (it over-delegates and runs out of time). Haiku 5.5 at low skips searches and checks.
+
+- Root: the user's session choice, by default Opus 5.5 at high effort. Keep architecture and risky integration here. For long unattended class C/D runs root may switch to `/effort xhigh`; on the 5.5 models an effort change does not invalidate the prompt cache.
+- `Explore` (user-level override of the built-in agent): haiku/medium for quick "where is X" lookups and broad searches whose conclusion root verifies. Haiku 5.5 is weak at long multi-step work and costs five times more per token above 100K input tokens, so keep its searches short and bounded.
+- `devos-explorer`, `devos-researcher`: sonnet/high for bounded evidence gathering that feeds architecture, security or deletion decisions. Escalate ambiguous cross-system analysis to root.
+- `devos-worker`, `devos-platform`, `devos-verifier`: opus/high for implementation contracts, platform work, adversarial tests and reproduction.
 - `devos-designer`: opus/high for visual direction and scoped HTML/CSS work.
 - `devos-reviewer`, `devos-security`: opus/xhigh as independent correctness and security gates, where a missed defect costs more than the tokens.
-- Generic specialists and `general-purpose` define no model and run on opus (`CLAUDE_CODE_SUBAGENT_MODEL`). Route cheap read-only work to `devos-explorer` or `devos-researcher`, whose effort is pinned, rather than passing `model: "sonnet"` to agents that inherit the session effort. Built-in Explore inherits the root model, capped at Opus.
-- Avoid `max` effort: on Opus 5.5 it costs three to four times high for at most about two benchmark points.
+- Generic specialists and `general-purpose` define no model and run on opus (`CLAUDE_CODE_SUBAGENT_MODEL`) at the session effort. Route cheap read-only work to `Explore`, `devos-explorer` or `devos-researcher`, whose model and effort are pinned, rather than passing `model: "haiku"` or `"sonnet"` to agents that inherit the session effort.
+- `max` is blocked through `modelSettings` (Opus capped at xhigh, Sonnet and Haiku at high).
 
-Subagents without an `effort` setting inherit the session effort; settings cap Sonnet 5.5 at high, because the higher levels multiplied tokens without a measured quality gain on Sonnet 5. Role-file settings apply unless a spawn overrides the model; an effort level the model does not support falls back to the highest supported level below it. Tool allowlists remove edit tools from read-only roles, but Bash/PowerShell can still write; state read-only ownership in the task as well.
+Subagents without an `effort` setting inherit the session effort. Role-file settings apply unless a spawn overrides the model; an effort level above a model's cap falls back to the cap. Tool allowlists remove edit tools from read-only roles, but Bash/PowerShell can still write; state read-only ownership in the task as well.
 
 ## Integrate and finish
 
