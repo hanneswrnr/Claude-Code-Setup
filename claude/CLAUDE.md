@@ -55,6 +55,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 - Stufen (Stand 11.10.2026): Opus 5.5 (Kurzname `opus`) für Urteil, Umsetzung, Design und Prüfung; Sonnet 5.5 für gründliche Kartierung und Recherche (`devos-explorer`, `devos-researcher`); Haiku 5.5 für schnelle Nachschlage-Suchen (Agent `Explore`) und Hintergrundaufgaben. Fable nicht einsetzen (teurer und schwächer als Opus 5.5).
 - Denkstufe (Effort): Hauptgespräch und alle Agents ohne eigene Angabe auf `high`. `xhigh` nur für unabhängige Prüfung und Sicherheit (`devos-reviewer`, `devos-security`) und auf Wunsch für lange autonome Läufe mit `/effort xhigh`; auf den 5.5-Modellen kostet der Wechsel keinen Cache. `max` ist gesperrt: mehr Kosten, kaum Gewinn, bei Sonnet 5.5 sogar schlechter.
 - Haiku nur für kurze, klar umrissene Suchen einsetzen: Es ist schwach bei mehrstufiger Arbeit, und ab 100.000 Token Eingabe steigt sein Preis auf das Fünffache. Was als Grundlage für Architektur, Sicherheit oder Löschungen dient, kartiert `devos-explorer`. Die Zuordnung der Rollen steht in `devos-orchestrate`.
+- Abo: Claude Max x20. Auf geprüfte Lieferqualität und das gemeinsame Nutzungslimit optimieren, nicht auf hypothetische API-Kosten; vor großen Parallelwellen `/usage` und `/context` prüfen.
 
 # Kommunikation
 

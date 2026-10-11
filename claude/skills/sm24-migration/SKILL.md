@@ -8,7 +8,7 @@ description: Datenbank-Migration für SchadenMelden24 bauen, im Container prüfe
 Bewährter Ablauf aus Mig 745, 751–753, 757 und 759–762. Muster auf main: Migration 760
 (`supabase/migrations/760_auftrag_standort_gleiche_werkstatt.sql`), Prüfskript und Rückweg unter
 `scripts/…-760-…sql`, Container-Test `supabase/tests/760/`, Wächter
-`Web_Schadenmelden24/lib/kunde/__tests__/migration-760-auftrag-standort-gleiche-werkstatt.test.ts`,
+`lib/kunde/__tests__/migration-760-auftrag-standort-gleiche-werkstatt.test.ts`,
 Bericht `wiki/09-Operations/Security-Audits/2026-09-27-auftrag-standort-gleiche-werkstatt.md`.
 Vor dem Bauen diese Dateien auf `origin/main` lesen und nachbauen, nicht aus dem Gedächtnis.
 
@@ -31,10 +31,10 @@ git -C C:/Users/hanne/Desktop/SchadenMelden24-main worktree add --no-track -b fi
 - Start-Stand merken: `git -C C:/Users/hanne/sm24-<thema> rev-parse HEAD` (braucht Schritt 7).
 - Fehlen `scripts/` oder `docs/` (Teil-Checkout): `git sparse-checkout add scripts docs`.
 - `node_modules` als Junction (Verknüpfung) statt Neuinstallation, in PowerShell:
-  `New-Item -ItemType Junction -Path C:\Users\hanne\sm24-<thema>\Web_Schadenmelden24\node_modules -Target C:\Users\hanne\Desktop\SchadenMelden24-main\Web_Schadenmelden24\node_modules`
+  `New-Item -ItemType Junction -Path C:\Users\hanne\sm24-<thema>\node_modules -Target C:\Users\hanne\Desktop\SchadenMelden24-main\node_modules`
 - Pushen immer mit Ziel: `git push -u origin HEAD:refs/heads/fix/<thema>`. Nie nacktes `git push`.
 - Aufräumen nach dem Merge: erst die Junction lösen
-  `[System.IO.Directory]::Delete('C:\Users\hanne\sm24-<thema>\Web_Schadenmelden24\node_modules', $false)`,
+  `[System.IO.Directory]::Delete('C:\Users\hanne\sm24-<thema>\node_modules', $false)`,
   dann `git worktree remove C:/Users/hanne/sm24-<thema>` (ohne `--force`), dann `git branch -d fix/<thema>`.
   Nie `Remove-Item -Recurse` auf einen Ordner mit Junction (löscht sonst das echte node_modules).
 
@@ -127,6 +127,9 @@ Schreiber-Liste steht.
 
 Geklappt, wenn: die Vorprüfung live in `BEGIN READ ONLY … ROLLBACK` besteht (Datei nach dem
 Prüfblock abschneiden, vorher per grep sichern, dass kein DROP, ALTER, GRANT oder EXECUTE drin ist).
+Steht `LOCK TABLE … IN ACCESS EXCLUSIVE MODE` vor der Vorprüfung, nur den DO-Block der Vorprüfung
+ausschneiden (LOCK ist in einer Nur-Lese-Transaktion verboten); am Ende des Blocks eine
+Erfolgsmarke per `RAISE EXCEPTION '…-VORPRUEFUNG BESTANDEN'` einsetzen, sonst sieht man nichts.
 
 ## 5. Begleitdateien
 
@@ -146,7 +149,7 @@ Prüfblock abschneiden, vorher per grep sichern, dass kein DROP, ALTER, GRANT od
   Negativfall als Rolle `authenticated` mit nachgebauter RLS-Regel, Varianten der Migration per
   `sed` (Vor- und Selbstprüfung müssen abbrechen), Prüfskript ohne/mit Migration und als
   Probelauf, doppeltes Einspielen, Rückweg-Zyklus. CHECK-Regeln der Tabellen mit nachbauen.
-- **Wächter** `Web_Schadenmelden24/lib/<bereich>/__tests__/migration-NNN-<thema>.test.ts`:
+- **Wächter** `lib/<bereich>/__tests__/migration-NNN-<thema>.test.ts`:
   CRLF-fest, jede Datei einmal lesen, schnelle Vorfilter vor teuren Regex, Muster mit beliebigem
   Leerraum; prüft Aufbau, gleiche md5 in Migration, Prüfskript und Rückweg, und dass spätere
   Migrationen nichts entfernen, abschalten oder freigeben.
@@ -224,7 +227,7 @@ Geklappt, wenn: Ledger-Eintrag zurückkommt, Nachprüfung passt und das Prüfskr
 - Danach den Merge-Stand komplett testen: im App-Ordner `npx vitest run` und `npx tsc --noEmit`.
 - Vercel-Status des Merge-Commits abwarten: `gh api repos/{owner}/{repo}/commits/<sha>/status --jq .state`.
   Startet kein Produktions-Build, das melden bzw. per Vercel-Konnektor anstoßen. Ausnahme: Hat der Merge
-  nichts in `Web_Schadenmelden24/` geändert (reine Migration oder Doku), überspringt die Vorschau-Sperre den
+  nichts außerhalb der Doku-, Planungs-, Marketing- und Datenbank-Ordner geändert (reine Migration oder Doku), überspringt die Vorschau-Sperre den
   Live-Build absichtlich (Beschreibung „Canceled by Ignored Build Step“, Stand grün); das ist richtig und
   so zu berichten (Regeln in der Projekt-CLAUDE.md unter „Git & Branching“).
 
@@ -238,3 +241,9 @@ Geklappt, wenn: Ledger-Eintrag zurückkommt, Nachprüfung passt und das Prüfskr
 - Bash-Pipes nicht am Exit-Code bewerten, wenn `tail` am Ende steht (`set -o pipefail` oder Ausgabe lesen).
 - CRLF aus dem Windows-Checkout verfälscht md5 im Container: Migration und Skripte mit `tr -d '\r'` einspielen.
 - In PL/pgSQL Aliase und Variablen nie wie Spalten der abgefragten Tabelle nennen.
+- Neue RLS-Regeln: vorher `git grep -l pg_policies -- scripts` und prüfen, welche älteren
+  verify-/rueckweg-Skripte Regeln auf denselben Tabellen (oder mit demselben Namensanfang) zählen
+  oder per md5 festschreiben; dort den neuen Regelnamen im selben Zweig ausnehmen (Mig 866).
+- Leseregeln an `aal2` binden: erst alle App-Stellen suchen, die mit dem Nutzer-Zugang VOR der
+  Stufen-Prüfung lesen (Layouts, Kontext-Loader, Einrichtungsseite des zweiten Faktors); dort
+  eigene Zeilen ausnehmen, sonst sperrt man die Konten aus (Mig 866).

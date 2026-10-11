@@ -122,7 +122,7 @@ Dieser Eintrag ersetzt die Modellentscheidungen der früheren Einträge.
 | Datei | Änderung | SHA-256 nach der Änderung |
 |---|---|---|
 | `skills/devos-orchestrate/SKILL.md` | Abschnitt „Model routing": drei Stufen (opus, sonnet, haiku), Begründung der Denkstufen, Root auf `high` mit `/effort xhigh` für lange autonome Läufe, `Explore` auf haiku/medium, `max` über `modelSettings` gesperrt | `de067a65298993ffb532f102b631e9edf0970757e2918b591ecd7cf8e8c2cec0` |
-| `CLAUDE.md` | Abschnitt „Modelle": Haiku 5.5 für schnelle Suchen und Hintergrundaufgaben, Hauptgespräch auf `high`, `xhigh` nur für Prüfung und Sicherheit oder auf Wunsch, `max` gesperrt, Grenzen von Haiku | `2cf2173e72b4fa5ebe93b785ddbae0a489b6762fac20fd7cef33367f004dc73a` |
+| `CLAUDE.md` | Abschnitt „Modelle": Haiku 5.5 für schnelle Suchen und Hintergrundaufgaben, Hauptgespräch auf `high`, `xhigh` nur für Prüfung und Sicherheit oder auf Wunsch, `max` gesperrt, Grenzen von Haiku | `105f58412f8a0f6bf7b161cc05eab03f1259ce0ea10c8811f70d918eb5a62429` |
 
 - Außerhalb des Ports geändert:
   - `settings.json`: In `modelSettings` neu `claude-opus-5-5` mit `effortLevel` `high`, `maxEffortLevel` `xhigh` und `autoCompactWindow` 400000 sowie `claude-haiku-5-5` mit `maxEffortLevel` `high`; Sonnet bleibt bei `high`. `ANTHROPIC_DEFAULT_HAIKU_MODEL` von `claude-sonnet-5-5` auf `claude-haiku-5-5`. Das oberste `effortLevel` steht jetzt auf `high` statt `xhigh`. Laut Doku ignoriert Opus 5.5 dieses Feld in der Benutzer-`settings.json`, deshalb lief Opus 5.5 bisher auf seinem Standard `medium`; erst der Eintrag unter `modelSettings` wirkt.
@@ -130,5 +130,6 @@ Dieser Eintrag ersetzt die Modellentscheidungen der früheren Einträge.
   - `learning/lessons.jsonl`: Lektion L-20260911-7c9217 über `ll.py edit` auf den neuen Stand umformuliert.
   - 28 Agency Agents der Bereiche `academic`, `gis`, `healthcare` und `spatial-computing` entfernt. Die Auswahl steht in `vendor/agency-agents.selection.json`; `restore.py` räumt sie auf den Geräten mit Sicherung auf, nur unveränderte und nur aus abgewählten Bereichen.
   - Gedächtnis-Notiz `feedback-model-choice` (Sitzung vom 11.09.2026) auf die Aufhebung des Haiku-Verbots angepasst.
+- Nachtrag am selben Tag: `CLAUDE.md` nennt im Abschnitt „Modelle“ das Abo Claude Max x20 und das Ziel „gemeinsames Nutzungslimit statt API-Kosten“, übernommen aus dem nie zusammengeführten Umbau `chore/claude-setup-routing` vom 08.10.2026, der auf dem PC lief. Dessen übrige Modellentscheidungen (Umsetzung auf Sonnet, Prüfung auf `high`, `max` erlaubt, Rollen `devos-architect`, `devos-infra`, `devos-worker-xhigh`, `devos-worker-max`) wurden nicht übernommen; der Zweig bleibt als Nachweis erhalten.
 - Unverändert: alle `devos-*`-Rollendateien.
 - Rollback: Stand vor der Änderung ist Commit `94258f4` im Setup-Repo. Wirksam wird die Änderung erst in einer neuen Claude-Code-Sitzung. In der Desktop-App zusätzlich im Eingabefeld Opus 5.5 mit „Hoch“ wählen.
