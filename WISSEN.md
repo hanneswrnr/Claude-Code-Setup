@@ -2,7 +2,7 @@
 
 Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
-- Aktive Regeln: 504
+- Aktive Regeln: 505
 - Warten auf Freigabe: 0
 - Archivierte Regeln: 198
 - Gedächtnis-Notizen: 135
@@ -10,7 +10,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
 ## Gelernte Regeln (Lernloop)
 
-### Fehler vermeiden (403)
+### Fehler vermeiden (404)
 
 - In Shell-Befehlen keine Dotenv-Dateien namentlich nennen, auch nicht fuer git check-ignore; einzelne Dateiaenderungen nicht per git checkout mit Doppelstrich verwerfen, sondern den Inhalt mit git show HEAD:pfad zurueckschreiben *Warum: Das CC Safety Net blockt Dotenv-Pfade und git checkout mit Doppelstrich; ein geblockter Sammelbefehl fuehrt auch seine harmlosen Teile nicht aus* `L-20260911-0beed3`
 - Repos, deren Dateien per SHA-256-Manifest geprueft werden, mit einer .gitattributes-Zeile \* -text anlegen, bevor der erste git add laeuft *Warum: Git fuer Windows wandelt sonst Zeilenenden beim Auschecken um (autocrlf), dann passen die Pruefsummen auf anderen Geraeten nicht mehr* `L-20260911-0f4720`
@@ -415,6 +415,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Skripte nicht ueber eine Schleifenvariable im Pfad starten (bash supabase/tests/VAR/run.sh in for-Schleife); jeden Lauf als eigene Zeile mit festem Pfad schreiben *Warum: Am 04.10.2026 blockte das Safety Net die Schleife, weil die Quelle des ausgefuehrten Skripts nicht pruefbar war; mit festen Pfaden lief derselbe Befehl* `L-20261004-b0ac17`
 - Das heutige Datum vor dem ersten Datumsvermerk mit date pruefen und nie aus Todo-Formulierungen wie morgen oder faellig ableiten *Warum: Am 04.10.2026 uebernahm eine Sitzung den 05.10. aus einem Todo, das nach Mitternacht mit morgen angelegt war; drei Zweige, ein Sicherheitsbericht, der Stand der Datenschutzerklaerung und eine eingespielte Migration trugen das falsche Datum* `L-20261004-b13f95`
 - Browser-Dateien (use client und alles, was sie importieren) duerfen keine Werte aus Server-Modulen wie lib/termin/gcal holen; geteilte Konstanten in browser-taugliche Dateien legen und vor dem Vorschau-Push npm run build lokal laufen lassen *Warum: Am 05.10.2026 scheiterte der Vercel-Build mit Module not found net/fs, weil eine Kalender-Anzeige eine Farbkonstante aus sperre.ts importierte; tsc und vitest waren gruen* `L-20261004-cc48f3` (nur Projekt schadenmelden24-c065cc)
+- Nach export.py im Setup-Repo vor dem Commit jede geaenderte Gedaechtnis-Notiz und jede neue Datei im Diff pruefen: aeltere lokale Fassungen und lokale Dateien aus nicht gemergten Zweigen nicht committen, sondern lokal angleichen bzw. aus Manifest und Commit lassen *Warum: restore.py spielt Gedaechtnis aus Sitzungen ohne Projektordner nicht ein; am 11.10.2026 haette export.py so eine neuere Notiz mit einer alten ueberschrieben und vier Agents aus einem offenen Zweig nach main gebracht* `L-20261011-3d0f7f`
 
 ### Bewährt (72)
 

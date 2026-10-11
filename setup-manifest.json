@@ -1,6 +1,6 @@
 {
  "source_home": "C:/Users/hanne",
- "exported_at": "2026-10-11T15:02:50+02:00",
+ "exported_at": "2026-10-11T15:05:24+02:00",
  "memory": {
   "AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-2ad80d": "C--Users-hanne-AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-2ad80d",
   "AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-3cac4a": "C--Users-hanne-AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-3cac4a",
@@ -314,7 +314,7 @@
   "claude/agents/unreal-world-builder.md": "f99d2c9458b717c1d0341e0d9a27f550a11c3b8f3f5df119679c9a27e0f234de",
   "claude/agents/zk-steward.md": "4431caf0747012e60d581f75d25bcb98400fa218bd1dbb7b1145bd4916453080",
   "claude/learning/config.json": "dc9c2c44477de92bf6c3a0ac3dc378437b929e08ee88b98af9cffab71e849476",
-  "claude/learning/lessons.jsonl": "116cbd384b66f90687f661a3423250032406b087f5af2f88e91df22cacc42412",
+  "claude/learning/lessons.jsonl": "8e0a63bdcf31787ac7b94ec98b6fb598ca140c8cc651bda2b07bc8753caa20f9",
   "claude/learning/ll.py": "b614851e9412013bbd7874c3c5fce3393a263c2f92867cb4a95eeb708fa63592",
   "claude/learning/llcore.py": "9b99382d6b8c6f9fe562f553d5100db331c8c58ac1cea688bd974b40179e5039",
   "claude/learning/llgate.py": "b7fee5e6942b89a1609ae13fc859eed20ba6d07565346be88c5eb5a75d8a7fb7",
