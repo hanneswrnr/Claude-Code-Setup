@@ -28,7 +28,7 @@ Messages sind nicht „Gespräch“, sondern Werkzeug-Ausgabe. In 518 Sitzungsda
 
 ## Immer geladener Kontext
 
-- 293 Agents. **Seit dem 01.10.2026 wurden nur 14 Typen benutzt**, davon die 7 DevOS-Rollen in 698 von 708 Aufrufen. 279 Agents wurden nie gerufen, laden aber ihre Beschreibung in jede Sitzung (laut Auftrag etwa 21k Token). Das ist der größte Einzelposten, den man ohne Qualitätsverlust verkleinern könnte. **Braucht deine Freigabe** (siehe Changelog, Abschnitt „Offen“).
+- 293 Agents. **Seit dem 01.10.2026 wurden nur 14 Typen benutzt**, davon die 7 DevOS-Rollen in 698 von 708 Aufrufen. 279 Agents wurden nie gerufen, laden aber ihre Beschreibung in jede Sitzung (laut Auftrag etwa 21k Token). Das ist der größte Einzelposten, den man ohne Qualitätsverlust verkleinern könnte. Mit Freigabe vom 17.10.2026 archiviert (235 Stück; GSD- und Design-Agents bleiben), siehe Changelog.
 - MCP: 1.110 Werkzeuge sind bereits verzögert geladen (nur Namen), kein weiterer Hebel ohne Funktionsverlust.
 - `CLAUDE.md` (global): vorher 16,1 KB, jetzt 18,1 KB. Der neue Abschnitt „Kontext sparen“ kostet etwa 550 Token je Sitzung und soll die Read-/Bash-Ausgaben senken. Ob er sich lohnt, zeigt erst der Vergleich in `CONTEXT_BENCHMARKS.md`.
 

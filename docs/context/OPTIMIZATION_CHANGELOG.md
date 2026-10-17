@@ -22,14 +22,22 @@ Sicherung der Vorher-Stände: `~/.claude/backups/ctx-opt-20261017/` (`settings.j
 - `tools/ctx_probe.py` (Messung je Sitzung), `tools/ctx_aggregate.py` (Messung über viele Sitzungen: Agent-Nutzung, Größenverteilung). Nur lesend. Aufruf: `python -I tools/ctx_aggregate.py 2026-10-01`; die Skripte liegen auch in `~/.claude/vendor/`.
 - `docs/context/` mit diesen vier Dokumenten.
 
+### Agents archiviert (mit deiner Freigabe)
+- **Vorher:** 293 Agent-Dateien in `~/.claude/agents/`, alle mit ihrer Beschreibung in jeder Sitzung geladen.
+- **Nachher:** 58 geladen, 235 in `~/.claude/agents-archiv/` (wird von Claude Code nicht gelesen). Geladen bleiben: die 8 DevOS-Rollen, `Explore`, `technical-writer`, `legal-document-review`, `legal-compliance-checker`, `data-privacy-officer`, alle 33 GSD-Agents (die GSD-Befehle rufen sie auf; sie wurden nur nicht „direkt“ gezählt) und die 12 Design-Agents.
+- **Abweichung vom Vorschlag:** statt 279 wurden 235 archiviert (GSD-Agents und Design-Agents bleiben).
+- **Design auf Opus (Anweisung vom 17.10.2026):** `ui-designer`, `ux-architect`, `ux-researcher`, `brand-guardian`, `ui-finish-gate-reviewer`, `persona-walkthrough-specialist`, `visual-storyteller`, `whimsy-injector`, `image-prompt-engineer`, `inclusive-visuals-specialist`, `frontend-developer`, `accessibility-auditor` haben jetzt `model: opus` und `effort: high` in der Datei (vorher ohne Angabe); `devos-designer` hatte es schon. In `CLAUDE.md` steht die Regel unter „Modelle“.
+- **Prüfung:** Alle 58 Dateien haben gültigen Kopfteil (`name`, `description`); alle 13 benutzten Namen sind vorhanden (`general-purpose` ist eingebaut). Ob die laufende Claude-Code-Sitzung die Agents neu einliest, ist nicht prüfbar: Es zeigt erst eine neue Sitzung. `claude agents --json` listet keine Agent-Definitionen und taugt dafür nicht.
+- **Zurück:** `mv ~/.claude/agents-archiv/*.md ~/.claude/agents/` (die zwölf Design-Agents behalten dabei `model: opus`). Das Repo sichert beide Ordner (`claude/agents`, `claude/agents-archiv`); `export.py` kennt den Archivordner jetzt.
+- **Erwarteter Gewinn:** etwa 15–20k Token je Sitzung (Schätzung aus dem Auftrag, nicht gemessen; erst der Wert „Custom agents“ in einer neuen Sitzung belegt es).
+
 ## Bewusst nicht geändert
 
-- Keine Agents, Skills, Hooks oder MCP-Server entfernt oder abgeschaltet.
+- Keine Skills, Hooks oder MCP-Server entfernt oder abgeschaltet.
 - Keine Berechtigungen geändert.
 - Keine Ausgabe-Obergrenzen per Umgebungsvariable (würden Fehlermeldungen kappen).
 - Compaction-Schwelle für Opus unverändert (kein Vergleichstest vorhanden).
 
-## Offen: braucht deine Entscheidung
+## Offen
 
-1. **279 nie benutzte Agents archivieren.** Seit dem 01.10. wurden nur 14 von 293 Typen gerufen. Vorschlag: Alle außer den 14 benutzten (`devos-*`, `Explore`, `legal-compliance-checker`, `data-privacy-officer`, `technical-writer`, `legal-document-review`, `general-purpose`) nach `~/.claude/agents-archiv/` verschieben. Gewinn: etwa 20k Token je Sitzung (Angabe aus dem Auftrag, nicht nachgemessen). Rückweg: Ordner zurückschieben. Die Agents bleiben im Repo gesichert.
-2. **Subagenten-Modell:** `env.CLAUDE_CODE_SUBAGENT_MODEL = opus` setzt laut Dokumentation alle Subagenten auf Opus und hat Vorrang vor der Modellangabe in den Agent-Dateien. Dann liefen `devos-explorer`, `devos-researcher` (Sonnet) und `Explore` (Haiku) ebenfalls auf Opus. **Nicht verifiziert** (meine Messung der Subagent-Modelle ergab nichts). Betrifft Kosten und Nutzungslimit, nicht den Kontext.
+1. **Subagenten-Modell:** `env.CLAUDE_CODE_SUBAGENT_MODEL = opus` setzt laut Dokumentation alle Subagenten auf Opus und hat Vorrang vor der Modellangabe in den Agent-Dateien. Dann liefen `devos-explorer`, `devos-researcher` (Sonnet) und `Explore` (Haiku) ebenfalls auf Opus. **Nicht verifiziert** (meine Messung der Subagent-Modelle ergab nichts). Betrifft Kosten und Nutzungslimit, nicht den Kontext.

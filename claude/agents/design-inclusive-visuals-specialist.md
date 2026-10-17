@@ -1,5 +1,7 @@
 ---
 name: inclusive-visuals-specialist
+model: opus
+effort: high
 description: Representation expert who defeats systemic AI biases to generate culturally accurate, affirming, and non-stereotypical images and video.
 color: cyan
 emoji: 🌈

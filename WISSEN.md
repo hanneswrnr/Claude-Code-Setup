@@ -2,7 +2,7 @@
 
 Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
-- Aktive Regeln: 548
+- Aktive Regeln: 549
 - Warten auf Freigabe: 5
 - Archivierte Regeln: 198
 - Gedächtnis-Notizen: 146
@@ -10,7 +10,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
 ## Gelernte Regeln (Lernloop)
 
-### Fehler vermeiden (434)
+### Fehler vermeiden (435)
 
 - In Shell-Befehlen keine Dotenv-Dateien namentlich nennen, auch nicht fuer git check-ignore; einzelne Dateiaenderungen nicht per git checkout mit Doppelstrich verwerfen, sondern den Inhalt mit git show HEAD:pfad zurueckschreiben *Warum: Das CC Safety Net blockt Dotenv-Pfade und git checkout mit Doppelstrich; ein geblockter Sammelbefehl fuehrt auch seine harmlosen Teile nicht aus* `L-20260911-0beed3`
 - Repos, deren Dateien per SHA-256-Manifest geprueft werden, mit einer .gitattributes-Zeile \* -text anlegen, bevor der erste git add laeuft *Warum: Git fuer Windows wandelt sonst Zeilenenden beim Auschecken um (autocrlf), dann passen die Pruefsummen auf anderen Geraeten nicht mehr* `L-20260911-0f4720`
@@ -439,6 +439,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Wird eine RLS-Pruefung in eine SECURITY-INVOKER-Funktion verlegt, muss der Waechter jedes spaetere CREATE OR REPLACE und ALTER FUNCTION auf diesen Namen melden, nicht nur SECURITY DEFINER *Warum: Ein neuer Koerper mit RETURN true haette alle Dateien still geoeffnet; beide Pruefer fanden die Luecke in den Waechtern zu Mig 906 und 907* `L-20261016-c0c664` (nur Projekt schadenmelden24-c065cc)
 - Wer eine RLS-Unterabfrage der Form spalte IN (SELECT ...) durch einen Funktionsaufruf je Zeile ersetzt, misst auch das Auflisten vieler Zeilen, nicht nur den Einzelzugriff *Warum: Die alte Unterabfrage lief einmal je Anweisung, die Funktion laeuft je Zeile; bei Mig 906 wurde das Auflisten von 1.106 Dateien rund viermal langsamer, waehrend Einzelzugriffe viel schneller wurden* `L-20261016-d7592f`
 - In Postgres-Regex Zeichenketten und Kommentare in einem Durchgang entfernen: eine Alternation, Zeichenkette zuerst, also regexp_replace(src, Zeichenkette-oder-Kommentar, leer, g); nie zwei Schritte nacheinander *Warum: Zwei Schritte schneiden bei einer Zeichenkette mit zwei Bindestrichen den Rest ab, die Hochkommas geraten aus dem Tritt und die Suche nach Tabellennamen in Funktionskoerpern liefert Fehlalarme oder Luecken (Mig 908, 16.10.2026)* `L-20261016-d9646d`
+- Commit-Nachrichten in PowerShell 5.1 nie mit Set-Content -Encoding utf8 in die Datei fuer git commit -F schreiben; stattdessen IO.File WriteAllText mit UTF8Encoding ohne BOM nutzen *Warum: Set-Content utf8 setzt in PS 5.1 ein BOM, das unsichtbar vorne im Commit-Betreff landet* `L-20261017-5f21e9`
 - Git-Hooks nie umgehen, auch nicht fuer kleine Platzhalter-Commits; fehlt node_modules, erst installieren und dann normal committen *Warum: Am 17.10.2026 einen Reservierungs-Commit mit abgeschaltetem Hooks-Pfad gemacht, das verstoesst gegen die feste Regel Hooks nie ueberspringen* `L-20261017-7b531e`
 - Beim Ersetzen eines deutschen Wortes in UI-Texten jede Fundstelle auf Beugung pruefen, nicht nur 1:1 tauschen; schwache Nomen wie Kunde brauchen im Akkusativ ein -n (Gewerbekunden einladen) *Warum: Beim Umbenennen Spediteur zu Gewerbekunde blieben Knoepfe wie Gewerbekunde einladen falsch gebeugt stehen, weil die alte Form beim alten Wort korrekt war; erst der Reviewer fand es* `L-20261017-920904`
 - Im Browser-Fenster der Claude-App zeigt ein Tab eine lokale HTML-Datei nach dem Bearbeiten weiter im alten Stand; zum Prüfen den Tab schließen und ohne tabId neu navigieren (neuer Tab), keine Abfrageteile an die Adresse hängen, und im versteckten Fenster vor dem Messen Übergänge per style.transition='none' abschalten *Warum: Am 17.10.2026 wurden Änderungen an Skizzen scheinbar nicht übernommen und Breiten-Knöpfe wirkten wirkungslos, weil der Tab einen festen Schnappschuss hielt und Übergänge im versteckten Fenster nicht liefen* `L-20261017-9c3ab5`

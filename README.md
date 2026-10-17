@@ -9,7 +9,8 @@ Privates Backup des globalen Claude-Code-Setups von Origin Labs. Hier wird das S
 | `claude/CLAUDE.md` | Globale Regeln: DevOS, Grundregeln, Web-Projekte mit HTML/CSS und TypeScript, autonome Orchestrierung, Lernloop, Loop Engineering |
 | `claude/settings.json` | Hooks des Lernloops, Nachfrage- und Sperr-Regeln, Plugins, Marktplätze, Modell-Setup (siehe unten), Statusleiste |
 | `claude/statusline.py` | Statusleiste im Terminal: Modell, Effort, Kontext, Cache-Trefferquote und Abo-Limits |
-| `claude/agents/` | 293 Agents: 251 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt; ohne die Bereiche Wissenschaft, Geodaten, Medizin und VR/AR), 8 DevOS-Rollen mit festen Modellstufen, der Such-Agent `Explore` auf Haiku 5.5 und 33 GSD-Agents |
+| `claude/agents-archiv/` | 235 Agents, die seit der Kontext-Prüfung vom 17.10.2026 nicht mehr geladen werden (nie benutzt); Rückweg: Dateien nach `~/.claude/agents/` schieben |
+| `claude/agents/` | 58 geladene Agents (vor dem 17.10.2026: 293). Bestand: 251 Agency Agents (Beschreibungen auf 160 Zeichen gekürzt; ohne die Bereiche Wissenschaft, Geodaten, Medizin und VR/AR), 8 DevOS-Rollen mit festen Modellstufen, der Such-Agent `Explore` auf Haiku 5.5 und 33 GSD-Agents |
 | `claude/skills/` | 81 Skills: DevOS-Skills, `learn`, `reflect`, `recall`, `loop-engineering`, `sichtpruefung-hinter-login` und 67 GSD-Skills (deren Motor kommt aus npm, siehe Schritt 6) |
 | `claude/learning/` | Lernloop mit Prüf-Gate, Tests und allen gelernten Lektionen (`lessons.jsonl`: aktive, auf Freigabe wartende und archivierte) |
 | `memory/` | Automatisches Gedächtnis aller Projekte und Sitzungen, ein Ordner je Projekt (zum Beispiel `memory/Desktop-SchadenMelden24/`) |

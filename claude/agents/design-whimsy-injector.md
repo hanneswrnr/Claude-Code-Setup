@@ -1,5 +1,7 @@
 ---
 name: whimsy-injector
+model: opus
+effort: high
 description: Expert creative specialist focused on adding personality, delight, and playful elements to brand experiences.
 color: pink
 emoji: ✨

@@ -1,5 +1,7 @@
 ---
 name: image-prompt-engineer
+model: opus
+effort: high
 description: Expert photography prompt engineer specializing in crafting detailed, evocative prompts for AI image generation.
 color: yellow
 emoji: 📷

@@ -1,5 +1,7 @@
 ---
 name: ui-finish-gate-reviewer
+model: opus
+effort: high
 description: Product-interface reviewer who catches generic, interchangeable UI before it ships by grounding critique in real product evidence, a written design contract …
 color: orange
 emoji: 🧱

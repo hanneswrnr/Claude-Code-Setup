@@ -33,4 +33,4 @@ Erwartung, **nicht Zusage:** weniger Reads ≥ 30.000 Zeichen, weniger wiederhol
 
 ## Weitere Möglichkeiten
 
-Agents archivieren (~20k Token), Subagenten-Modell prüfen, Statusleiste um eine Warnung bei Kontext über 300k ergänzen.
+Subagenten-Modell prüfen (siehe Changelog), „Custom agents“ in einer neuen Sitzung mit `/context` ablesen (Soll: deutlich unter den bisherigen 21,1k), Statusleiste um eine Warnung bei Kontext über 300k ergänzen.

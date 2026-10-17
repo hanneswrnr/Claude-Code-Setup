@@ -1,5 +1,7 @@
 ---
 name: ui-designer
+model: opus
+effort: high
 description: Expert UI designer specializing in visual design systems, component libraries, and pixel-perfect interface creation.
 color: purple
 emoji: 🎨

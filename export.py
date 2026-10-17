@@ -25,6 +25,7 @@ PLAN = [
     (CLAUDE / "settings.json", "claude/settings.json", None),
     (CLAUDE / "statusline.py", "claude/statusline.py", None),
     (CLAUDE / "agents", "claude/agents", ["*.md"]),
+    (CLAUDE / "agents-archiv", "claude/agents-archiv", ["*.md"]),  # nicht geladen, spart Kontext; Rückweg: zurück nach agents
     (CLAUDE / "skills", "claude/skills", ["**/*"]),
     (CLAUDE / "learning", "claude/learning", ["ll.py", "llcore.py", "llgate.py", "llhooks.py", "llsearch.py",
                                              "lessons.jsonl", "config.json", "tests/test_learning_loop.py"]),
@@ -61,6 +62,7 @@ SECRET = re.compile(
 # Agent-Beschreibungen. Ein anderer Treffer in derselben Datei blockiert weiterhin.
 ALLOW = {
     ("claude/agents/security-secrets-credential-engineer.md", "eb8b7d825e385b16cf41264e1bddc6d3d854b422b96d3f8b6cf6fde2b9425115"),
+    ("claude/agents-archiv/security-secrets-credential-engineer.md", "eb8b7d825e385b16cf41264e1bddc6d3d854b422b96d3f8b6cf6fde2b9425115"),
 }
 KIND_DE = {"mistake": "Fehler vermeiden", "success": "Bewährt", "preference": "Vorliebe"}  # wie in learning/llcore.py
 SCRATCH = re.compile(r"scratch-workspaces-.*-scratch-(\d{4})-(\d\d)-(\d\d)-([0-9a-f]+)$")
