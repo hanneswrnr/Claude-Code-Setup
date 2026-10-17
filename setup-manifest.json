@@ -1,6 +1,6 @@
 {
  "source_home": "C:/Users/hanne",
- "exported_at": "2026-10-17T18:37:18+02:00",
+ "exported_at": "2026-10-17T18:39:31+02:00",
  "memory": {
   "AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-2ad80d": "C--Users-hanne-AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-2ad80d",
   "AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-3cac4a": "C--Users-hanne-AppData-Roaming-Claude-scratch-workspaces-9b6377ee-ddaf-4a10-acb0-f9b74f63e780-36bfe120-7655-4e7d-922a-2ef21823b010-scratch-2026-09-21-3cac4a",
@@ -315,7 +315,7 @@
   "claude/agents/legal-document-review.md": "b1a43dd2b9d6b414dfb9efacf1e088b1d55d1176092a75c934daaa65aa941af5",
   "claude/agents/support-legal-compliance-checker.md": "df7972d1585f5d0256fd27c6ea14ff276fb1d4c33eb794173024de2ff151ab1a",
   "claude/learning/config.json": "dc9c2c44477de92bf6c3a0ac3dc378437b929e08ee88b98af9cffab71e849476",
-  "claude/learning/lessons.jsonl": "9e2db57a4ccc2d50525c26bea3a0688390c122f395e83fc03792087e607815a1",
+  "claude/learning/lessons.jsonl": "f783085b60786587e4a176a11c2f2369c6884d823aee5e6e5325a37c7dc25f6f",
   "claude/learning/ll.py": "b614851e9412013bbd7874c3c5fce3393a263c2f92867cb4a95eeb708fa63592",
   "claude/learning/llcore.py": "9b99382d6b8c6f9fe562f553d5100db331c8c58ac1cea688bd974b40179e5039",
   "claude/learning/llgate.py": "b7fee5e6942b89a1609ae13fc859eed20ba6d07565346be88c5eb5a75d8a7fb7",

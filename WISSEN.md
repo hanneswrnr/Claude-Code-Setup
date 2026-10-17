@@ -2,7 +2,7 @@
 
 Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 
-- Aktive Regeln: 555
+- Aktive Regeln: 556
 - Warten auf Freigabe: 5
 - Archivierte Regeln: 198
 - Gedächtnis-Notizen: 149
@@ -540,7 +540,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Starten mehrere Chats gleichzeitig Arbeit mit Datenbank-Migrationen, jedem Chat vorab einen eigenen Nummernbereich zuteilen und im gemeinsamen Plan festhalten; trotzdem vor dem Belegen alle Remote-Zweige pruefen und die Nummer sofort per Commit reservieren *Warum: Parallele Chats sehen nur, was schon gepusht ist; ohne feste Bereiche nehmen zwei Chats dieselbe naechste freie Nummer* `L-20261017-2935e5` (nur Projekt schadenmelden24-c065cc)
 - Vor dem Umbenennen sichtbarer Woerter in SchadenMelden24 die Migrationen nach RAISE-EXCEPTION-Texten mit dem Wort durchsuchen lassen; App-Regex, die DB-Fehlertexte am Wortlaut erkennen, beim alten Wort lassen *Warum: lib/spediteur/bindung.ts erkennt einen DB-Fehler am Wort Spediteur; ein reines Text-Umbenennen haette die Erkennung still gebrochen* `L-20261017-97b640` (nur Projekt schadenmelden24-c065cc)
 
-### Vorliebe (31)
+### Vorliebe (32)
 
 - Einen Orchestrator-Prompt nicht per CLAUDE.md-Import ins Projekt einbauen, sondern als Memory oder Dokument ablegen *Warum: Subagents erben die CLAUDE.md-Hierarchie und wuerden sonst selbst anfangen zu orchestrieren* `L-20260911-28134a`
 - Status, offene Punkte und To-dos in einfachem Deutsch ohne Fachjargon erklären; unvermeidbare Fachbegriffe kurz erklären *Warum: Ausdrücklicher Wunsch des Nutzers, zuerst im Projekt Raumgestaltung-Hartung festgehalten (10.09.2026)* `L-20260911-4db8bc`
@@ -572,6 +572,7 @@ Automatisch erzeugt von export.py, nicht von Hand bearbeiten.
 - Schreibt Hannes eine Nummer plus freigeben, bezieht sich das auf den gleich nummerierten Punkt meiner letzten Aufgabenliste; die dort genannte Aktion gilt damit als freigegeben, Merge bleibt separat *Warum: So hat er Mig 787 und Mig 788 freigegeben; die Aufgabenliste nennt Aktion und Ziel* `L-20260930-21970e` (nur Projekt schadenmelden24-c065cc)
 - Uebertraegt Hannes eine Produktentscheidung (entscheide du), selbst entscheiden, die Uebertragung mit Datum in Wiki und Commit vermerken und als eigene Pull-Anfrage bauen; Mergen dieser Pull-Anfrage braucht trotzdem seine Freigabe *Warum: Am 02.10.2026 delegierte er den doppelten BEISPIEL-Hinweis und gab im selben Satz nur den Merge der vorigen Pull-Anfrage frei* `L-20261002-5f5432`
 - Korrekturen aus Werkstatt- oder Kunden-Feedback zu Fehlern der Live-Seite in SchadenMelden24 als Zweig von main bauen und nach main bringen, nicht gegen den Version-4.0-Sammelzweig; der gilt nur fuer neue Funktionen *Warum: Ausdrueckliche Vorgabe von Hannes am 13.10.2026: Werkstaetten brauchen die Korrektur sofort live* `L-20261013-2ddc6d` (nur Projekt schadenmelden24-c065cc)
+- Bei Setup-Optimierungen die Modellzuordnung der Agents (welches Modell wann) und die Modellregeln in der CLAUDE.md nicht aendern; nie benutzte Agents duerfen archiviert bleiben, alles andere wird auf Wunsch auf den alten Stand zurueckgesetzt *Warum: Nutzer liess am 17.10.2026 nach der Kontext-Pruefung alles ausser den archivierten nie benutzten Agents zuruecksetzen und betonte, die Modellauswahl solle wie vorher bleiben* `L-20261017-3817ef`
 - Werkstatt-Akzente in SchadenMelden24 immer im hellen Orange f97316 bzw. f97416 (auch Text, Zahlen-Badges, Hover, Dunkelmodus-Toenungen); in Skizzen die Rollenfarbe nie per color-mix abdunkeln *Warum: Hannes hat am 17.10.2026 dunklere Orange-Toene in Skizzen und App ausdruecklich abgelehnt und das helle Orange plattformweit verlangt, Kontrast-Ausnahme bewusst akzeptiert* `L-20261017-8ebfc0` (nur Projekt schadenmelden24-c065cc)
 
 ## Wartet auf Freigabe (/reflect)

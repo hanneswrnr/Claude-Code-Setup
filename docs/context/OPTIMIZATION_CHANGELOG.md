@@ -48,6 +48,10 @@ Bleibt bestehen: Die 235 nie benutzten Agents liegen im Archiv (46 Agents gelade
 
 **Subagenten-Modell:** Verdacht war, dass `env.CLAUDE_CODE_SUBAGENT_MODEL = opus` die Modellangaben in den Agent-Dateien überstimmt. Test mit je einem Agenten, der nur sein Modell aus dem Systemprompt nannte: `devos-explorer` meldete Sonnet 5.5, `Explore` Haiku 5.5, `devos-designer` Opus 5.5. Die Dateiangaben gelten also, die Variable bleibt unverändert (sie greift nur für Agents ohne eigene Angabe). Gilt für die Desktop-App in dieser Sitzung; im reinen Terminal nicht getestet.
 
+## Entscheidung zur Modellzuordnung (17.10.2026, vom Nutzer bestätigt)
+
+Opus 5.5 orchestriert **und** setzt um (`devos-worker`, Design, Prüfung). Sonnet 5.5 bleibt für Erkundung und Recherche (`devos-explorer`, `devos-researcher`), Haiku 5.5 für `Explore`. Begründung: Der Orchestrator macht die Umsetzung nicht klüger, die Qualität hängt am schreibenden Modell; Rückläufer kosten mehr als der Preisvorteil von Sonnet. Ein Messvergleich (gleiche Aufgabe mit Opus- und Sonnet-Worker, danach Tests und Prüfer-Befunde) wurde nicht gemacht; die Begründung ist eine Einschätzung, kein Messwert. Die Modellauswahl wurde in dieser Prüfung nicht verändert.
+
 ## Offen
 
 - Nachher-Messung der Kontextwerte (siehe `CONTEXT_BENCHMARKS.md`), frühestens in zwei Wochen.
