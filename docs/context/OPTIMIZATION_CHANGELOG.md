@@ -38,6 +38,10 @@ Sicherung der Vorher-Stände: `~/.claude/backups/ctx-opt-20261017/` (`settings.j
 - Keine Ausgabe-Obergrenzen per Umgebungsvariable (würden Fehlermeldungen kappen).
 - Compaction-Schwelle für Opus unverändert (kein Vergleichstest vorhanden).
 
+## Geprüft, kein Handlungsbedarf (17.10.2026)
+
+**Subagenten-Modell:** Verdacht war, dass `env.CLAUDE_CODE_SUBAGENT_MODEL = opus` die Modellangaben in den Agent-Dateien überstimmt. Test mit je einem Agenten, der nur sein Modell aus dem Systemprompt nannte: `devos-explorer` meldete Sonnet 5.5, `Explore` Haiku 5.5, `devos-designer` Opus 5.5. Die Dateiangaben gelten also, die Variable bleibt unverändert (sie greift nur für Agents ohne eigene Angabe). Gilt für die Desktop-App in dieser Sitzung; im reinen Terminal nicht getestet.
+
 ## Offen
 
-1. **Subagenten-Modell:** `env.CLAUDE_CODE_SUBAGENT_MODEL = opus` setzt laut Dokumentation alle Subagenten auf Opus und hat Vorrang vor der Modellangabe in den Agent-Dateien. Dann liefen `devos-explorer`, `devos-researcher` (Sonnet) und `Explore` (Haiku) ebenfalls auf Opus. **Nicht verifiziert** (meine Messung der Subagent-Modelle ergab nichts). Betrifft Kosten und Nutzungslimit, nicht den Kontext.
+- Nachher-Messung der Kontextwerte (siehe `CONTEXT_BENCHMARKS.md`), frühestens in zwei Wochen.
