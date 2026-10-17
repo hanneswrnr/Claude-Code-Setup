@@ -1,7 +1,5 @@
 ---
 name: accessibility-auditor
-model: opus
-effort: high
 description: Expert accessibility specialist who audits interfaces against WCAG standards, tests with assistive technologies, and ensures inclusive design.
 color: blue
 emoji: ♿

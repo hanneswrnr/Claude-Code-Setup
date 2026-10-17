@@ -1,7 +1,5 @@
 ---
 name: visual-storyteller
-model: opus
-effort: high
 description: Expert visual communication specialist focused on creating compelling visual narratives, multimedia content, and brand storytelling through design.
 color: purple
 emoji: 🎬

@@ -1,7 +1,5 @@
 ---
 name: ux-researcher
-model: opus
-effort: high
 description: Expert user experience researcher specializing in user behavior analysis, usability testing, and data-driven design insights.
 color: green
 emoji: 🔬

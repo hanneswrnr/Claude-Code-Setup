@@ -53,7 +53,6 @@ Keep output concise and practical, normally in German for me. Explain material l
 # Modelle
 
 - Stufen (Stand 11.10.2026): Opus 5.5 (Kurzname `opus`) für Urteil, Umsetzung, Design und Prüfung; Sonnet 5.5 für gründliche Kartierung und Recherche (`devos-explorer`, `devos-researcher`); Haiku 5.5 für schnelle Nachschlage-Suchen (Agent `Explore`) und Hintergrundaufgaben. Fable nicht einsetzen (teurer und schwächer als Opus 5.5).
-- Alles, was mit Design zu tun hat (Gestaltung, UI, Design-Review, Barrierefreiheit der Oberfläche), macht Opus 5.5: `devos-designer` und die Design-Agents sind in ihrer Datei auf `model: opus` festgelegt; nie an Sonnet oder Haiku delegieren (Anweisung vom 17.10.2026).
 - Denkstufe (Effort): Hauptgespräch und alle Agents ohne eigene Angabe auf `high`. `xhigh` nur für unabhängige Prüfung und Sicherheit (`devos-reviewer`, `devos-security`) und auf Wunsch für lange autonome Läufe mit `/effort xhigh`; auf den 5.5-Modellen kostet der Wechsel keinen Cache. `max` ist gesperrt: mehr Kosten, kaum Gewinn, bei Sonnet 5.5 sogar schlechter.
 - Haiku nur für kurze, klar umrissene Suchen einsetzen: Es ist schwach bei mehrstufiger Arbeit, und ab 100.000 Token Eingabe steigt sein Preis auf das Fünffache. Was als Grundlage für Architektur, Sicherheit oder Löschungen dient, kartiert `devos-explorer`. Die Zuordnung der Rollen steht in `devos-orchestrate`.
 - Abo: Claude Max x20. Auf geprüfte Lieferqualität und das gemeinsame Nutzungslimit optimieren, nicht auf hypothetische API-Kosten; vor großen Parallelwellen `/usage` und `/context` prüfen.
@@ -83,16 +82,3 @@ Keep output concise and practical, normally in German for me. Explain material l
 - Antrieb passend wählen (Tabelle im Skill); dynamische Workflows nur bei echt paralleler Arbeit und nach der ausdrücklichen Freigabe, die das Workflow-Werkzeug verlangt („ultracode“ oder mein Wunsch in der Unterhaltung).
 - Bauen und Prüfen trennen: vor "fertig" ein frischer Prüfer (devos-reviewer, /code-review oder /codex:adversarial-review).
 - Jeder Loop hat ein Budget und dieselben Freigabegrenzen.
-
-# Kontext sparen
-
-Grundlage: Messung vom 17.10.2026 über 518 Sitzungsdateien; Read und Bash liefern zusammen rund 70 % aller Tool-Ergebnisse, 594 Reads gaben je über 30.000 Zeichen zurück. Nur ein Teil des Kontexts ist Gespräch; der Rest ist Werkzeug-Ausgabe.
-- Datei über etwa 300 Zeilen: erst Grep oder Glob zur Fundstelle, dann Read mit offset und limit. Ganze Datei nur, wenn sie wirklich komplett gebraucht wird (Umbau, Review). Unveränderte, schon gelesene Dateien nicht erneut lesen.
-- Lange Ausgaben (Build, Tests, Migrationen, Logs): in eine Datei im Scratchpad schreiben, Exit-Code melden, bei Erfolg nur die Schlusszeile zeigen, bei Fehler Meldung, Stapelspur und fehlgeschlagenen Befehl. Fehler nie verschlucken.
-- Breite Erkundung, Log-Analyse und Review mit viel Rohausgabe an einen Subagenten mit festem Rückgabeformat: Ergebnis, Belege mit Datei:Zeile, Risiken, offene Fragen, nächster Schritt. Kein Agent für Kleinigkeiten. Bei freigegebenen Workflows filtert das Skript die Agenten-Ausgaben, das Hauptgespräch sieht nur geprüfte Ergebnisse.
-- SQL und MCP-Abfragen mit LIMIT, gezielten Spalten und kleiner Seitengröße.
-- Nach abgeschlossenem Meilenstein oder bei Themenwechsel: `/compact` mit kurzer Übergabe oder neue Sitzung, statt eine lange weiterzuziehen. Die automatische Verdichtung greift bei Opus 5.5 und Sonnet 5.5 bei 400.000 Token (`modelSettings`).
-
-# Compact Instructions
-
-Beim Zusammenfassen erhalten: aktueller Auftrag und Wünsche des Nutzers (Einschränkungen wörtlich), Entscheidungen mit Begründung, verworfene Wege, geänderte Dateien mit Zweck, offene Aufgaben, Teststand samt Befehlen zum Nachstellen von Fehlern, offene Blocker, Freigabegrenzen (Merge, Deploy, Löschen). Weglassen: erfolgreiche Logs, vollständige Dateiinhalte, überholte Pläne. Danach den Stand aus `git status`, `git diff` und der Aufgabenliste prüfen, nicht raten.

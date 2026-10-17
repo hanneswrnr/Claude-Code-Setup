@@ -2,6 +2,12 @@
 
 Sicherung der Vorher-Stände: `~/.claude/backups/ctx-opt-20261017/` (`settings.json`, `CLAUDE.md`).
 
+## Stand nach der Rücknahme (auf Wunsch, 17.10.2026)
+
+Zurückgenommen: `settings.json` und `CLAUDE.md` sind wieder exakt der Vorher-Stand (keine Sonnet-Grenze, keine Abschnitte „Kontext sparen“, „Compact Instructions“ und keine Design-Regel). Die zwölf Design-/Frontend-/Barrierefreiheits-Agents haben wieder ihren Originalinhalt ohne `model`/`effort` und liegen im Archiv. **Die Modellauswahl ist damit wie vor dieser Prüfung.**
+
+Bleibt bestehen: Die 235 nie benutzten Agents liegen im Archiv (46 Agents geladen: 8 DevOS-Rollen, `Explore`, 4 benutzte Fachagents, 33 GSD-Agents, die GSD-Befehle aufrufen). Die Messwerkzeuge und diese Dokumente bleiben als Nachschlagewerk; die Einträge unten beschreiben den Zwischenstand vor der Rücknahme. Ganz zurück: `mv ~/.claude/agents-archiv/*.md ~/.claude/agents/`.
+
 ## Geändert
 
 ### `~/.claude/settings.json` (im Repo: `claude/settings.json`)

@@ -77,4 +77,7 @@
 - [Mig 907 Speicher-Regeln Stufe 2](mig-907-speicher-regeln-tempo-2.md) — LIVE seit 16.10.2026, PR #409 GEMERGT 16.10.2026 (d97acadf7); Planung 11,6 → 2,8 ms; nie CASCADE
 - [Mig 908 Kalender-Ereignisse ohne Gast](mig-908-kalender-events-ohne-gast.md) — LIVE seit 16.10.2026, PR #410 GEMERGT 16.10.2026 (ca53687d4); Rückweg 908 vor 748/777
 - [Mig 909 eigene Tabellen ohne Gast](mig-909-eigene-tabellen-ohne-gast.md) — LIVE seit 17.10.2026, PR #411 GEMERGT 17.10.2026 (b9fd9576c); Rückweg 909 vor 748/777/778
+- [Mig 910–914 Gast-Rechte Folgeliste](mig-910-914-gast-rechte-folgeliste.md) — alle LIVE und gemergt 17.10.2026 (#417–#421); Rückwege 744/748/777/866 erst nach 91x; pen-test-hq offen
+- [Bibliothek IMMER mitpflegen](bibliothek-immer-mitpflegen.md) — Hannes 17.10.2026: bei JEDER Änderung Bibliothek/Hilfe prüfen und im selben Zweig anpassen; neue Funktion = neuer Artikel
 - [Gewerbe statt Spediteur, PR #414](gewerbe-statt-spediteur-pr-414.md) — 17.10.2026 in sammel/verbesserungen gemergt; /gewerbe, intern flottenkunde; Datenschutzerklärung mit PR #415 nachgezogen (gemergt 5cd8d1c63), Gewerbekunde ≠ Firma; Sitemap-Datum je Rechtsseite PR #416 gemergt
+- [Globale Suche über den Server, PR #424](suche-server-pr-424.md) — GEMERGT in sammel/verbesserungen 17.10.2026 (21f65d8f8); RLS, keine Migration; Werkstätten für Agentur offen (Mig 920–924 mit Freigabe); Sentry schwärzt q/or/ilike

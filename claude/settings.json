@@ -406,8 +406,7 @@
       "autoCompactWindow": 400000
     },
     "claude-sonnet-5-5": {
-      "maxEffortLevel": "high",
-      "autoCompactWindow": 400000
+      "maxEffortLevel": "high"
     },
     "claude-haiku-5-5": {
       "maxEffortLevel": "high"

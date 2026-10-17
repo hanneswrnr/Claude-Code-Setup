@@ -1,7 +1,5 @@
 ---
 name: persona-walkthrough-specialist
-model: opus
-effort: high
 description: Simulate cognitive walkthroughs of web pages from a defined persona's psychological perspective — captures emotional reactions and rational thought at each …
 color: green
 emoji: 🎭
