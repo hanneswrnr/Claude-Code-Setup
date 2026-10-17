@@ -1,0 +1,1 @@
+- [Discord-Meldungen](discord-meldungen.md) — Server, Webhook-Variablen und Sicherheitsentscheidungen der Trading-Agent-Meldungen

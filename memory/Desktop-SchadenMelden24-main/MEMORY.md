@@ -67,4 +67,14 @@
 - [Ersatz-Codes Mig 882, PR #335; Tempo PR #336](mig-882-mfa-ersatzcodes.md) — beide LIVE 09.10.2026; Admin-Zweig nimmt Client aus main; Mein Konto ohne Ersatz-Codes
 - [Mig 884–889 live, offene Todos 10.10.2026](mig-884-889-offene-todos-10-10.md) — alle live und gemergt (#338–#354); Sicherung 886 gelöscht 10.10.
 - [Welle 10.10.2026, PR #359–#379](welle-10-10-pr-359-370.md) — alles gemergt und live (Mig 892–895, 897); offen nur terminierte Todos und AV-Mail-Klick 12.–15.10.; Rechtsentscheidungen an Claude übertragen (ADR 0039)
+- [Sammelzweig sammel/verbesserungen (früher release/4.0)](version-4-0-sammelzweig.md) — 13.10.2026 umbenannt, KEINE „Version 4“, nie so bewerben; Live-Fehler aus Feedback sofort auf main; Features gegen den Sammelzweig; Welle 1 fertig, Welle 2 (Chats 4–7) gestartet 17.10., Welle 3 auf Hannes' Wort; Chat 2 fertig inkl. Rundschreiben-Mail #395 und Verbund-E-Mail-Anzeige #398 (12.10.)
+- [V4 Kunden automatisch, Mig 901/902, PR #392](v4-kunden-mig-901-902.md) — 901 live 11.10.2026 (Trigger aus), PR #392 in release/4.0 gemergt (8547515e8); 902 erst mit release/4.0 → main
+- [Mig 906 Speicher-Regeln-Tempo, PR #408](mig-906-speicher-regeln-tempo.md) — LIVE seit 16.10.2026, PR #408 GEMERGT 16.10.2026 (6a85b44a5); nie CASCADE auf speicher_ordner_*
+- [Mig 905 Chat-RLS-Tempo, PR #400](mig-905-chat-rls-tempo.md) — LIVE seit 12.10.2026; PR #400 in release/4.0 GEMERGT (3a4938e05), Arbeitsordner aufgeräumt; Speicher-Regeln anderer Buckets bremsen noch (Todo storage-regeln-tempo)
 - [Stand 10.10.: Konto in Einstellungen, Mig 890/891, Karten](konto-einstellungen-karten-2026-10-10.md) — #344/#345/#358/#369 live; Google Maps PR #371 wartet auf Löschfrist-Mig + Freigabe
+- [Hotfix Werkstatt-Feedback, PR #401 + #402](werkstatt-feedback-termin-filter-pr-401.md) — 13.10.2026 direkt in main: mehrtägige Termine, eigenes Ende je Zeit, Express nur an einem Tag (express-regel.ts); Restpunkte 16.10. PR #405 gemergt; No-Show-Cron bleibt bewusst aus (29.09. + 16.10., PR #407)
+- [AV-Vollzug 17.11.2026](avv-vollzug-17-11.md) — Hannes 16.10.: Vollzug auch mit dem einen Konto auf der Sperrliste; Nachweis #403, Entscheidung #406
+- [Mig 907 Speicher-Regeln Stufe 2](mig-907-speicher-regeln-tempo-2.md) — LIVE seit 16.10.2026, PR #409 GEMERGT 16.10.2026 (d97acadf7); Planung 11,6 → 2,8 ms; nie CASCADE
+- [Mig 908 Kalender-Ereignisse ohne Gast](mig-908-kalender-events-ohne-gast.md) — LIVE seit 16.10.2026, PR #410 GEMERGT 16.10.2026 (ca53687d4); Rückweg 908 vor 748/777
+- [Mig 909 eigene Tabellen ohne Gast](mig-909-eigene-tabellen-ohne-gast.md) — LIVE seit 17.10.2026, PR #411 GEMERGT 17.10.2026 (b9fd9576c); Rückweg 909 vor 748/777/778
+- [Gewerbe statt Spediteur, PR #414](gewerbe-statt-spediteur-pr-414.md) — 17.10.2026 in sammel/verbesserungen gemergt; /gewerbe, intern flottenkunde; Datenschutzerklärung mit PR #415 nachgezogen (gemergt 5cd8d1c63), Gewerbekunde ≠ Firma
