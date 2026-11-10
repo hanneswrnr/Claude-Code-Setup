@@ -9,6 +9,7 @@ Aufruf: python export.py [--behalten]
 import datetime as dt
 import hashlib
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -17,7 +18,12 @@ from urllib.parse import quote
 REPO = Path(__file__).resolve().parent
 HOME = Path.home()
 CLAUDE = HOME / ".claude"
-DEVOS = HOME / "Documents" / "DevOS" / "devos-claude-port"
+# Quelle des DevOS-Pakets; auf anderen Geräten per DEVOS_CLAUDE_PORT_SOURCE umstellbar
+DEVOS = Path(os.environ.get(
+    "DEVOS_CLAUDE_PORT_SOURCE",
+    str(HOME / "Documents" / "DevOS" / "devos-claude-port"),
+)).expanduser()
+DEVOS_TARGET = REPO / "extras" / "devos-claude-port"
 
 # (Quelle, Ziel im Repo, Muster relativ zur Quelle; None = einzelne Datei)
 PLAN = [
@@ -191,12 +197,27 @@ def knowledge(contents, names):
     return "\n".join(out) + "\n"
 
 
+def devos_source_error(source=DEVOS):
+    """Fehlende oder überlappende DevOS-Quelle ablehnen, bevor der Export Dateien im Repo entfernt."""
+    source = Path(source).expanduser().resolve()
+    target = DEVOS_TARGET.resolve()
+    if not source.is_dir():
+        return "Die DevOS-Quelle fehlt: %s (Pfad mit DEVOS_CLAUDE_PORT_SOURCE setzen)" % source
+    if source == target or source in target.parents or target in source.parents:
+        return "DevOS-Quelle und Repo-Ziel dürfen sich nicht überschneiden: %s -> %s" % (source, target)
+    return None
+
+
 def main():
     keep = "--behalten" in sys.argv[1:]
     unknown = [a for a in sys.argv[1:] if a != "--behalten"]
     if unknown:
         print("Unbekannte Option: %s (erlaubt: --behalten)" % " ".join(unknown))
         return 2
+    error = devos_source_error()
+    if error:
+        print("Abbruch, nichts exportiert. " + error)
+        return 1
     files, names = collect()
     contents = {target: source.read_bytes() for target, source in files.items()}  # jede Quelle genau einmal lesen
     if keep:  # Gedächtnis, das nur das Repo hat (etwa von einem anderen Gerät), nicht löschen
