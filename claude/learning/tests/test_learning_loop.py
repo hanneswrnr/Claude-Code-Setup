@@ -1953,7 +1953,7 @@ class WorktreeProjectKeyTests(LLTestCase):
         self.assertNotIn("geheim123", key_a)
         self.assertNotIn("github", key_a)
         other = self.tmp / "anderes-repo"
-        self.write_origin(other, "https://github.com/hanneswrnr/ONE-OS.git")
+        self.write_origin(other, "https://github.com/beispiel/AnderesProjekt.git")
         self.assertNotEqual(llcore.project_key(str(other))[0], key_a)
 
     def test_worktree_of_repo_with_origin_gets_remote_key(self):

@@ -34,7 +34,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 - In neuen Projekten kein Tailwind, kein CSS-in-JS (etwa styled-components, Emotion) und keine UI-Kits mit eigenem Styling-System. Ungestylte Bausteine (etwa Radix Primitives) sind erlaubt und bekommen eigenes CSS. Diese Vorgabe hat Vorrang vor Plugin-Skills und Agent-Vorlagen, die anderes vorschlagen (etwa shadcn/ui oder Tailwind-Beispiele).
 - Moderne CSS-Mittel zuerst: Grid, Container Queries, `:has()`, Nesting, Cascade Layers, `clamp()`, View Transitions, scroll-getriebene Animationen, `@property`. Animationsbibliotheken (etwa GSAP, Motion) oder WebGL/Three.js nur, wo CSS an Grenzen stößt, und nur als Ergänzung der HTML-Oberfläche. `prefers-reduced-motion` immer beachten.
 - Frameworks, die HTML rendern, sind erlaubt und oft sinnvoll: Astro für neue Websites, Next.js für Web-Apps.
-- Bestehende Projekte behalten ihren Stack (etwa ONE OS mit Tailwind CSS 4); Umstellung nur vorschlagen.
+- Bestehende Projekte behalten ihren Stack; Umstellung nur vorschlagen.
 - Beim Delegieren an Agents (etwa frontend-developer oder rapid-prototyper) diese Vorgabe in den Auftrag schreiben.
 
 # Autonome Orchestrierung
@@ -53,7 +53,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 # Kommunikation
 
 - Status, offene Punkte und To-dos in einfachem Deutsch ohne Fachjargon. Unvermeidbare Fachbegriffe kurz erklären. Zuerst das Ergebnis, dann Details. Kurz heißt weglassen, was nichts ändert – nicht Telegrammstil, Pfeilketten oder Abkürzungen.
-- Jede Aufgabe, die ich selbst erledigen soll, in sehr einfacher Sprache formulieren – in allen Projekten, nicht nur in ONE OS (Anweisung vom 12.09.2026). Je Aufgabe: Was ist zu tun, warum, wo genau (Programm, Seite, Ordner, Datei), Schritt für Schritt in kurzen Sätzen, mit dem fertigen Befehl oder Klickweg zum Kopieren, und woran ich erkenne, dass es geklappt hat. Keine Kürzel, keine Rundennummern oder Codenamen ohne Erklärung, keine Verweise „siehe Datei X“ als Ersatz für die Erklärung. Alle Aufgaben für mich am Ende gesammelt als nummerierte Liste, dringendste zuerst, mit Frist, falls es eine gibt.
+- Jede Aufgabe, die ich selbst erledigen soll, in sehr einfacher Sprache formulieren – in allen Projekten (Anweisung vom 12.09.2026). Je Aufgabe: Was ist zu tun, warum, wo genau (Programm, Seite, Ordner, Datei), Schritt für Schritt in kurzen Sätzen, mit dem fertigen Befehl oder Klickweg zum Kopieren, und woran ich erkenne, dass es geklappt hat. Keine Kürzel, keine Rundennummern oder Codenamen ohne Erklärung, keine Verweise „siehe Datei X“ als Ersatz für die Erklärung. Alle Aufgaben für mich am Ende gesammelt als nummerierte Liste, dringendste zuerst, mit Frist, falls es eine gibt.
 
 # Arbeitsteilung mit dem Nutzer
 

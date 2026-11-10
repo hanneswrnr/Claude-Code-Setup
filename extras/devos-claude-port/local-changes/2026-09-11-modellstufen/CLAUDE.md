@@ -34,7 +34,7 @@ Keep output concise and practical, normally in German for me. Explain material l
 - In neuen Projekten kein Tailwind, kein CSS-in-JS (etwa styled-components, Emotion) und keine UI-Kits mit eigenem Styling-System. Ungestylte Bausteine (etwa Radix Primitives) sind erlaubt und bekommen eigenes CSS. Diese Vorgabe hat Vorrang vor Plugin-Skills und Agent-Vorlagen, die anderes vorschlagen (etwa shadcn/ui oder Tailwind-Beispiele).
 - Moderne CSS-Mittel zuerst: Grid, Container Queries, `:has()`, Nesting, Cascade Layers, `clamp()`, View Transitions, scroll-getriebene Animationen, `@property`. Animationsbibliotheken (etwa GSAP, Motion) oder WebGL/Three.js nur, wo CSS an Grenzen stößt, und nur als Ergänzung der HTML-Oberfläche. `prefers-reduced-motion` immer beachten.
 - Frameworks, die HTML rendern, sind erlaubt und oft sinnvoll: Astro für neue Websites, Next.js für Web-Apps.
-- Bestehende Projekte behalten ihren Stack (etwa ONE OS mit Tailwind CSS 4); Umstellung nur vorschlagen.
+- Bestehende Projekte behalten ihren Stack; Umstellung nur vorschlagen.
 - Beim Delegieren an Agents (etwa frontend-developer oder rapid-prototyper) diese Vorgabe in den Auftrag schreiben.
 
 # Autonome Orchestrierung
