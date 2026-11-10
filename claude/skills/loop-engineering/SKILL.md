@@ -27,8 +27,6 @@ Suche zuerst im Projekt: `package.json`-Skripte (check, test, lint, typecheck, b
 
 Bekannte Projekte des Nutzers:
 - **Raumgestaltung Hartung:** `npm run check` (Typecheck und Build). `npm run routen` und `npm run ansichten` brauchen einen laufenden `npm run dev`. `npm run geraete` braucht einen statischen Server, siehe Dateikopf von `tools/geraete-pruefen.mjs`.
-- **ONE OS** (Ordner `one-os`): `npm run typecheck`, `npm run lint`, `npm test`, `npm run test:e2e`, `npm run smoke`. Das Gesamt-Tor ist `npm run gate:vor-dem-merge`.
-
 ## 4. Den Antrieb wählen
 
 | Antrieb | Wofür | So geht es |
@@ -56,7 +54,7 @@ Das Scharfschalten fragt den Nutzer nach Bestätigung und zeigt ihm die Prüfung
 ## 6. Vorlagen
 
 - **Website (Hartung):** Gate mit `--check "npm run check"`. Bei Layout-Arbeit zusätzlich `npm run dev` im Hintergrund starten und `--check "npm run ansichten"` ergänzen.
-- **Web-App (ONE OS):** Gate mit `--check "npm run typecheck" --check "npm run lint" --check "npm test"`. Vor dem Merge: `/goal npm run gate:vor-dem-merge endet mit Exit 0, höchstens 20 Runden`.
+- **Web-App (Next.js):** Gate mit `--check "npm run typecheck" --check "npm run lint" --check "npm test"`.
 - **Performance:** `/goal Lighthouse-Score der Startseite mindestens 90, gemessen und im Gespräch gezeigt, höchstens 5 Versuche`.
 - **Mobile (Expo):** Gate mit `--check "npx tsc --noEmit" --check "npm test"`, zusätzlich `npx expo-doctor`.
 - **KI-Chatbot:** ein Eval-Skript mit festen Fragen, erwarteten Antwortmerkmalen, Kostenlimit und Angriffsfällen (Prompt-Injection, Datenabfluss) als Prüfstein, z. B. `--check "npm run eval"`. Bei bewertenden Evals (etwa promptfoo `llm-rubric`) immer eine feste Schwelle setzen, sonst besteht auch ein Score von 0. Einen Teil der Fälle zurückhalten, damit der Loop nicht nur auf das bekannte Set optimiert.
